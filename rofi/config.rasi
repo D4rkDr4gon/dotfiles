@@ -1,0 +1,14 @@
+configuration {
+    /* El modo drun es el estándar para apps. No uses rutas de archivos aquí */
+    modi: "drun,run,window";
+    show-icons: true;
+    display-drun: "󰣇 APPS";
+    drun-display-format: "{name}";
+    
+    /* Esto hará que tus apps más usadas (tus favoritos) suban solas */
+    sort: true;
+    sorting-method: "fzf";
+    disable-history: false;
+}
+
+@theme "kali-red.rasi"

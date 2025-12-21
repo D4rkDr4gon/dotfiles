@@ -1,0 +1,57 @@
+{
+    "name": "Kali Red Hack",
+    "author": "Custom",
+    "globals":
+    {
+        "background": "#0f0f0f",
+        "foreground": "#c5c8c6",
+        "caret": "#d32f2f",
+        "selection": "#a12020",
+        "selection_border": "#d32f2f",
+        "line_highlight": "#1a1a1a",
+        "gutter": "#0f0f0f",
+        "gutter_foreground": "#444444",
+        "inactive_selection": "#1a1a1a"
+    },
+
+    "rules":
+    [
+        {
+            "name": "Comment",
+            "scope": "comment",
+            "foreground": "#666666",
+            "font_style": "italic"
+        },
+        {
+            "name": "String",
+            "scope": "string",
+            "foreground": "#ff6666"
+        },
+        {
+            "name": "Number",
+            "scope": "constant.numeric",
+            "foreground": "#ff4d4d"
+        },
+        {
+            "name": "Keyword",
+            "scope": "keyword",
+            "foreground": "#d32f2f",
+            "font_style": "bold"
+        },
+        {
+            "name": "Function",
+            "scope": "entity.name.function",
+            "foreground": "#ff5c5c"
+        },
+        {
+            "name": "Variable",
+            "scope": "variable",
+            "foreground": "#c5c8c6"
+        },
+        {
+            "name": "Type",
+            "scope": "storage.type",
+            "foreground": "#ff3333"
+        }
+    ]
+}
