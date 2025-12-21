@@ -42,8 +42,8 @@ COMMON_PKGS = [
 ]
 
 # Paquetes Específicos por Distro
-ARCH_PKGS = COMMON_PKGS + ["qtile", "polybar", "pavucontrol", "python-pip", "neofetch"]
-KALI_PKGS = COMMON_PKGS + ["qtile", "polybar", "pavucontrol", "python3-pip", "neofetch"]
+ARCH_PKGS = COMMON_PKGS + ["qtile", "polybar", "pavucontrol", "python-pip", "fastfetch"]
+KALI_PKGS = COMMON_PKGS + ["qtile", "polybar", "pavucontrol", "python3-pip", "fastfetch"]
 
 def print_banner():
     banner = f"""{Colors.FAIL}
