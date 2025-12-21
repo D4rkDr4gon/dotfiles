@@ -1,109 +1,209 @@
-# 🐧 D4rkDr4gon's Dotfiles | Kali Linux 2025
+# 🐉 D4rkDr4g0n Dotfiles
 
-Este repositorio contiene mis configuraciones personalizadas para un entorno de trabajo minimalista, modular y eficiente. Optimizado para **Kali Linux** utilizando **Qtile** como Window Manager y **Polybar** como barra de estado.
+![Distro](https://img.shields.io/badge/Distro-Kali%20%7C%20Arch-red?style=for-the-badge&logo=linux)
+![WM](https://img.shields.io/badge/WM-Qtile-blue?style=for-the-badge&logo=python)
+![Status](https://img.shields.io/badge/Status-Stable-success?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-orange?style=for-the-badge)
 
----
+██████╗ ██╗  ██╗██████╗ ██╗  ██╗██████╗ ██████╗  █████╗  ██████╗  ██████╗ ███╗   ██╗
+██╔══██╗██║  ██║██╔══██╗██║ ██╔╝██╔══██╗██╔══██╗██╔══██╗██╔════╝ ██╔═══██╗████╗  ██║
+██║  ██║███████║██████╔╝█████╔╝ ██║  ██║██████╔╝███████║██║  ███╗██║   ██║██╔██╗ ██║
+██║  ██║╚════██║██╔══██╗██╔═██╗ ██║  ██║██╔══██╗██╔══██║██║   ██║██║   ██║██║╚██╗██║
+██████╔╝     ██║██║  ██║██║  ██╗██████╔╝██║  ██║██║  ██║╚██████╔╝╚██████╔╝██║ ╚████║
+╚═════╝      ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝
 
-# 📊 Estructura del Proyecto
+# 📖 Sobre el Proyecto
 
-He modularizado cada componente para facilitar el mantenimiento y la personalización sin riesgo de romper la configuración global.
+Este repositorio contiene la configuración personal de mi entorno de trabajo ("Rice"). El objetivo es lograr un sistema minimalista, estético y altamente eficiente, optimizado tanto para Pentesting como para Desarrollo.
 
-## 🐍 Qtile (Gestor de Ventanas)
-Configuración dividida en lógica de Python:
-- `config.py`: Punto de entrada que orquesta la carga de módulos.
-- `modules/keys.py`: Definición de atajos de teclado y multimedia.
-- `modules/groups.py`: Gestión de escritorios virtuales (WEB, CTF, WORK, GENERAL, VPN).
-- `modules/hooks.py`: Ganchos de sistema y **Autostart** (Nitrogen, Picom, Polybar).
-- `modules/screens.py`: Configuración de monitores y wallpapers.
-- `modules/layouts.py`: Gestión de ventanas (Columns, MonadTall).
-- `modules/mouse.py`: Comportamiento del ratón en ventanas flotantes.
+¿Qué se logra con esta configuración?
 
-## 🎨 Polybar (Barra de Estado)
-Modularizada por widgets para una edición rápida:
-- `config.ini`: Estética general, fuentes y posición.
-- `colors.ini`: Paleta de colores centralizada.
-- `modules/`: Archivos `.ini` individuales para Batería, Brillo, Red, Audio y más.
-- `launch.sh`: Script para refrescar la barra automáticamente.
+    Eficiencia: Todo el entorno se controla mediante el teclado (Tiling Window Manager).
 
----
+    Modularidad: Qtile está configurado en módulos de Python fáciles de editar.
 
-# ⌨️ Atajos de Teclado (Keybindings)
+    Estética Cyberpunk: Tema de colores oscuros con acentos en rojo sangre y transparencias.
 
-Estos son los atajos principales configurados en `modules/keys.py`:
+    Arsenal Completo: Integración automática de herramientas de BlackArch en sistemas Arch.
 
-Usa el código con precaución.
-
-	Mod + Enter	Abrir Terminal (Alacritty)
-	Mod + S	Menú de Aplicaciones (Rofi)
-	Mod + B	Navegador Web (Firefox)
-	Mod + E	Correo Electrónico (Thunderbird)
-	Mod + A	Explorador de Archivos (Thunar)
-	Mod + O	Notas (Obsidian)
-	Mod + Q	Cerrar Ventana Enfocada
-	Mod + Ctrl + R	Reiniciar Qtile (Aplicar cambios)
-	Mod + Shift + S	Captura de Pantalla (Flameshot)
-	PrintScreen	Captura de Pantalla Completa
-
-Controles Multimedia:
-
-    Fn + Brillo: Controlado mediante brightnessctl.
-    Fn + Volumen: Controlado mediante pactl (Pulseaudio).
+    Sincronización: Sistema basado en enlaces simbólicos para mantener la configuración actualizada.
 
 ---
 
-# 🛠️ Guía de Instalación (Paso a Paso)
-Para replicar este entorno exactamente igual, sigue estos pasos:
-## 1. Instalar Dependencias
-Asegúrate de tener todas las herramientas necesarias instaladas en tu Kali Linux:
+# 📸 Galería
 
-	sudo apt update && sudo apt install qtile polybar alacritty picom nitrogen brightnessctl pulseaudio-utils rofi thunar flameshot thunderbird obsidian fonts-jetbrains-mono
-
-Usa el código con precaución.
-## 2. Clonar el Repositorio
-
-git clone github.com ~/dotfiles
-
-> Usa el código con precaución.
-
-## 3. Desplegar Configuraciones
-
-Copia los archivos a sus rutas correspondientes en el directorio .config:
-
-### Crear carpetas si no existen
-
-	mkdir -p ~/.config/{qtile,polybar,alacritty}
-
-### Copiar Qtile
-
-	cp -r ~/dotfiles/qtile/* ~/.config/qtile/
-
-### Copiar Polybar
-
-	cp -r ~/dotfiles/polybar/* ~/.config/polybar/
-
-### Copiar Alacritty
-
-	cp -r ~/dotfiles/alacritty/* ~/.config/alacritty/
-
-### Configuración de Shell y otros
+---
 	
-	cp ~/dotfiles/zshrc ~/.zshrc
+# 🛠️ El Arsenal (Tech Stack)
 
-> Usa el código con precaución.
+    Window Manager: Qtile (Python based)
 
-## 4. Permisos de Ejecución
-Es vital que los scripts tengan permisos para que Qtile pueda lanzarlos:
+    Barra: Polybar
+
+    Terminal: Kitty
+
+    Shell: Zsh + Oh My Zsh + Syntax Highlighting
+
+    Launcher: Rofi
+
+    Compositor: Picom (Fork con Blur)
+
+    Editor: Sublime Text / Neovim
+
+    Fuente: Hack Nerd Font
+
+---
+
+# ⚡ Instalación Automática (Recomendada)
+
+He desarrollado un script en Python (install.py) que automatiza todo el proceso. Detecta tu distribución (Kali o Arch), instala dependencias, fuentes y crea los enlaces simbólicos.
+### 1. Clonar
+
+	git clone [https://github.com/TU_USUARIO/dotfiles.git](https://github.com/TU_USUARIO/dotfiles.git) ~/dotfiles
+	cd ~/dotfiles
+
+### 2. Ejecutar Instalador
+
+	python3 install.py
+
+Nota: El script pedirá tu contraseña de sudo para instalar paquetes. Si estás en Arch, configurará automáticamente los repositorios de BlackArch.
+
+### 3. Reiniciar
+
+Una vez finalizado, cierra sesión y vuelve a entrar seleccionando Qtile en tu gestor de sesiones, o simplemente reinicia la PC.
+
+---
+
+# ⚙️ Instalación Manual
+
+Si prefieres tener control total o el script falla, sigue estos pasos:
+
+### 1. Instalar Dependencias
+
+En Kali Linux / Debian:
+
+	sudo apt update
+	sudo apt install qtile polybar picom rofi kitty nitrogen brightnessctl pulseaudio-utils zsh curl wget git flameshot thunar thunderbird obsidian
+
+En Arch Linux:
+
+	sudo pacman -S qtile polybar picom rofi kitty nitrogen brightnessctl pavucontrol zsh curl wget git flameshot base-devel thunar thunderbird obsidian
+
+### 2. Instalar Fuentes
+
+Debes descargar e instalar Hack Nerd Font para que los iconos se vean bien.
+
+
+	wget [https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip)
+	unzip Hack.zip -d ~/.local/share/fonts
+	fc-cache -fv
+
+### 3. Crear Enlaces Simbólicos (Symlinks)
+
+Debes enlazar los archivos del repo a tu carpeta .config. ¡Cuidado! Esto reemplazará tus configuraciones actuales.
+
+- Crear carpetas si no existen
+
+	mkdir -p ~/.config
+
+- Enlaces (Ejecutar desde ~/dotfiles)
+
+	ln -sf ~/dotfiles/qtile ~/.config/qtile
+	ln -sf ~/dotfiles/polybar ~/.config/polybar
+	ln -sf ~/dotfiles/picom ~/.config/picom
+	ln -sf ~/dotfiles/rofi ~/.config/rofi
+	ln -sf ~/dotfiles/kitty ~/.config/kitty
+	ln -sf ~/dotfiles/sublime-text ~/.config/sublime-text
+	ln -sf ~/dotfiles/zshrc ~/.zshrc
+
+### 4. Permisos
 
 	chmod +x ~/.config/polybar/launch.sh
 
-> Usa el código con precaución.
+---
 
-## 5. Aplicar Cambios
+# ⌨️ Atajos de Teclado (Cheatsheet)
 
-Reinicia tu sesión o presiona Mod + Control + R si ya estás dentro de Qtile para ver tu nueva barra y atajos funcionando.
+	- Mod = Tecla Super (Windows) 
+	- Alt = Alt Izquierdo
 
-# 📝 Notas
-- Modularidad: Si deseas agregar un nuevo atajo, edita únicamente ~/.config/qtile/modules/keys.py.
-- Iconos: Esta configuración utiliza JetBrainsMono Nerd Font. Si los iconos no se ven, asegúrate de tener instalada una "Nerd Font".
+## 🚀 Aplicaciones
 
-Mantenido por D4rkDr4gon 
+	Atajo	Aplicación
+	Mod + Enter	Terminal (Kitty)
+	Mod + S	Launcher (Rofi)
+	Mod + B	Navegador (Firefox)
+	Mod + A	Archivos (Thunar)
+	Mod + E	Email (Thunderbird)
+	Mod + O	Notas (Obsidian)
+	Mod + P	Contraseñas (Bitwarden)
+
+## 🖼️ Ventanas y Gestión
+
+	Atajo	Acción
+	Mod + Q	Cerrar ventana activa
+	Mod + F	Pantalla completa (Fullscreen)
+	Mod + T	Modo flotante (Toggle floating)
+	Alt + Tab	Moverse entre ventanas abiertas
+	Mod + Tab	Cambiar Layout (Espacio de trabajo)
+	Mod + Shift + Flechas	Mover ventana (Swap)
+	Mod + Ctrl + Flechas	Redimensionar ventana (Grow)
+	Mod + N	Normalizar tamaños
+
+## ⚙️ Sistema y Multimedia
+
+	Atajo	Acción
+	Mod + Ctrl + R	Reiniciar Qtile (Recargar cambios)
+	Mod + L	Cerrar Sesión / Bloquear PC
+	Print	Captura de pantalla (Flameshot)
+	Mod + Shift + S	Captura de pantalla (Flameshot)
+	Fn + Volumen	Subir/Bajar/Mutear Audio
+	Fn + Brillo	Subir/Bajar Brillo
+
+---
+
+# 🐛 Debugging / Solución de Problemas
+
+1. Los iconos se ven como cuadrados raros
+
+❌ Causa: No tienes instalada la fuente correcta. ✅ Solución: Ejecuta el paso 2 de la instalación manual (Hack Nerd Font) y reinicia.
+
+2. Polybar no aparece
+
+❌ Causa: El nombre de tu monitor en config.ini no coincide con el tuyo. ✅ Solución:
+
+    Ejecuta xrandr en la terminal y mira el nombre de tu salida (ej: HDMI-1, eDP-1).
+
+    Edita ~/.config/polybar/config.ini.
+
+    Busca monitor = ... y cámbialo por el tuyo.
+
+3. Qtile no inicia o pantalla negra
+
+❌ Causa: Error de sintaxis en config.py. ✅ Solución:
+
+    Entra a una TTY (Ctrl + Alt + F2).
+
+    Logueate y ejecuta: qtile check.
+
+    Te dirá exactamente en qué línea está el error de Python.
+
+---
+
+# 🤝 Contribuir
+
+Si encuentras un error o quieres mejorar un módulo:
+
+    Haz un Fork.
+
+    Crea una rama (git checkout -b feature/nueva-mejora).
+
+    Haz Commit (git commit -m 'Add some feature').
+
+    Haz Push (git push origin feature/nueva-mejora).
+
+    Abre un Pull Request.
+
+---
+
+Desarrollado por D4rkDr4g0n 🐉
