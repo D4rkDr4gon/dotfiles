@@ -1,0 +1,80 @@
+/**
+ * Tema: Kali Red Rectangular - Hack Edition
+ * Colores: Negro, Gris y Rojo
+ */
+
+* {
+    /* Paleta de colores */
+    bg:          #0f0f0f;      /* Negro profundo */
+    bg-alt:      #1a1a1a;      /* Gris muy oscuro */
+    fg:          #c5c8c6;      /* Gris claro */
+    red:         #d32f2f;      /* Rojo selección */
+    border-red:  #a12020;      /* Rojo bordes */
+
+    background-color:   transparent;
+    text-color:         @fg;
+    
+    /* Tipografía solicitada */
+    font:               "Hack Regular 11";
+}
+
+window {
+    background-color:   @bg;
+    border:             1px;
+    border-color:       @border-red;
+    border-radius:      2px;    /* Más rectangular, menos redondeado */
+    width:              900px;  /* Aumentado para mayor horizontalidad */
+    padding:            8px;
+}
+
+mainbox {
+    children:           [ inputbar, listview ];
+}
+
+inputbar {
+    background-color:   @bg-alt;
+    border-radius:      2px;
+    padding:            10px;
+    margin:             0 0 5px 0;
+    children:           [ prompt, entry ];
+}
+
+prompt {
+    text-color:         @red;
+    /* Usamos Hack Bold solo para el prompt para que resalte */
+    font:               "Hack Bold 11"; 
+    padding:            0 10px;
+}
+
+entry {
+    placeholder:        "Search applications...";
+    placeholder-color:  #444444;
+}
+
+listview {
+    lines:              5;      /* Solo 5 líneas para hacerlo muy chato */
+    columns:            1;
+    fixed-height:       0;
+    scrollbar:          false;
+    spacing:            2px;
+}
+
+element {
+    padding:            5px 15px;
+    border-radius:      1px;
+}
+
+element selected {
+    background-color:   @red;
+    text-color:         #ffffff; /* Blanco sobre rojo para contraste */
+}
+
+element-text {
+    vertical-align:     0.5;
+    text-color:         inherit;
+}
+
+element-icon {
+    size:               18px;   /* Proporcional al diseño chato */
+    padding:            0 12px 0 0;
+}
