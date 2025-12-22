@@ -1,0 +1,474 @@
+{
+	"file_history":
+	[
+		"/home/lcampassi/Documentos/Personal/dotfiles/README.md",
+		"/home/lcampassi/Documentos/Personal/dotfiles/installer.py",
+		"/home/lcampassi/.config/polybar/modules/logo.ini",
+		"/home/lcampassi/.config/polybar/modules/pulseaudio.ini",
+		"/home/lcampassi/.config/polybar/config.ini",
+		"/home/lcampassi/.config/rofi/config.rasi",
+		"/home/lcampassi/.config/polybar/colors.ini",
+		"/home/lcampassi/.config/polybar/modules/wlan.ini",
+		"/home/lcampassi/.config/polybar/modules/battery.ini",
+		"/home/lcampassi/.config/qtile/modules/keys.py",
+		"/home/lcampassi/.config/kitty/kitty.conf",
+		"/home/lcampassi/.config/qtile/modules/layouts.py",
+		"/home/lcampassi/.config/picom/picom.conf",
+		"/home/lcampassi/.config/gtk-3.0/gtk.css",
+		"/home/lcampassi/.config/polybar/modules/xworkspaces.ini",
+		"/home/lcampassi/mensaje.py",
+		"/home/lcampassi/.config/polybar/modules/brillo.ini",
+		"/home/lcampassi/.config/polybar/modules/bluetooth.ini",
+		"/home/lcampassi/.config/polybar/modules/bluetooth_status.sh",
+		"/home/lcampassi/.config/qtile/config.py",
+		"/home/lcampassi/.config/sublime-text/Packages/User/Kali-Red-Hack.sublime-color-scheme",
+		"/home/lcampassi/.config/sublime-text/Packages/Default/Preferences.sublime-settings",
+		"/home/lcampassi/.config/sublime-text/Packages/User/Preferences.sublime-settings",
+		"/home/lcampassi/.config/polybar/modules/bluetooth_details.sh",
+		"/home/lcampassi/.config/alacritty/alacritty.toml",
+		"/home/lcampassi/.config/rofi/favoritos.txt",
+		"/home/lcampassi/.config/rofi/kali-red.rasi",
+		"/home/lcampassi/.config/qtile/modules/groups.py",
+		"/home/lcampassi/.config/qtile/modules/mouse.py",
+		"/home/lcampassi/.config/qtile/modules/hooks.py",
+		"/home/lcampassi/.config/qtile/modules/screens.py",
+		"/home/lcampassi/.config/qtile/modules/keys,py",
+		"/home/lcampassi/.zshrc",
+		"/home/lcampassi/.config/polybar/modules/date.ini",
+		"/home/lcampassi/Documentos/Personal/logo.txt",
+		"/home/lcampassi/.config/polybar/launch.sh",
+		"/home/lcampassi/.config/polybar/modules.ini"
+	],
+	"folder_history":
+	[
+		"/home/lcampassi/Documentos/Personal/dotfiles",
+		"/home/lcampassi/.config",
+		"/home/lcampassi/.config/polybar",
+		"/home/lcampassi/.config/qtile",
+		"/home/lcampassi/.config/polybar/modules"
+	],
+	"last_version": 4200,
+	"last_window_id": 9,
+	"log_indexing": false,
+	"next_update_check": 1766501634,
+	"settings":
+	{
+		"new_window_full_screen": false,
+		"new_window_height": 1042.0,
+		"new_window_maximized": false,
+		"new_window_position":
+		[
+			0.0,
+			65.0
+		],
+		"new_window_settings":
+		{
+			"auto_complete":
+			{
+				"selected_items":
+				[
+				]
+			},
+			"build_system_choices":
+			[
+			],
+			"build_varint": "",
+			"command_palette":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+					[
+						"insta ",
+						"Package Control: Install Package"
+					]
+				],
+				"width": 0.0
+			},
+			"console":
+			{
+				"height": 0.0,
+				"history":
+				[
+				]
+			},
+			"distraction_free":
+			{
+				"menu_visible": true,
+				"show_minimap": false,
+				"show_open_files": false,
+				"show_tabs": false,
+				"side_bar_visible": false,
+				"status_bar_visible": false
+			},
+			"file_history":
+			[
+				"/home/lcampassi/Documentos/Personal/dotfiles/README.md",
+				"/home/lcampassi/Documentos/Personal/dotfiles/installer.py",
+				"/home/lcampassi/.config/polybar/modules/logo.ini",
+				"/home/lcampassi/.config/polybar/modules/pulseaudio.ini",
+				"/home/lcampassi/.config/polybar/config.ini",
+				"/home/lcampassi/.config/rofi/config.rasi",
+				"/home/lcampassi/.config/polybar/colors.ini",
+				"/home/lcampassi/.config/polybar/modules/wlan.ini",
+				"/home/lcampassi/.config/polybar/modules/battery.ini",
+				"/home/lcampassi/.config/qtile/modules/keys.py",
+				"/home/lcampassi/.config/kitty/kitty.conf",
+				"/home/lcampassi/.config/qtile/modules/layouts.py",
+				"/home/lcampassi/.config/picom/picom.conf",
+				"/home/lcampassi/.config/gtk-3.0/gtk.css",
+				"/home/lcampassi/.config/polybar/modules/xworkspaces.ini",
+				"/home/lcampassi/mensaje.py",
+				"/home/lcampassi/.config/polybar/modules/brillo.ini",
+				"/home/lcampassi/.config/polybar/modules/bluetooth.ini",
+				"/home/lcampassi/.config/polybar/modules/bluetooth_status.sh",
+				"/home/lcampassi/.config/qtile/config.py",
+				"/home/lcampassi/.config/sublime-text/Packages/User/Kali-Red-Hack.sublime-color-scheme",
+				"/home/lcampassi/.config/polybar/modules/bluetooth_details.sh",
+				"/home/lcampassi/.config/alacritty/alacritty.toml",
+				"/home/lcampassi/.config/rofi/favoritos.txt",
+				"/home/lcampassi/.config/rofi/kali-red.rasi",
+				"/home/lcampassi/.config/qtile/modules/groups.py",
+				"/home/lcampassi/.config/qtile/modules/mouse.py",
+				"/home/lcampassi/.config/qtile/modules/hooks.py",
+				"/home/lcampassi/.config/qtile/modules/screens.py",
+				"/home/lcampassi/.config/qtile/modules/keys,py",
+				"/home/lcampassi/.zshrc",
+				"/home/lcampassi/.config/polybar/modules/date.ini",
+				"/home/lcampassi/Documentos/Personal/logo.txt",
+				"/home/lcampassi/.config/polybar/launch.sh",
+				"/home/lcampassi/.config/polybar/modules.ini"
+			],
+			"find":
+			{
+				"height": 26.0
+			},
+			"find_in_files":
+			{
+				"height": 0.0,
+				"where_history":
+				[
+				]
+			},
+			"find_state":
+			{
+				"case_sensitive": false,
+				"find_history":
+				[
+					"'",
+					"\\n"
+				],
+				"highlight": true,
+				"in_selection": false,
+				"preserve_case": false,
+				"regex": true,
+				"replace_history":
+				[
+					"`",
+					"'\\n"
+				],
+				"reverse": false,
+				"scrollbar_highlights": true,
+				"show_context": true,
+				"use_buffer2": true,
+				"use_gitignore": true,
+				"whole_word": false,
+				"wrap": true
+			},
+			"incremental_find":
+			{
+				"height": 26.0
+			},
+			"input":
+			{
+				"height": 0.0
+			},
+			"menu_visible": true,
+			"output.find_results":
+			{
+				"height": 0.0,
+				"history":
+				[
+				]
+			},
+			"pinned_build_system": "",
+			"replace":
+			{
+				"height": 48.0
+			},
+			"save_all_on_build": true,
+			"select_file":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"select_project":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"select_symbol":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"show_minimap": true,
+			"show_open_files": true,
+			"show_tabs": true,
+			"side_bar_visible": true,
+			"side_bar_width": 150.0,
+			"status_bar_visible": true,
+			"template_settings":
+			{
+			}
+		},
+		"new_window_width": 1920.0
+	},
+	"windows":
+	[
+		{
+			"auto_complete":
+			{
+				"selected_items":
+				[
+				]
+			},
+			"buffers":
+			[
+			],
+			"build_system": "",
+			"build_system_choices":
+			[
+			],
+			"build_varint": "",
+			"command_palette":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+					[
+						"insta ",
+						"Package Control: Install Package"
+					]
+				],
+				"width": 0.0
+			},
+			"console":
+			{
+				"height": 0.0,
+				"history":
+				[
+				]
+			},
+			"distraction_free":
+			{
+				"menu_visible": true,
+				"show_minimap": false,
+				"show_open_files": false,
+				"show_tabs": false,
+				"side_bar_visible": false,
+				"status_bar_visible": false
+			},
+			"expanded_folders":
+			[
+				"/home/lcampassi/Documentos/Personal/dotfiles"
+			],
+			"file_history":
+			[
+				"/home/lcampassi/Documentos/Personal/dotfiles/README.md",
+				"/home/lcampassi/Documentos/Personal/dotfiles/installer.py",
+				"/home/lcampassi/.config/polybar/modules/logo.ini",
+				"/home/lcampassi/.config/polybar/modules/pulseaudio.ini",
+				"/home/lcampassi/.config/polybar/config.ini",
+				"/home/lcampassi/.config/rofi/config.rasi",
+				"/home/lcampassi/.config/polybar/colors.ini",
+				"/home/lcampassi/.config/polybar/modules/wlan.ini",
+				"/home/lcampassi/.config/polybar/modules/battery.ini",
+				"/home/lcampassi/.config/qtile/modules/keys.py",
+				"/home/lcampassi/.config/kitty/kitty.conf",
+				"/home/lcampassi/.config/qtile/modules/layouts.py",
+				"/home/lcampassi/.config/picom/picom.conf",
+				"/home/lcampassi/.config/gtk-3.0/gtk.css",
+				"/home/lcampassi/.config/polybar/modules/xworkspaces.ini",
+				"/home/lcampassi/mensaje.py",
+				"/home/lcampassi/.config/polybar/modules/brillo.ini",
+				"/home/lcampassi/.config/polybar/modules/bluetooth.ini",
+				"/home/lcampassi/.config/polybar/modules/bluetooth_status.sh",
+				"/home/lcampassi/.config/qtile/config.py",
+				"/home/lcampassi/.config/sublime-text/Packages/User/Kali-Red-Hack.sublime-color-scheme",
+				"/home/lcampassi/.config/polybar/modules/bluetooth_details.sh",
+				"/home/lcampassi/.config/alacritty/alacritty.toml",
+				"/home/lcampassi/.config/rofi/favoritos.txt",
+				"/home/lcampassi/.config/rofi/kali-red.rasi",
+				"/home/lcampassi/.config/qtile/modules/groups.py",
+				"/home/lcampassi/.config/qtile/modules/mouse.py",
+				"/home/lcampassi/.config/qtile/modules/hooks.py",
+				"/home/lcampassi/.config/qtile/modules/screens.py",
+				"/home/lcampassi/.config/qtile/modules/keys,py",
+				"/home/lcampassi/.zshrc",
+				"/home/lcampassi/.config/polybar/modules/date.ini",
+				"/home/lcampassi/Documentos/Personal/logo.txt",
+				"/home/lcampassi/.config/polybar/launch.sh",
+				"/home/lcampassi/.config/polybar/modules.ini"
+			],
+			"find":
+			{
+				"height": 26.0
+			},
+			"find_in_files":
+			{
+				"height": 0.0,
+				"where_history":
+				[
+				]
+			},
+			"find_state":
+			{
+				"case_sensitive": false,
+				"find_history":
+				[
+					"'",
+					"\\n"
+				],
+				"highlight": true,
+				"in_selection": false,
+				"preserve_case": false,
+				"regex": true,
+				"replace_history":
+				[
+					"`",
+					"'\\n"
+				],
+				"reverse": false,
+				"scrollbar_highlights": true,
+				"show_context": true,
+				"use_buffer2": true,
+				"use_gitignore": true,
+				"whole_word": false,
+				"wrap": true
+			},
+			"folders":
+			[
+				{
+					"path": "/home/lcampassi/Documentos/Personal/dotfiles"
+				}
+			],
+			"groups":
+			[
+				{
+					"sheets":
+					[
+					]
+				}
+			],
+			"incremental_find":
+			{
+				"height": 26.0
+			},
+			"input":
+			{
+				"height": 0.0
+			},
+			"layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						1,
+						1
+					]
+				],
+				"cols":
+				[
+					0.0,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			},
+			"menu_visible": true,
+			"output.find_results":
+			{
+				"height": 0.0,
+				"history":
+				[
+				]
+			},
+			"pinned_build_system": "",
+			"position": "0,0,0,0,0,0,38,952,1072,1920,1080,1",
+			"project": "",
+			"replace":
+			{
+				"height": 48.0
+			},
+			"save_all_on_build": true,
+			"select_file":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"select_project":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"select_symbol":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"selected_group": 0,
+			"settings":
+			{
+			},
+			"show_minimap": true,
+			"show_open_files": true,
+			"show_tabs": true,
+			"side_bar_visible": true,
+			"side_bar_width": 150.0,
+			"status_bar_visible": true,
+			"template_settings":
+			{
+			},
+			"window_id": 9,
+			"workspace_name": ""
+		}
+	],
+	"workspaces":
+	{
+		"recent_workspaces":
+		[
+		]
+	}
+}
