@@ -1,6 +1,7 @@
 import os
 from libqtile import layout
 from libqtile.config import Match
+from typing import List
 
 # 1. IMPORTACIÓN DE MÓDULOS PROPIOS
 # Asegúrate de haber creado la carpeta 'modules' y el archivo '__init__.py'
@@ -21,7 +22,7 @@ extension_defaults = widget_defaults.copy()
 
 # Comportamiento de ventanas y ratón
 dgroups_key_binder = None
-dgroups_app_rules = []
+dgroups_app_rules: list[Match] = []
 follow_mouse_focus = True
 bring_front_click = False
 floats_kept_above = True
