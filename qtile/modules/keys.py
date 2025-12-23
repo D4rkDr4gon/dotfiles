@@ -56,9 +56,10 @@ keys = [
     Key([mod, "control"], "Right", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([mod, "control"], "Down", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "Up", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    
+    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"), 
+
     # Actions for qtile
     Key([mod, "control"], "r", lazy.reload_config(), desc="reloads qtiles's configuration"),
     Key([mod], "l", lazy.shutdown(), desc="blocks PC"),
+    Key([mod], "F1", lazy.spawn("/home/lcampassi/.config/rofi/qtile-workspace-switcher.sh"), desc="Workspace switcher"),
 ]

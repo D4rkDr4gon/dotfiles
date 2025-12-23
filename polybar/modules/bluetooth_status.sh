@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if bluetoothctl show 2>/dev/null | grep -q "Powered: yes"; then
-    echo "ON"
+    echo "󰂯"
 else
-    echo "OFF"
+    echo "󰂲"
 fi
