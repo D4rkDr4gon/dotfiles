@@ -45,6 +45,9 @@ keys = [
 
     # ============= Navigating Shortcuts =============
 
+    # Moving between workspaces
+    Key([mod, "shift"], "s", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/qtile-workspace-switcher.sh"), desc="Workspace switcher"),
+
     # Move between tabs and workspaces in qtile
     Key(["mod1"], "Tab", lazy.layout.next(), desc="move between tabs"),
     Key([mod], "Tab", lazy.next_layout(), desc="move between workspaces"),
@@ -52,15 +55,17 @@ keys = [
     Key([mod], "f", lazy.window.toggle_fullscreen(), desc="fullscreen of focussed tab"),
     Key([mod], "t", lazy.window.toggle_floating(), desc="floating focussed tab"),
     
+    # Moving between Monitors   
+    Key([mod], "Tab", lazy.next_screen(), desc="Mover foco al siguiente monitor"),
+
+    # ============= Mosaic config Shortcuts =============
+
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "Left", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "Right", lazy.layout.shuffle_right(), desc="Move window to the right"),
     Key([mod, "shift"], "Down", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "Up", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
-
-    # Moving between Monitors   
-    Key([mod], "Tab", lazy.next_screen(), desc="Mover foco al siguiente monitor"),
 
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "Left", lazy.layout.grow_left(), desc="Grow window to the left"),
@@ -74,5 +79,4 @@ keys = [
     # Actions for qtile
     Key([mod, "control"], "r", lazy.reload_config(), lazy.spawn("sh polybarupdate"),  desc="reloads qtiles's configuration"),
     Key([mod], "l", lazy.shutdown(), desc="blocks PC"),
-    Key([mod, "shift"], "s", lazy.spawn("sh /home/lcampassi/.config/rofi/qtile-workspace-switcher.sh"), desc="Workspace switcher"),
 ]
