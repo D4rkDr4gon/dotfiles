@@ -14,6 +14,18 @@ browser = "firefox"
 
 keys = [
     
+    # ============= Aplication shortcuts =============
+    # Open Apps
+    Key([mod], "p", lazy.spawn("bitwarden"), desc="opens bitwarden password manager"),
+    Key([mod], "e", lazy.spawn("thunderbird"), desc="opens email"),
+    Key([mod], "a", lazy.spawn("thunar"), desc="opens file system"),
+    Key([mod], "s", lazy.spawn(f"rofi -show drun"), desc="opens app manager"),
+    Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
+    Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
+    Key([mod], "Return", lazy.spawn(terminal), desc="opens terminal"),
+
+    # ============= Utilities =============
+    
     # Volume control
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"), desc="Volume up"),
     Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"), desc="Volume down"),
@@ -24,19 +36,15 @@ keys = [
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%"), desc="Brightness up"),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-"), desc="Brightness down"),
     
-    # Open Apps
-    Key([mod], "p", lazy.spawn("bitwarden"), desc="opens bitwarden password manager"),
-    Key([mod], "e", lazy.spawn("thunderbird"), desc="opens email"),
-    Key([mod], "a", lazy.spawn("thunar"), desc="opens file system"),
-    Key([mod], "s", lazy.spawn(f"rofi -show drun"), desc="opens app manager"),
-    Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
-    Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
-    Key([mod], "Return", lazy.spawn(terminal), desc="opens terminal"),
-    
     # Take screenshots
     Key([mod, "shift"], "s", lazy.spawn("flameshot gui"), desc="take screenshoot"),
     Key([], "print", lazy.spawn("flameshot gui"), desc="take screenshoot"),
-    
+  
+    #Clipboard control
+    Key([mod], "v", lazy.spawn("copyq"), desc = "cliboard History"),
+
+    # ============= Navigating Shortcuts =============
+
     # Move between tabs and workspaces in qtile
     Key(["mod1"], "Tab", lazy.layout.next(), desc="move between tabs"),
     Key([mod], "Tab", lazy.next_layout(), desc="move between workspaces"),
@@ -50,7 +58,10 @@ keys = [
     Key([mod, "shift"], "Down", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "Up", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
-    
+
+    # Moving between Monitors   
+    Key([mod], "Tab", lazy.next_screen(), desc="Mover foco al siguiente monitor"),
+
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "Left", lazy.layout.grow_left(), desc="Grow window to the left"),
     Key([mod, "control"], "Right", lazy.layout.grow_right(), desc="Grow window to the right"),
@@ -58,8 +69,10 @@ keys = [
     Key([mod, "control"], "Up", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"), 
 
+    # ============= qtile internal =============
+
     # Actions for qtile
-    Key([mod, "control"], "r", lazy.reload_config(), desc="reloads qtiles's configuration"),
+    Key([mod, "control"], "r", lazy.reload_config(), lazy.spawn("sh polybarupdate"),  desc="reloads qtiles's configuration"),
     Key([mod], "l", lazy.shutdown(), desc="blocks PC"),
-    Key([mod], "F1", lazy.spawn("/home/lcampassi/.config/rofi/qtile-workspace-switcher.sh"), desc="Workspace switcher"),
+    Key([mod, "shift"], "s", lazy.spawn("sh /home/lcampassi/.config/rofi/qtile-workspace-switcher.sh"), desc="Workspace switcher"),
 ]
