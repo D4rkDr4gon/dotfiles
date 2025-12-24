@@ -1,15 +1,17 @@
 {
 	"file_history":
 	[
+		"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
+		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
+		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+		"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 		"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 		"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
-		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
 		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
 		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/config.py",
 		"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/Fiery Red Sunset",
 		"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/ColorPalete",
 		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/hooks.py",
-		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
 		"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/wlan.ini",
 		"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/battery.ini",
 		"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/bluetooth.ini",
@@ -122,13 +124,17 @@
 			},
 			"file_history":
 			[
+				"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
+				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/config.py",
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/Fiery Red Sunset",
+				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/ColorPalete",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/hooks.py",
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/wlan.ini",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/battery.ini",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/bluetooth.ini",
@@ -216,7 +222,7 @@
 			},
 			"input":
 			{
-				"height": 0.0
+				"height": 38.0
 			},
 			"menu_visible": true,
 			"output.exec":
@@ -290,33 +296,12 @@
 			"buffers":
 			[
 				{
-					"file": "/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
+					"file": "/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/mouse.py",
 					"settings":
 					{
-						"buffer_size": 191,
-						"encoding": "UTF-8",
-						"line_ending": "Unix",
-						"name": "ink_black=#03071e"
-					},
-					"undo_stack":
-					[
-						[
-							2,
-							1,
-							"",
-							null,
-							"AQAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							3,
-							1,
-							"left_delete",
-							null,
-							"AQAAAL8AAAAAAAAAvwAAAAAAAAABAAAACg",
-							"AQAAAAAAAAABAAAAwAAAAAAAAADAAAAAAAAAAAAAAAAAAPC/"
-						]
-					]
+						"buffer_size": 354,
+						"line_ending": "Unix"
+					}
 				}
 			],
 			"build_system": "",
@@ -356,26 +341,25 @@
 			"expanded_folders":
 			[
 				"/home/lcampassi/Documentos/Personal/dotfiles",
-				"/home/lcampassi/Documentos/Personal/dotfiles/polybar",
-				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules",
+				"/home/lcampassi/Documentos/Personal/dotfiles/kitty",
+				"/home/lcampassi/Documentos/Personal/dotfiles/picom",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules",
-				"/home/lcampassi/Documentos/Personal/dotfiles/recursos",
-				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager",
-				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes",
 				"/home/lcampassi/Documentos/Personal/dotfiles/rofi"
 			],
 			"file_history":
 			[
+				"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
+				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/config.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/Fiery Red Sunset",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/ColorPalete",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/hooks.py",
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/wlan.ini",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/battery.ini",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/bluetooth.ini",
@@ -470,26 +454,27 @@
 					[
 						{
 							"buffer": 0,
-							"file": "/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
+							"file": "/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/mouse.py",
 							"selected": true,
-							"semi_transient": false,
+							"semi_transient": true,
 							"settings":
 							{
-								"buffer_size": 191,
+								"buffer_size": 354,
 								"regions":
 								{
 								},
 								"selection":
 								[
 									[
-										191,
-										191
+										0,
+										0
 									]
 								],
 								"settings":
 								{
-									"auto_name": "ink_black=#03071e",
-									"syntax": "Packages/Text/Plain text.tmLanguage"
+									"syntax": "Packages/Python/Python.sublime-syntax",
+									"tab_size": 4,
+									"translate_tabs_to_spaces": true
 								},
 								"translation.x": 0.0,
 								"translation.y": 0.0,
@@ -548,7 +533,7 @@
 				]
 			},
 			"pinned_build_system": "",
-			"position": "0,0,0,0,0,0,38,952,1072,1920,1080,0",
+			"position": "0,0,0,0,0,0,38,1920,1080,1920,1080,0",
 			"project": "",
 			"replace":
 			{
