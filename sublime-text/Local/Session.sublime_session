@@ -2,7 +2,9 @@
 	"file_history":
 	[
 		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
+		"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
 		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+		"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 		"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 		"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 		"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
@@ -69,16 +71,16 @@
 	"last_version": 4200,
 	"last_window_id": 9,
 	"log_indexing": false,
-	"next_update_check": 1766588034,
+	"next_update_check": 1766674434,
 	"settings":
 	{
 		"new_window_full_screen": false,
-		"new_window_height": 1034.0,
+		"new_window_height": 513.0,
 		"new_window_maximized": false,
 		"new_window_position":
 		[
 			964.0,
-			69.0
+			590.0
 		],
 		"new_window_settings":
 		{
@@ -98,6 +100,14 @@
 				"last_filter": "",
 				"selected_items":
 				[
+					[
+						"termin",
+						"Terminus: Open Default Shell in Panel"
+					],
+					[
+						"insta",
+						"Package Control: Install Package"
+					],
 					[
 						"insta ",
 						"Package Control: Install Package"
@@ -123,9 +133,10 @@
 			},
 			"file_history":
 			[
-				"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
+				"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
@@ -295,10 +306,10 @@
 			"buffers":
 			[
 				{
-					"file": "/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
+					"file": "/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
 					"settings":
 					{
-						"buffer_size": 1518,
+						"buffer_size": 283,
 						"encoding": "UTF-8",
 						"line_ending": "Unix"
 					},
@@ -307,92 +318,66 @@
 						[
 							5,
 							1,
-							"insert",
-							{
-								"characters": "\n"
-							},
-							"AQAAAPwEAAAAAAAA/QQAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAA/AQAAAAAAAD8BAAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							7,
-							1,
-							"",
-							null,
-							"AQAAAP0EAAAAAAAAmwUAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAA/QQAAAAAAAD9BAAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							9,
-							1,
-							"insert",
-							{
-								"characters": "\n\n"
-							},
-							"AgAAAP0EAAAAAAAA/gQAAAAAAAAAAAAA/gQAAAAAAAD/BAAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAA/QQAAAAAAAD9BAAAAAAAAAAAAAAAAAAA"
-						],
-						[
-							11,
-							1,
-							"insert",
-							{
-								"characters": "\n"
-							},
-							"AQAAAP0EAAAAAAAA/gQAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAA/QQAAAAAAAD9BAAAAAAAAAAAAAAAAAAA"
-						],
-						[
-							17,
-							1,
-							"paste",
-							null,
-							"AQAAAP0EAAAAAAAAZQUAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAA/QQAAAAAAAD9BAAAAAAAAAAAAAAAgHBA"
-						],
-						[
-							19,
-							1,
 							"left_delete",
 							null,
-							"AQAAAGUFAAAAAAAAZQUAAAAAAAABAAAACg",
-							"AQAAAAAAAAABAAAAZgUAAAAAAABmBQAAAAAAAAAAAAAAgHBA"
+							"AQAAAFMAAAAAAAAAUwAAAAAAAAAZAAAAd2FsbHBhcGVyX0NyZWF0aXZpdHlfUm9vbQ",
+							"AQAAAAAAAAABAAAAUwAAAAAAAABsAAAAAAAAAAAAAAAAAPC/"
 						],
 						[
-							22,
-							32,
-							"left_delete",
-							null,
-							"IAAAAEIFAAAAAAAAQgUAAAAAAAABAAAAKUEFAAAAAAAAQQUAAAAAAAABAAAAT0AFAAAAAAAAQAUAAAAAAAABAAAAVD8FAAAAAAAAPwUAAAAAAAABAAAAST4FAAAAAAAAPgUAAAAAAAABAAAAUz0FAAAAAAAAPQUAAAAAAAACAAAAw5M8BQAAAAAAADwFAAAAAAAAAQAAAFA7BQAAAAAAADsFAAAAAAAAAQAAAE86BQAAAAAAADoFAAAAAAAAAQAAAFI5BQAAAAAAADkFAAAAAAAAAQAAAFA4BQAAAAAAADgFAAAAAAAAAQAAACA3BQAAAAAAADcFAAAAAAAAAQAAAEE2BQAAAAAAADYFAAAAAAAAAQAAACA1BQAAAAAAADUFAAAAAAAAAQAAAFM0BQAAAAAAADQFAAAAAAAAAQAAAEEzBQAAAAAAADMFAAAAAAAAAQAAAEQyBQAAAAAAADIFAAAAAAAAAQAAAEExBQAAAAAAADEFAAAAAAAAAQAAAFYwBQAAAAAAADAFAAAAAAAAAQAAAEkvBQAAAAAAAC8FAAAAAAAAAQAAAFQuBQAAAAAAAC4FAAAAAAAAAQAAAEMtBQAAAAAAAC0FAAAAAAAAAQAAAEEsBQAAAAAAACwFAAAAAAAAAQAAAFMrBQAAAAAAACsFAAAAAAAAAQAAAEUqBQAAAAAAACoFAAAAAAAAAQAAAEQpBQAAAAAAACkFAAAAAAAAAQAAACgoBQAAAAAAACgFAAAAAAAAAQAAACAnBQAAAAAAACcFAAAAAAAAAQAAAFMmBQAAAAAAACYFAAAAAAAAAQAAAEElBQAAAAAAACUFAAAAAAAAAQAAAFIkBQAAAAAAACQFAAAAAAAAAQAAAEIjBQAAAAAAACMFAAAAAAAAAQAAAE0",
-							"AQAAAAAAAAABAAAAQwUAAAAAAABDBQAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							23,
+							10,
 							2,
 							"left_delete",
 							null,
-							"AgAAACIFAAAAAAAAIgUAAAAAAAABAAAATyEFAAAAAAAAIQUAAAAAAAABAAAAUw",
-							"AQAAAAAAAAABAAAAIwUAAAAAAAAjBQAAAAAAAAAAAAAAAPC/"
+							"AgAAAFQAAAAAAAAAVAAAAAAAAAADAAAAanBnUwAAAAAAAABTAAAAAAAAAAEAAAAu",
+							"AQAAAAAAAAABAAAAVAAAAAAAAABXAAAAAAAAAAAAAAAAAPC/"
+						],
+						[
+							15,
+							1,
+							"",
+							null,
+							"AQAAAFMAAAAAAAAAagAAAAAAAAAAAAAA",
+							"AQAAAAAAAAABAAAAUwAAAAAAAABTAAAAAAAAAAAAAAAAAPC/"
+						],
+						[
+							22,
+							23,
+							"left_delete",
+							null,
+							"FwAAAGkAAAAAAAAAaQAAAAAAAAABAAAAZ2gAAAAAAAAAaAAAAAAAAAABAAAAcGcAAAAAAAAAZwAAAAAAAAABAAAAamYAAAAAAAAAZgAAAAAAAAABAAAALmUAAAAAAAAAZQAAAAAAAAABAAAAc2QAAAAAAAAAZAAAAAAAAAABAAAAbmMAAAAAAAAAYwAAAAAAAAABAAAAaWIAAAAAAAAAYgAAAAAAAAABAAAAYWEAAAAAAAAAYQAAAAAAAAABAAAAdGAAAAAAAAAAYAAAAAAAAAABAAAAbl8AAAAAAAAAXwAAAAAAAAABAAAAdV4AAAAAAAAAXgAAAAAAAAABAAAAb10AAAAAAAAAXQAAAAAAAAABAAAAbVwAAAAAAAAAXAAAAAAAAAABAAAAX1sAAAAAAAAAWwAAAAAAAAABAAAAcloAAAAAAAAAWgAAAAAAAAABAAAAZVkAAAAAAAAAWQAAAAAAAAABAAAAcFgAAAAAAAAAWAAAAAAAAAABAAAAYVcAAAAAAAAAVwAAAAAAAAABAAAAcFYAAAAAAAAAVgAAAAAAAAABAAAAbFUAAAAAAAAAVQAAAAAAAAABAAAAbFQAAAAAAAAAVAAAAAAAAAABAAAAYVMAAAAAAAAAUwAAAAAAAAABAAAAdw",
+							"AQAAAAAAAAABAAAAagAAAAAAAABqAAAAAAAAAAAAAAAAAPC/"
 						],
 						[
 							24,
 							1,
-							"insert",
-							{
-								"characters": "ANIMACIONE"
-							},
-							"CgAAACEFAAAAAAAAIgUAAAAAAAAAAAAAIgUAAAAAAAAjBQAAAAAAAAAAAAAjBQAAAAAAACQFAAAAAAAAAAAAACQFAAAAAAAAJQUAAAAAAAAAAAAAJQUAAAAAAAAmBQAAAAAAAAAAAAAmBQAAAAAAACcFAAAAAAAAAAAAACcFAAAAAAAAKAUAAAAAAAAAAAAAKAUAAAAAAAApBQAAAAAAAAAAAAApBQAAAAAAACoFAAAAAAAAAAAAACoFAAAAAAAAKwUAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAAIQUAAAAAAAAhBQAAAAAAAAAAAAAAAPC/"
+							"",
+							null,
+							"AQAAAFMAAAAAAAAAaQAAAAAAAAAAAAAA",
+							"AQAAAAAAAAABAAAAUwAAAAAAAABTAAAAAAAAAAAAAAAAAPC/"
 						],
 						[
-							25,
+							33,
+							18,
+							"left_delete",
+							null,
+							"EgAAAGgAAAAAAAAAaAAAAAAAAAABAAAAZ2cAAAAAAAAAZwAAAAAAAAABAAAAcGYAAAAAAAAAZgAAAAAAAAABAAAAamUAAAAAAAAAZQAAAAAAAAABAAAALmQAAAAAAAAAZAAAAAAAAAABAAAAeWMAAAAAAAAAYwAAAAAAAAABAAAAdGIAAAAAAAAAYgAAAAAAAAABAAAAZWEAAAAAAAAAYQAAAAAAAAABAAAAaWAAAAAAAAAAYAAAAAAAAAABAAAAY18AAAAAAAAAXwAAAAAAAAABAAAAb14AAAAAAAAAXgAAAAAAAAABAAAAc10AAAAAAAAAXQAAAAAAAAABAAAAZlwAAAAAAAAAXAAAAAAAAAABAAAAX1sAAAAAAAAAWwAAAAAAAAABAAAAcloAAAAAAAAAWgAAAAAAAAABAAAAZVkAAAAAAAAAWQAAAAAAAAABAAAAcFgAAAAAAAAAWAAAAAAAAAABAAAAYVcAAAAAAAAAVwAAAAAAAAABAAAAcA",
+							"AQAAAAAAAAABAAAAaQAAAAAAAABpAAAAAAAAAAAAAAAAAPC/"
+						],
+						[
+							34,
+							4,
+							"left_delete",
+							null,
+							"BAAAAFYAAAAAAAAAVgAAAAAAAAABAAAAbFUAAAAAAAAAVQAAAAAAAAABAAAAbFQAAAAAAAAAVAAAAAAAAAABAAAAYVMAAAAAAAAAUwAAAAAAAAABAAAAdw",
+							"AQAAAAAAAAABAAAAVwAAAAAAAABXAAAAAAAAAAAAAAAAAPC/"
+						],
+						[
+							36,
 							1,
-							"insert",
-							{
-								"characters": "S"
-							},
-							"AQAAACsFAAAAAAAALAUAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAAKwUAAAAAAAArBQAAAAAAAAAAAAAAAPC/"
+							"",
+							null,
+							"AQAAAFMAAAAAAAAAbAAAAAAAAAAAAAAA",
+							"AQAAAAAAAAABAAAAUwAAAAAAAABTAAAAAAAAAAAAAAAAAPC/"
 						]
 					]
 				}
@@ -408,6 +393,14 @@
 				"last_filter": "",
 				"selected_items":
 				[
+					[
+						"termin",
+						"Terminus: Open Default Shell in Panel"
+					],
+					[
+						"insta",
+						"Package Control: Install Package"
+					],
 					[
 						"insta ",
 						"Package Control: Install Package"
@@ -438,12 +431,15 @@
 				"/home/lcampassi/Documentos/Personal/dotfiles/picom",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules",
-				"/home/lcampassi/Documentos/Personal/dotfiles/rofi"
+				"/home/lcampassi/Documentos/Personal/dotfiles/rofi",
+				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts"
 			],
 			"file_history":
 			[
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
@@ -546,30 +542,30 @@
 					[
 						{
 							"buffer": 0,
-							"file": "/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
+							"file": "/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
 							"selected": true,
 							"semi_transient": false,
 							"settings":
 							{
-								"buffer_size": 1518,
+								"buffer_size": 283,
 								"regions":
 								{
 								},
 								"selection":
 								[
 									[
-										1518,
-										1518
+										108,
+										108
 									]
 								],
 								"settings":
 								{
-									"syntax": "Packages/Text/Plain text.tmLanguage",
-									"tab_size": 2,
+									"syntax": "Packages/Python/Python.sublime-syntax",
+									"tab_size": 4,
 									"translate_tabs_to_spaces": true
 								},
 								"translation.x": 0.0,
-								"translation.y": 794.0,
+								"translation.y": 0.0,
 								"zoom_level": 1.0
 							},
 							"stack_index": 0,
@@ -625,7 +621,7 @@
 				]
 			},
 			"pinned_build_system": "",
-			"position": "0,0,0,0,0,960,38,1912,1072,1920,1080,0",
+			"position": "0,0,0,0,0,960,559,1912,1072,1920,1080,0",
 			"project": "",
 			"replace":
 			{
