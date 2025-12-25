@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CHOICE=$(printf "PRINCIPAL\nSECUNDARIO\nDEV\nGENERAL\nEXTRAS" | rofi -dmenu -p "Go to workspace")
+CHOICE=$(printf "NET \nMEDIA 󱍙\nDEV \nSYS \nWEB 󰈹\nCHAT 󰭻\n" | rofi -dmenu -p "Go to workspace")
 
 [ -z "$CHOICE" ] && exit 0
 

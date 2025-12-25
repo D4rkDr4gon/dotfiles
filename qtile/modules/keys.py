@@ -23,6 +23,7 @@ keys = [
     Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
     Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
     Key([mod], "Return", lazy.spawn(terminal), desc="opens terminal"),
+    Key([mod], "c", lazy.spawn("subl"), desc = "Launch Sublime Text"),
 
     # ============= Utilities =============
     
@@ -78,5 +79,5 @@ keys = [
 
     # Actions for qtile
     Key([mod, "control"], "r", lazy.reload_config(), lazy.spawn("sh polybarupdate"),  desc="reloads qtiles's configuration"),
-    Key([mod], "l", lazy.shutdown(), desc="blocks PC"),
+    Key([mod], "l", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/qtile-action-menu.sh"), desc="blocks PC"),
 ]

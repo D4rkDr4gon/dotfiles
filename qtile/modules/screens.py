@@ -1,6 +1,6 @@
 from libqtile.config import Screen
 
-wallpaper = "/usr/share/backgrounds/wallpapers/wallpaper_city_sci-fi.jpg"
+wallpaper = "/usr/share/backgrounds/wallpapers/wallpaper_Dark_room.jpg"
 
 screens = [
     Screen(
