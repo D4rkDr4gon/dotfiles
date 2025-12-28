@@ -19,11 +19,11 @@ keys = [
     Key([mod], "p", lazy.spawn("bitwarden"), desc="opens bitwarden password manager"),
     Key([mod], "e", lazy.spawn("thunderbird"), desc="opens email"),
     Key([mod], "a", lazy.spawn("thunar"), desc="opens file system"),
-    Key([mod], "s", lazy.spawn(f"rofi -show drun"), desc="opens app manager"),
+    Key([mod], "space", lazy.spawn(f"rofi -show drun"), desc="opens app manager"),
     Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
     Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
     Key([mod], "Return", lazy.spawn(terminal), desc="opens terminal"),
-    Key([mod], "c", lazy.spawn("subl"), desc = "Launch Sublime Text"),
+    Key([mod], "s", lazy.spawn("subl"), desc = "Launch Sublime Text"),
 
     # ============= Utilities =============
     

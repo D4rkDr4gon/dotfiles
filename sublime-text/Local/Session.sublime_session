@@ -1,14 +1,19 @@
 {
 	"file_history":
 	[
-		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
-		"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
 		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+		"/home/lcampassi/.p10k.zsh",
+		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
+		"/home/lcampassi/.zshrc",
+		"/home/lcampassi/Imágenes/Video/HackerIntro.py",
+		"/home/lcampassi/Imágenes/Video/Test-manim.py",
+		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
+		"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-workspace-switcher.sh",
+		"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
 		"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 		"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 		"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 		"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
-		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
 		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/config.py",
 		"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/Fiery Red Sunset",
 		"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/ColorPalete",
@@ -54,7 +59,6 @@
 		"/home/lcampassi/.config/qtile/modules/hooks.py",
 		"/home/lcampassi/.config/qtile/modules/screens.py",
 		"/home/lcampassi/.config/qtile/modules/keys,py",
-		"/home/lcampassi/.zshrc",
 		"/home/lcampassi/.config/polybar/modules/date.ini",
 		"/home/lcampassi/Documentos/Personal/logo.txt",
 		"/home/lcampassi/.config/polybar/launch.sh",
@@ -63,24 +67,25 @@
 	"folder_history":
 	[
 		"/home/lcampassi/Documentos/Personal/dotfiles",
+		"/home/lcampassi/Imágenes",
 		"/home/lcampassi/.config",
 		"/home/lcampassi/.config/polybar",
 		"/home/lcampassi/.config/qtile",
 		"/home/lcampassi/.config/polybar/modules"
 	],
 	"last_version": 4200,
-	"last_window_id": 9,
+	"last_window_id": 11,
 	"log_indexing": false,
-	"next_update_check": 1766674434,
+	"next_update_check": 1767020034,
 	"settings":
 	{
 		"new_window_full_screen": false,
-		"new_window_height": 513.0,
+		"new_window_height": 1042.0,
 		"new_window_maximized": false,
 		"new_window_position":
 		[
-			964.0,
-			590.0
+			0.0,
+			65.0
 		],
 		"new_window_settings":
 		{
@@ -100,6 +105,10 @@
 				"last_filter": "",
 				"selected_items":
 				[
+					[
+						"pac",
+						"Package Control: Install Package"
+					],
 					[
 						"termin",
 						"Terminus: Open Default Shell in Panel"
@@ -133,14 +142,19 @@
 			},
 			"file_history":
 			[
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
-				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
+				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+				"/home/lcampassi/.p10k.zsh",
+				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
+				"/home/lcampassi/.zshrc",
+				"/home/lcampassi/Imágenes/Video/HackerIntro.py",
+				"/home/lcampassi/Imágenes/Video/Test-manim.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-workspace-switcher.sh",
+				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/config.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/Fiery Red Sunset",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/ColorPalete",
@@ -184,7 +198,6 @@
 				"/home/lcampassi/.config/qtile/modules/hooks.py",
 				"/home/lcampassi/.config/qtile/modules/screens.py",
 				"/home/lcampassi/.config/qtile/modules/keys,py",
-				"/home/lcampassi/.zshrc",
 				"/home/lcampassi/.config/polybar/modules/date.ini",
 				"/home/lcampassi/Documentos/Personal/logo.txt",
 				"/home/lcampassi/.config/polybar/launch.sh",
@@ -206,8 +219,6 @@
 				"case_sensitive": false,
 				"find_history":
 				[
-					"'",
-					"\\n"
 				],
 				"highlight": true,
 				"in_selection": false,
@@ -215,8 +226,6 @@
 				"regex": true,
 				"replace_history":
 				[
-					"`",
-					"'\\n"
 				],
 				"reverse": false,
 				"scrollbar_highlights": true,
@@ -286,13 +295,13 @@
 			"show_open_files": true,
 			"show_tabs": true,
 			"side_bar_visible": true,
-			"side_bar_width": 187.0,
+			"side_bar_width": 282.0,
 			"status_bar_visible": true,
 			"template_settings":
 			{
 			}
 		},
-		"new_window_width": 952.0
+		"new_window_width": 1920.0
 	},
 	"windows":
 	[
@@ -306,78 +315,50 @@
 			"buffers":
 			[
 				{
-					"file": "/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+					"file": "/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 					"settings":
 					{
-						"buffer_size": 283,
+						"buffer_size": 1551,
 						"encoding": "UTF-8",
 						"line_ending": "Unix"
 					},
 					"undo_stack":
 					[
 						[
-							5,
-							1,
-							"left_delete",
-							null,
-							"AQAAAFMAAAAAAAAAUwAAAAAAAAAZAAAAd2FsbHBhcGVyX0NyZWF0aXZpdHlfUm9vbQ",
-							"AQAAAAAAAAABAAAAUwAAAAAAAABsAAAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							10,
+							3,
 							2,
 							"left_delete",
 							null,
-							"AgAAAFQAAAAAAAAAVAAAAAAAAAADAAAAanBnUwAAAAAAAABTAAAAAAAAAAEAAAAu",
-							"AQAAAAAAAAABAAAAVAAAAAAAAABXAAAAAAAAAAAAAAAAAPC/"
+							"AgAAAKUDAAAAAAAApQMAAAAAAAABAAAAMKQDAAAAAAAApAMAAAAAAAABAAAAOA",
+							"AQAAAAAAAAABAAAApgMAAAAAAACmAwAAAAAAAAAAAAAAAPC/"
 						],
 						[
-							15,
-							1,
-							"",
-							null,
-							"AQAAAFMAAAAAAAAAagAAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAAUwAAAAAAAABTAAAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							22,
-							23,
-							"left_delete",
-							null,
-							"FwAAAGkAAAAAAAAAaQAAAAAAAAABAAAAZ2gAAAAAAAAAaAAAAAAAAAABAAAAcGcAAAAAAAAAZwAAAAAAAAABAAAAamYAAAAAAAAAZgAAAAAAAAABAAAALmUAAAAAAAAAZQAAAAAAAAABAAAAc2QAAAAAAAAAZAAAAAAAAAABAAAAbmMAAAAAAAAAYwAAAAAAAAABAAAAaWIAAAAAAAAAYgAAAAAAAAABAAAAYWEAAAAAAAAAYQAAAAAAAAABAAAAdGAAAAAAAAAAYAAAAAAAAAABAAAAbl8AAAAAAAAAXwAAAAAAAAABAAAAdV4AAAAAAAAAXgAAAAAAAAABAAAAb10AAAAAAAAAXQAAAAAAAAABAAAAbVwAAAAAAAAAXAAAAAAAAAABAAAAX1sAAAAAAAAAWwAAAAAAAAABAAAAcloAAAAAAAAAWgAAAAAAAAABAAAAZVkAAAAAAAAAWQAAAAAAAAABAAAAcFgAAAAAAAAAWAAAAAAAAAABAAAAYVcAAAAAAAAAVwAAAAAAAAABAAAAcFYAAAAAAAAAVgAAAAAAAAABAAAAbFUAAAAAAAAAVQAAAAAAAAABAAAAbFQAAAAAAAAAVAAAAAAAAAABAAAAYVMAAAAAAAAAUwAAAAAAAAABAAAAdw",
-							"AQAAAAAAAAABAAAAagAAAAAAAABqAAAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							24,
-							1,
-							"",
-							null,
-							"AQAAAFMAAAAAAAAAaQAAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAAUwAAAAAAAABTAAAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							33,
-							18,
-							"left_delete",
-							null,
-							"EgAAAGgAAAAAAAAAaAAAAAAAAAABAAAAZ2cAAAAAAAAAZwAAAAAAAAABAAAAcGYAAAAAAAAAZgAAAAAAAAABAAAAamUAAAAAAAAAZQAAAAAAAAABAAAALmQAAAAAAAAAZAAAAAAAAAABAAAAeWMAAAAAAAAAYwAAAAAAAAABAAAAdGIAAAAAAAAAYgAAAAAAAAABAAAAZWEAAAAAAAAAYQAAAAAAAAABAAAAaWAAAAAAAAAAYAAAAAAAAAABAAAAY18AAAAAAAAAXwAAAAAAAAABAAAAb14AAAAAAAAAXgAAAAAAAAABAAAAc10AAAAAAAAAXQAAAAAAAAABAAAAZlwAAAAAAAAAXAAAAAAAAAABAAAAX1sAAAAAAAAAWwAAAAAAAAABAAAAcloAAAAAAAAAWgAAAAAAAAABAAAAZVkAAAAAAAAAWQAAAAAAAAABAAAAcFgAAAAAAAAAWAAAAAAAAAABAAAAYVcAAAAAAAAAVwAAAAAAAAABAAAAcA",
-							"AQAAAAAAAAABAAAAaQAAAAAAAABpAAAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							34,
 							4,
-							"left_delete",
-							null,
-							"BAAAAFYAAAAAAAAAVgAAAAAAAAABAAAAbFUAAAAAAAAAVQAAAAAAAAABAAAAbFQAAAAAAAAAVAAAAAAAAAABAAAAYVMAAAAAAAAAUwAAAAAAAAABAAAAdw",
-							"AQAAAAAAAAABAAAAVwAAAAAAAABXAAAAAAAAAAAAAAAAAPC/"
+							1,
+							"insert",
+							{
+								"characters": "75"
+							},
+							"AgAAAKQDAAAAAAAApQMAAAAAAAAAAAAApQMAAAAAAACmAwAAAAAAAAAAAAA",
+							"AQAAAAAAAAABAAAApAMAAAAAAACkAwAAAAAAAAAAAAAAAPC/"
 						],
 						[
-							36,
-							1,
-							"",
+							6,
+							2,
+							"left_delete",
 							null,
-							"AQAAAFMAAAAAAAAAbAAAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAAUwAAAAAAAABTAAAAAAAAAAAAAAAAAPC/"
+							"AgAAAIsDAAAAAAAAiwMAAAAAAAABAAAAMIoDAAAAAAAAigMAAAAAAAABAAAAOA",
+							"AQAAAAAAAAABAAAAjAMAAAAAAACMAwAAAAAAAAAAAAAAAERA"
+						],
+						[
+							7,
+							1,
+							"insert",
+							{
+								"characters": "75"
+							},
+							"AgAAAIoDAAAAAAAAiwMAAAAAAAAAAAAAiwMAAAAAAACMAwAAAAAAAAAAAAA",
+							"AQAAAAAAAAABAAAAigMAAAAAAACKAwAAAAAAAAAAAAAAAPC/"
 						]
 					]
 				}
@@ -393,6 +374,10 @@
 				"last_filter": "",
 				"selected_items":
 				[
+					[
+						"pac",
+						"Package Control: Install Package"
+					],
 					[
 						"termin",
 						"Terminus: Open Default Shell in Panel"
@@ -427,23 +412,24 @@
 			"expanded_folders":
 			[
 				"/home/lcampassi/Documentos/Personal/dotfiles",
-				"/home/lcampassi/Documentos/Personal/dotfiles/kitty",
 				"/home/lcampassi/Documentos/Personal/dotfiles/picom",
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile",
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules",
-				"/home/lcampassi/Documentos/Personal/dotfiles/rofi",
-				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts"
+				"/home/lcampassi/Documentos/Personal/dotfiles/polybar"
 			],
 			"file_history":
 			[
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
-				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+				"/home/lcampassi/.p10k.zsh",
+				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
+				"/home/lcampassi/.zshrc",
+				"/home/lcampassi/Imágenes/Video/HackerIntro.py",
+				"/home/lcampassi/Imágenes/Video/Test-manim.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
+				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-workspace-switcher.sh",
+				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
-				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/config.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/Fiery Red Sunset",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Themes/ColorPalete",
@@ -487,7 +473,6 @@
 				"/home/lcampassi/.config/qtile/modules/hooks.py",
 				"/home/lcampassi/.config/qtile/modules/screens.py",
 				"/home/lcampassi/.config/qtile/modules/keys,py",
-				"/home/lcampassi/.zshrc",
 				"/home/lcampassi/.config/polybar/modules/date.ini",
 				"/home/lcampassi/Documentos/Personal/logo.txt",
 				"/home/lcampassi/.config/polybar/launch.sh",
@@ -509,8 +494,6 @@
 				"case_sensitive": false,
 				"find_history":
 				[
-					"'",
-					"\\n"
 				],
 				"highlight": true,
 				"in_selection": false,
@@ -518,8 +501,6 @@
 				"regex": true,
 				"replace_history":
 				[
-					"`",
-					"'\\n"
 				],
 				"reverse": false,
 				"scrollbar_highlights": true,
@@ -542,30 +523,30 @@
 					[
 						{
 							"buffer": 0,
-							"file": "/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
+							"file": "/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 							"selected": true,
 							"semi_transient": false,
 							"settings":
 							{
-								"buffer_size": 283,
+								"buffer_size": 1551,
 								"regions":
 								{
 								},
 								"selection":
 								[
 									[
-										108,
-										108
+										908,
+										908
 									]
 								],
 								"settings":
 								{
-									"syntax": "Packages/Python/Python.sublime-syntax",
-									"tab_size": 4,
+									"syntax": "Packages/Text/Plain text.tmLanguage",
+									"tab_size": 2,
 									"translate_tabs_to_spaces": true
 								},
 								"translation.x": 0.0,
-								"translation.y": 0.0,
+								"translation.y": 67.0,
 								"zoom_level": 1.0
 							},
 							"stack_index": 0,
@@ -621,7 +602,7 @@
 				]
 			},
 			"pinned_build_system": "",
-			"position": "0,0,0,0,0,960,559,1912,1072,1920,1080,0",
+			"position": "0,0,0,0,0,0,38,1920,1080,1920,1080,2",
 			"project": "",
 			"replace":
 			{
@@ -663,12 +644,12 @@
 			"show_open_files": true,
 			"show_tabs": true,
 			"side_bar_visible": true,
-			"side_bar_width": 187.0,
+			"side_bar_width": 282.0,
 			"status_bar_visible": true,
 			"template_settings":
 			{
 			},
-			"window_id": 9,
+			"window_id": 11,
 			"workspace_name": ""
 		}
 	],
