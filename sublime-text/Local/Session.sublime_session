@@ -1,6 +1,7 @@
 {
 	"file_history":
 	[
+		"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
 		"/home/lcampassi/.p10k.zsh",
 		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
@@ -10,7 +11,6 @@
 		"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
 		"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-workspace-switcher.sh",
 		"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
-		"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 		"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 		"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 		"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
@@ -219,6 +219,8 @@
 				"case_sensitive": false,
 				"find_history":
 				[
+					"\\n",
+					"'"
 				],
 				"highlight": true,
 				"in_selection": false,
@@ -226,6 +228,8 @@
 				"regex": true,
 				"replace_history":
 				[
+					" ",
+					""
 				],
 				"reverse": false,
 				"scrollbar_highlights": true,
@@ -315,51 +319,15 @@
 			"buffers":
 			[
 				{
-					"file": "/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
+					"file": "/home/lcampassi/Documentos/Personal/dotfiles/installer.py",
 					"settings":
 					{
-						"buffer_size": 1551,
+						"buffer_size": 7354,
 						"encoding": "UTF-8",
 						"line_ending": "Unix"
 					},
 					"undo_stack":
 					[
-						[
-							3,
-							2,
-							"left_delete",
-							null,
-							"AgAAAKUDAAAAAAAApQMAAAAAAAABAAAAMKQDAAAAAAAApAMAAAAAAAABAAAAOA",
-							"AQAAAAAAAAABAAAApgMAAAAAAACmAwAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							4,
-							1,
-							"insert",
-							{
-								"characters": "75"
-							},
-							"AgAAAKQDAAAAAAAApQMAAAAAAAAAAAAApQMAAAAAAACmAwAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAApAMAAAAAAACkAwAAAAAAAAAAAAAAAPC/"
-						],
-						[
-							6,
-							2,
-							"left_delete",
-							null,
-							"AgAAAIsDAAAAAAAAiwMAAAAAAAABAAAAMIoDAAAAAAAAigMAAAAAAAABAAAAOA",
-							"AQAAAAAAAAABAAAAjAMAAAAAAACMAwAAAAAAAAAAAAAAAERA"
-						],
-						[
-							7,
-							1,
-							"insert",
-							{
-								"characters": "75"
-							},
-							"AgAAAIoDAAAAAAAAiwMAAAAAAAAAAAAAiwMAAAAAAACMAwAAAAAAAAAAAAA",
-							"AQAAAAAAAAABAAAAigMAAAAAAACKAwAAAAAAAAAAAAAAAPC/"
-						]
 					]
 				}
 			],
@@ -411,12 +379,11 @@
 			},
 			"expanded_folders":
 			[
-				"/home/lcampassi/Documentos/Personal/dotfiles",
-				"/home/lcampassi/Documentos/Personal/dotfiles/picom",
-				"/home/lcampassi/Documentos/Personal/dotfiles/polybar"
+				"/home/lcampassi/Documentos/Personal/dotfiles"
 			],
 			"file_history":
 			[
+				"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/screens.py",
 				"/home/lcampassi/.p10k.zsh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/keys.py",
@@ -426,7 +393,6 @@
 				"/home/lcampassi/Documentos/Personal/dotfiles/qtile/modules/groups.py",
 				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-workspace-switcher.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/scripts/qtile-action-menu.sh",
-				"/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
 				"/home/lcampassi/Documentos/Personal/dotfiles/recursos/Theme-Manager/Palettes/Fiery-Red-Sunset.theme",
 				"/home/lcampassi/Documentos/Personal/dotfiles/rofi/qtile-workspace-switcher.sh",
 				"/home/lcampassi/Documentos/Personal/dotfiles/polybar/modules/xworkspaces.ini",
@@ -494,6 +460,8 @@
 				"case_sensitive": false,
 				"find_history":
 				[
+					"\\n",
+					"'"
 				],
 				"highlight": true,
 				"in_selection": false,
@@ -501,6 +469,8 @@
 				"regex": true,
 				"replace_history":
 				[
+					" ",
+					""
 				],
 				"reverse": false,
 				"scrollbar_highlights": true,
@@ -523,30 +493,30 @@
 					[
 						{
 							"buffer": 0,
-							"file": "/home/lcampassi/Documentos/Personal/dotfiles/picom/picom.conf",
+							"file": "/home/lcampassi/Documentos/Personal/dotfiles/installer.py",
 							"selected": true,
-							"semi_transient": false,
+							"semi_transient": true,
 							"settings":
 							{
-								"buffer_size": 1551,
+								"buffer_size": 7354,
 								"regions":
 								{
 								},
 								"selection":
 								[
 									[
-										908,
-										908
+										2928,
+										2928
 									]
 								],
 								"settings":
 								{
-									"syntax": "Packages/Text/Plain text.tmLanguage",
-									"tab_size": 2,
+									"syntax": "Packages/Python/Python.sublime-syntax",
+									"tab_size": 4,
 									"translate_tabs_to_spaces": true
 								},
 								"translation.x": 0.0,
-								"translation.y": 67.0,
+								"translation.y": 1134.0,
 								"zoom_level": 1.0
 							},
 							"stack_index": 0,
