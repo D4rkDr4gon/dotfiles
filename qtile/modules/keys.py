@@ -18,7 +18,7 @@ keys = [
     # Open Apps
     Key([mod], "p", lazy.spawn("bitwarden"), desc="opens bitwarden password manager"),
     Key([mod], "e", lazy.spawn("thunderbird"), desc="opens email"),
-    Key([mod], "a", lazy.spawn("thunar"), desc="opens file system"),
+    Key([mod], "z", lazy.spawn("sigma-file-manager"), desc="opens file system"),
     Key([mod], "space", lazy.spawn(f"rofi -show drun"), desc="opens app manager"),
     Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
     Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
@@ -47,7 +47,7 @@ keys = [
     # ============= Navigating Shortcuts =============
 
     # Moving between workspaces
-    Key([mod, "shift"], "s", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/qtile-workspace-switcher.sh"), desc="Workspace switcher"),
+    Key([mod, "shift"], "space", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/qtile-workspace-switcher.sh"), desc="Workspace switcher"),
 
     # Move between tabs and workspaces in qtile
     Key(["mod1"], "Tab", lazy.layout.next(), desc="move between tabs"),
