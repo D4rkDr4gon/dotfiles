@@ -1,3 +1,15 @@
+# Configuración para historial persistente y compartido en Zsh
+HISTSIZE=100000
+SAVEHIST=100000
+HISTFILE=~/.zsh_history
+
+setopt append_history   # Añadir en lugar de sobrescribir
+setopt share_history    # Compartir historial entre sesiones concurrentes
+setopt inc_append_history # Añadir al archivo inmediatamente
+setopt extended_history # Guardar timestamps de comandos
+setopt hist_ignore_dups # Ignorar duplicados
+
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -19,28 +31,32 @@ function extractPorts(){
 }
 
 # plugins
-source ~/.config/zsh/powerlevel10k/powerlevel10k.zsh-theme
-source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/lcampassi/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /home/lcampassi/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-alias ll='/usr/bin/lsd -lh --group-dirs=first'
+alias ll='/usr/bin/lsd -la --group-dirs=first'
 alias la='/usr/bin/lsd -a --group-dirs=first'
 alias l='/usr/bin/lsd --group-dirs=first'
 alias lla='/usr/bin/lsd -lha --group-dirs=first'
 alias ls='/usr/bin/lsd --group-dirs=first'
-alias cat='/usr/bin/batcat'
+alias cat='/usr/bin/bat'
 alias catn='/usr/bin/cat'
-alias catnl='/usr/bin/batcat --paging=never'
-alias fastfetch='fastfetch --logo /home/lcampassi/Documentos/Personal/logo.txt'
-alias polybarupdate='/home/lcampassi/.local/bin/polybarupdate'
+alias catnl='/usr/bin/bat --paging=never'
+alias fastfetch='fastfetch --logo /home/lcampassi/.config/fastfetch/png/logo.png'
+alias polybarupdate='/home/lcampassi/.config/polybar/launch.sh'
 alias top='btop'
 alias balena-etcher='/home/lcampassi/Documentos/Personal/balenaEtcher-linux-x64/balena-etcher'
 alias zshconfig="nvim ~/.zshrc"
 alias vi="nvim"
-alias steam="flatpak run com.valvesoftware.Steam" source /home/lcampassi/.zshrc
+alias steam="flatpak run com.valvesoftware.Steam"
+alias launchgemma="bash /home/lcampasssi/.config/automat/launchgemma.sh"
 
 # on zsh start
-fastfetch
+# fastfetch
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ~/.p10k.zsh ]] || source /home/lcampassi/.p10k.zsh
+source /home/lcampassi/powerlevel10k/powerlevel10k.zsh-theme
+
+# opencode
+export PATH=/home/lcampassi/.opencode/bin:$PATH
