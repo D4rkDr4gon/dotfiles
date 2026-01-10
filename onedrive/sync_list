@@ -1,0 +1,6 @@
+# OneDrive Client for Linux - Sync List
+# Archivo para sincronizar únicamente la carpeta vault de Obsidian
+# Formato: un directorio por línea
+# Los directorios deben ser relativos a sync_dir
+
+vault
