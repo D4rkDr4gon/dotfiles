@@ -45,14 +45,27 @@ alias catnl='/usr/bin/bat --paging=never'
 alias fastfetch='fastfetch --logo /home/lcampassi/.config/fastfetch/png/logo.png'
 alias polybarupdate='/home/lcampassi/.config/polybar/launch.sh'
 alias top='btop'
-alias balena-etcher='/home/lcampassi/Documentos/Personal/balenaEtcher-linux-x64/balena-etcher'
 alias zshconfig="nvim ~/.zshrc"
 alias vi="nvim"
-alias steam="flatpak run com.valvesoftware.Steam"
 alias launchgemma="bash /home/lcampasssi/.config/automat/launchgemma.sh"
+alias logo="sh /home/lcampassi/dotfile/automat/launch-logo.sh"
 
 # on zsh start
-# fastfetch
+autoload -U colors && colors
+
+echo -e "$fg[red]
+    ====================================================================================
+    ██████╗  █████╗ ██████╗ ██╗  ██╗██████╗ ██████╗  █████╗  ██████╗  ██████╗ ███╗   ██╗
+    ██╔══██╗██╔══██╗██╔══██╗██║ ██╔╝██╔══██╗██╔══██╗██╔══██╗██╔════╝ ██╔═══██╗████╗  ██║
+    ██║  ██║███████║██████╔╝█████╔╝ ██║  ██║██████╔╝███████║██║  ███╗██║   ██║██╔██╗ ██║
+    ██║  ██║██╔══██║██╔══██╗██╔═██╗ ██║  ██║██╔══██╗██╔══██║██║   ██║██║   ██║██║╚██╗██║
+    ██████╔╝██║  ██║██║  ██║██║  ██╗██████╔╝██║  ██║██║  ██║╚██████╔╝╚██████╔╝██║ ╚████║
+    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝
+    ----------- $reset_color >>> Lucciano Campassi - Cybersecurity Specialist <<< $fg[red] -----------------
+    ====================================================================================
+$reset_color"
+
+# cat /home/lcampassi/dotfiles/recursos/tux.txt
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source /home/lcampassi/.p10k.zsh

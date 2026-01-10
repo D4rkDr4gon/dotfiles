@@ -80,4 +80,17 @@ keys = [
     # Actions for qtile
     Key([mod, "control"], "r", lazy.reload_config(), lazy.spawn("sh polybarupdate"),  desc="reloads qtiles's configuration"),
     Key([mod], "l", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/qtile-action-menu.sh"), desc="blocks PC"),
+
+    # =========== qtile stacks ================
+    # Moving between stacks 
+    Key(["control"], "Tab", lazy.layout.down(), desc="Next window in stack"),
+    Key(["control", "shift"], "Tab", lazy.layout.up(), desc="Prev window in stack"),
+    #Working wiht stacks
+    Key([mod, "mod1"], "s", lazy.layout.add(), desc="Add new stack"),
+    Key([mod, "mod1"], "d", lazy.layout.delete(), desc="Delete current stack"),
+    Key([mod, "mod1"], "m", lazy.layout.client_to_next(), desc="Move window to next stack"),
+    Key([mod, "mod1"], "n", lazy.layout.client_to_previous(), desc="Move window to prev stack"),
+    # Para reorganizar ventanas dentro del stack
+    Key([mod, "control"], "j", lazy.layout.shuffle_down(), desc="Shuffle window down"),
+    Key([mod, "control"], "k", lazy.layout.shuffle_up(), desc="Shuffle window up"),
 ]
