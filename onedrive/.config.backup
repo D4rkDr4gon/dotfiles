@@ -1,0 +1,23 @@
+# Configuración específica para sincronizar solo el vault de Obsidian
+# OneDrive Client for Linux Configuration File
+
+# Directorio de sincronización
+sync_dir = "~/OneDrive"
+
+# Optimizaciones para Obsidian - manejo de escritura atómica
+delay_inotify_processing = "true"
+force_session_upload = "true"
+inotify_delay = "10"
+
+# Configuración de archivos a omitir (valores por defecto)
+skip_file = "~*|.~*|*.tmp|*.swp|*.partial"
+
+# No sincronizar archivos raíz, solo directorios listados en sync_list
+sync_root_files = "false"
+
+# Desactivar notificaciones para reducir ruido
+disable_notifications = "true"
+
+# Otras configuraciones útiles
+skip_dotfiles = "false"
+skip_symlinks = "true"
