@@ -49,6 +49,8 @@ alias zshconfig="nvim ~/.zshrc"
 alias vi="nvim"
 alias launchgemma="bash /home/lcampasssi/.config/automat/launchgemma.sh"
 alias logo="sh /home/lcampassi/dotfile/automat/launch-logo.sh"
+alias n8nstart="sudo systemctl start n8n"
+alias n8nstop="sudo systemctl stop n8n"
 
 # on zsh start
 autoload -U colors && colors
