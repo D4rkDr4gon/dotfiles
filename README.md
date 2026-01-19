@@ -12,181 +12,226 @@
 ██████╔╝     ██║██║  ██║██║  ██╗██████╔╝██║  ██║██║  ██║╚██████╔╝╚██████╔╝██║ ╚████║
 ╚═════╝      ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝
 
-# 📖 Sobre el Proyecto
+## 📋 Resumen General
 
-Este repositorio contiene la configuración personal de mi entorno de trabajo ("Rice"). El objetivo es lograr un sistema minimalista, estético y altamente eficiente, optimizado tanto para Pentesting como para Desarrollo.
+Este repositorio contiene una configuración personalizada de entorno de trabajo ("Rice") optimizada para **Arch Linux** (aunque también compatible con Kali Linux), utilizando **Qtile** como window manager principal. La configuración está diseñada con una estética **cyberpunk** y enfocada tanto en **pentesting** como en **desarrollo**.
 
-¿Qué se logra con esta configuración?
+## 🏗️ Estructura de Configuración
 
-    Eficiencia: Todo el entorno se controla mediante el teclado (Tiling Window Manager).
+### Componentes Principales
 
-    Modularidad: Qtile está configurado en módulos de Python fáciles de editar.
-
-    Estética Cyberpunk: Tema de colores oscuros con acentos en rojo sangre y transparencias.
-
-    Arsenal Completo: Integración automática de herramientas de BlackArch en sistemas Arch.
-
-    Sincronización: Sistema basado en enlaces simbólicos para mantener la configuración actualizada.
-
----
-
-# 📸 Galería
-
----
-	
-# 🛠️ El Arsenal (Tech Stack)
-
-    Window Manager: Qtile (Python based)
-
-    Barra: Polybar
-
-    Terminal: Kitty
-
-    Shell: Zsh + Oh My Zsh + Syntax Highlighting
-
-    Launcher: Rofi
-
-    Compositor: Picom (Fork con Blur)
-
-    Editor: Sublime Text / Neovim
-
-    Fuente: Hack Nerd Font
+```
+dotfiles/
+├── qtile/           # Window manager principal
+├── polybar/         # Barra de estado personalizada
+├── picom/           # Compositor con efectos de blur
+├── rofi/            # Launcher de aplicaciones
+├── kitty/           # Terminal moderno
+├── zsh/             # Shell configurado
+├── sublime-text/    # Editor de texto
+├── lazy-nvim/       # Configuración de Neovim
+├── nvchad/          # Configuración alternativa de Neovim
+├── fastfetch/       # Información del sistema
+├── onedrive/        # Sincronización con OneDrive
+├── automat/         # Scripts de automatización
+└── recursos/        # Recursos adicionales
+```
 
 ---
 
-# ⚡ Instalación Automática (Recomendada)
 
-He desarrollado un script en Python (install.py) que automatiza todo el proceso. Detecta tu distribución (Kali o Arch), instala dependencias, fuentes y crea los enlaces simbólicos.
-### 1. Clonar
+## 🎨 Características Principales
 
-	git clone [https://github.com/TU_USUARIO/dotfiles.git](https://github.com/TU_USUARIO/dotfiles.git) ~/dotfiles
-	cd ~/dotfiles
+### 1. **Tema Cyberpunk**
 
-### 2. Ejecutar Instalador
+- **Colores**: Oscuros con acentos en rojo sangre
+- **Transparencias**: Efectos de blur y transparencias
+- **Fuente**: Hack Nerd Font para iconos y símbolos
 
-	python3 install.py
+### 2. **Window Manager: Qtile**
 
-Nota: El script pedirá tu contraseña de sudo para instalar paquetes. Si estás en Arch, configurará automáticamente los repositorios de BlackArch.
+- **Basado en Python**: Configuración modular y fácil de editar
+- **Tiling**: Gestión eficiente de ventanas
+- **Control por teclado**: Todo el entorno controlado con atajos
 
-### 3. Reiniciar
+### 3. **Stack Tecnológico**
 
-Una vez finalizado, cierra sesión y vuelve a entrar seleccionando Qtile en tu gestor de sesiones, o simplemente reinicia la PC.
-
----
-
-# ⚙️ Instalación Manual
-
-Si prefieres tener control total o el script falla, sigue estos pasos:
-
-### 1. Instalar Dependencias
-
-En Kali Linux / Debian:
-
-	sudo apt update
-	sudo apt install qtile polybar picom rofi kitty nitrogen brightnessctl pulseaudio-utils zsh curl wget git flameshot thunar thunderbird obsidian
-
-En Arch Linux:
-
-	sudo pacman -S qtile polybar picom rofi kitty nitrogen brightnessctl pavucontrol zsh curl wget git flameshot base-devel thunar thunderbird obsidian
-
-### 2. Instalar Fuentes
-
-Debes descargar e instalar Hack Nerd Font para que los iconos se vean bien.
-
-
-	wget [https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip)
-	unzip Hack.zip -d ~/.local/share/fonts
-	fc-cache -fv
-
-### 3. Crear Enlaces Simbólicos (Symlinks)
-
-Debes enlazar los archivos del repo a tu carpeta .config. ¡Cuidado! Esto reemplazará tus configuraciones actuales.
-
-- Crear carpetas si no existen
-
-	mkdir -p ~/.config
-
-- Enlaces (Ejecutar desde ~/dotfiles)
-
-	ln -sf ~/dotfiles/qtile ~/.config/qtile
-	ln -sf ~/dotfiles/polybar ~/.config/polybar
-	ln -sf ~/dotfiles/picom ~/.config/picom
-	ln -sf ~/dotfiles/rofi ~/.config/rofi
-	ln -sf ~/dotfiles/kitty ~/.config/kitty
-	ln -sf ~/dotfiles/sublime-text ~/.config/sublime-text
-	ln -sf ~/dotfiles/zshrc ~/.zshrc
-
-### 4. Permisos
-
-	chmod +x ~/.config/polybar/launch.sh
+```
+Window Manager: Qtile (Python)
+Barra: Polybar
+Terminal: Kitty
+Shell: Zsh + powerlevel10K
+Launcher: Rofi
+Compositor: Picom (con blur)
+Editor: Sublime Text / Neovim
+Info Sistema: Fastfetch personalizado
+```
 
 ---
 
-# ⌨️ Atajos de Teclado (Cheatsheet)
 
-	- Mod = Tecla Super (Windows) 
-	- Alt = Alt Izquierdo
+## 🔧 Configuraciones Detalladas
 
-## 🚀 Aplicaciones
+### Qtile Configuration
 
-	Atajo	Aplicación
-	Mod + Enter	Terminal (Kitty)
-	Mod + S	Launcher (Rofi)
-	Mod + B	Navegador (Firefox)
-	Mod + A	Archivos (Thunar)
-	Mod + E	Email (Thunderbird)
-	Mod + O	Notas (Obsidian)
-	Mod + P	Contraseñas (Bitwarden)
+- **Layouts**: MonadTall, MonadWide, Floating
+- **Widgets**: Barra personalizada con información del sistema
+- **Atajos**: Control completo por teclado
+- **Autostart**: Scripts de inicio automático
 
-## 🖼️ Ventanas y Gestión
+### Polybar
 
-	Atajo	Acción
-	Mod + Q	Cerrar ventana activa
-	Mod + F	Pantalla completa (Fullscreen)
-	Mod + T	Modo flotante (Toggle floating)
-	Alt + Tab	Moverse entre ventanas abiertas
-	Mod + Tab	Cambiar Layout (Espacio de trabajo)
-	Mod + Shift + Flechas	Mover ventana (Swap)
-	Mod + Ctrl + Flechas	Redimensionar ventana (Grow)
-	Mod + N	Normalizar tamaños
+- **Módulos**: Workspace, ventana, reloj, volumen, batería, red
+- **Tema**: Coherente con el tema cyberpunk
+- **Integración**: Con Qtile y sistema
 
-## ⚙️ Sistema y Multimedia
+### Picom
 
-	Atajo	Acción
-	Mod + Ctrl + R	Reiniciar Qtile (Recargar cambios)
-	Mod + L	Cerrar Sesión / Bloquear PC
-	Print	Captura de pantalla (Flameshot)
-	Mod + Shift + S	Captura de pantalla (Flameshot)
-	Fn + Volumen	Subir/Bajar/Mutear Audio
-	Fn + Brillo	Subir/Bajar Brillo
+- **Blur**: Efectos de desenfoque en ventanas
+- **Sombras**: Sombras personalizadas
+- **Transparencias**: Niveles de opacidad configurados
+
+### Kitty Terminal
+
+- **Tema**: Esquema de colores cyberpunk
+- **Fuentes**: Hack Nerd Font
+- **Integración**: Con el sistema de temas
+
+### Rofi Launcher
+
+- **Tema**: Diseño cyberpunk personalizado
+- **Modos**: Drun, run, window
+- **Integración**: Con el tema general
 
 ---
 
-# 🐛 Debugging / Solución de Problemas
+## ⌨️ Atajos de Teclado Principales
 
-1. Los iconos se ven como cuadrados raros
+### Aplicaciones
 
-❌ Causa: No tienes instalada la fuente correcta. ✅ Solución: Ejecuta el paso 2 de la instalación manual (Hack Nerd Font) y reinicia.
+- `Mod + Enter`: Terminal (Kitty)
+- `Mod + S`: Launcher (Rofi)
+- `Mod + B`: Navegador (Firefox)
+- `Mod + O`: Notas (Obsidian)
 
-2. Polybar no aparece
+### Gestión de Ventanas
 
-❌ Causa: El nombre de tu monitor en config.ini no coincide con el tuyo. ✅ Solución:
+- `Mod + Q`: Cerrar ventana
+- `Mod + F`: Pantalla completa
+- `Mod + T`: Modo flotante
+- `Mod + Shift + Flechas`: Mover ventana
+- `Mod + Ctrl + Flechas`: Redimensionar
 
-    Ejecuta xrandr en la terminal y mira el nombre de tu salida (ej: HDMI-1, eDP-1).
+### Sistema
 
-    Edita ~/.config/polybar/config.ini.
+- `Mod + Ctrl + R`: Reiniciar Qtile
+- `Mod + L`: Bloquear PC / Apagar PC / Reboot PC / Suspend PC
+- `Print`: Captura de pantalla
 
-    Busca monitor = ... y cámbialo por el tuyo.
+---
 
-3. Qtile no inicia o pantalla negra
 
-❌ Causa: Error de sintaxis en config.py. ✅ Solución:
+## 🎯 Características Especiales
 
-    Entra a una TTY (Ctrl + Alt + F2).
+### 1. **Integración BlackArch**
 
-    Logueate y ejecuta: qtile check.
+- Configuración para herramientas de pentesting
+- Repositorios especializados
 
-    Te dirá exactamente en qué línea está el error de Python.
+### 2. **Modularidad**
+
+- Qtile configurado en módulos Python
+- Cada componente independiente
+- Fácil personalización
+
+### 3. **Estética Unificada**
+
+- Todos los componentes con mismo tema
+- Coherencia visual completa
+- Diseño cyberpunk consistente
+
+### 4. **Optimización para Teclado**
+
+- Todo accesible mediante atajos
+- Flujo de trabajo eficiente
+- Mínimo uso de mouse
+
+---
+
+## 🔄 Gestión de Configuración
+
+### Enlaces Simbólicos
+
+La configuración se basa en enlaces simbólicos desde el repositorio:
+
+```
+# Estructura de enlaces
+ln -sf ~/dotfiles/qtile ~/.config/qtile
+ln -sf ~/dotfiles/polybar ~/.config/polybar
+ln -sf ~/dotfiles/picom ~/.config/picom
+ln -sf ~/dotfiles/rofi ~/.config/rofi
+ln -sf ~/dotfiles/kitty ~/.config/kitty
+ln -sf ~/dotfiles/zshrc ~/.zshrc
+```
+
+### Sincronización
+
+- Cambios en el repo se reflejan automáticamente
+- Fácil mantenimiento y actualización
+- Versionado de configuración
+
+---
+
+## 🎯 Propósito y Uso
+
+Este conjunto de dotfiles está diseñado para:
+
+1. **Pentesters**: Integración con herramientas de seguridad
+2. **Desarrolladores**: Entorno eficiente y personalizable
+3. **Minimalistas**: Sistema limpio y controlado por teclado
+4. **Estetas**: Interfaz visualmente atractiva y coherente
+
+---
+
+## 📦 Dependencias Principales
+
+### Para Arch Linux
+
+```
+# Window Manager y componentes
+sudo pacman -S qtile polybar picom rofi kitty nitrogen
+
+# Herramientas del sistema
+sudo pacman -S brightnessctl pavucontrol zsh curl wget git
+
+# Aplicaciones
+sudo pacman -S flameshot thunar thunderbird obsidian
+
+# Fuentes
+sudo pacman -S ttf-hack-nerd-font
+```
+
+### Configuración Adicional
+
+- **powerlevel10k:** Embellezedor para ZSH
+- **Plugins**: Syntax highlighting, autosuggestions
+- **Temas**: Coherentes con el diseño general
+
+---
+
+## 🔍 Personalización
+
+### Qtile
+
+- Layouts personalizables
+- Widgets configurables
+- Atajos modificables
+
+### Polybar
+
+- Módulos personalizables
+- Temas editables
+- Integración flexible
 
 ---
 
