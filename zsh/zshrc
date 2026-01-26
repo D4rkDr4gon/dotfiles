@@ -1,0 +1,6 @@
+# ====== ZSH MODULAR CONFIGURATION ======
+
+# Cargar todos los módulos ZSH desde ~/dotfiles/zsh/modules/
+for module in ~/dotfiles/zsh/modules/*.zsh; do
+  [[ -r "$module" ]] && source "$module"
+done
