@@ -34,23 +34,39 @@ function extractPorts(){
 source /home/lcampassi/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /home/lcampassi/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# APPS
+alias cat='/usr/bin/bat'
+alias catn='/usr/bin/cat'
+alias catnl='/usr/bin/bat --paging=never'
+
+alias fastfetch='fastfetch --logo /home/lcampassi/.config/fastfetch/png/logo.png'
+
+alias polybarupdate='/home/lcampassi/.config/polybar/launch.sh'
+alias top='btop'
+
+alias zshconfig="nvim ~/.zshrc"
+alias vi="nvim"
+alias logo="sh /home/lcampassi/dotfile/automat/launch-logo.sh"
+
+# AI & Automation
+alias launchgemma="sh /home/lcampasssi/.config/automat/launchgemma.sh"
+alias n8nstart="sudo systemctl start n8n"
+alias n8nstop="sudo systemctl stop n8n"
+
+# Terminal
+alias c="clear"
+alias q="exit"
+
+# === Navigation
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 alias ll='/usr/bin/lsd -la --group-dirs=first'
 alias la='/usr/bin/lsd -a --group-dirs=first'
 alias l='/usr/bin/lsd --group-dirs=first'
 alias lla='/usr/bin/lsd -lha --group-dirs=first'
 alias ls='/usr/bin/lsd --group-dirs=first'
-alias cat='/usr/bin/bat'
-alias catn='/usr/bin/cat'
-alias catnl='/usr/bin/bat --paging=never'
-alias fastfetch='fastfetch --logo /home/lcampassi/.config/fastfetch/png/logo.png'
-alias polybarupdate='/home/lcampassi/.config/polybar/launch.sh'
-alias top='btop'
-alias zshconfig="nvim ~/.zshrc"
-alias vi="nvim"
-alias launchgemma="bash /home/lcampasssi/.config/automat/launchgemma.sh"
-alias logo="sh /home/lcampassi/dotfile/automat/launch-logo.sh"
-alias n8nstart="sudo systemctl start n8n"
-alias n8nstop="sudo systemctl stop n8n"
 
 # on zsh start
 autoload -U colors && colors
