@@ -1,5 +1,8 @@
 # ====== ALIAS ======
 
+# Monitors and resolution
+alias display-monitors="sh /home/lcampassi/dotfiles/automat/display-monitors.sh"
+
 # vim
 alias vi="nvim"
 
@@ -12,7 +15,7 @@ alias catnl='/usr/bin/bat --paging=never'
 alias fastfetch='fastfetch --logo /home/lcampassi/.config/fastfetch/png/logo.png'
 alias polybarupdate='/home/lcampassi/.config/polybar/launch.sh'
 alias zshconfig="nvim ~/.zshrc"
-alias logo="sh /home/lcampassi/dotfile/automat/launch-logo.sh"
+alias logo="sh /home/lcampassi/dotfiles/automat/launch-logo.sh"
 
 # AI & Automation
 alias launchgemma="sh /home/lcampasssi/.config/automat/launchgemma.sh"
