@@ -17,13 +17,13 @@ keys = [
     # ============= Aplication shortcuts =============
     # Open Apps
     Key([mod], "p", lazy.spawn("bitwarden"), desc="opens bitwarden password manager"),
-    Key([mod], "e", lazy.spawn("thunderbird"), desc="opens email"),
     Key([mod], "z", lazy.spawn("sigma-file-manager"), desc="opens file system"),
     Key([mod], "space", lazy.spawn(f"rofi -show drun"), desc="opens app manager"),
     Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
     Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
     Key([mod], "Return", lazy.spawn(terminal), desc="opens terminal"),
     Key([mod], "s", lazy.spawn("subl"), desc = "Launch Sublime Text"),
+    # Key([mod], "a", lazy.spawn("opencode"), desc = "Launch Opencode"),
 
     # ============= Utilities =============
     
@@ -60,6 +60,9 @@ keys = [
     Key([mod], "Tab", lazy.next_screen(), desc="Mover foco al siguiente monitor"),
 
     # ============= Mosaic config Shortcuts =============
+    
+    # Working with multiple Monitors
+    # Key([mod, "shft"], "d", lazy.spawn("display-monitors"), desc="Launch multiple monitor view"),
 
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "Left", lazy.layout.shuffle_left(), desc="Move window to the left"),
