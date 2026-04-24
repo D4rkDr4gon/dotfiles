@@ -11,4 +11,4 @@ configuration {
     disable-history: false;
 }
 
-@theme "kali-red.rasi"
+@theme "theme.rasi"

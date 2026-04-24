@@ -1,0 +1,12 @@
+{
+  "name": "City",
+  "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper_city.jpg",
+  "primary": "#9c27b0",
+  "secondary": "#6a1b9a",
+  "background": "#0d0d0d",
+  "foreground": "#e0e0e0",
+  "chip_battery": "#4a4a4a",
+  "chip_bluetooth": "#2c2c2c",
+  "chip_wlan": "#5a5a5a",
+  "chip_audio": "#1a237e"
+}

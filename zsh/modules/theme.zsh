@@ -1,3 +1,9 @@
+# ====== THEME COLORS ======
+
+if [[ -f ~/.zsh_colors ]]; then
+    source ~/.zsh_colors
+fi
+
 # ====== POWERLEVEL10K ======
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.

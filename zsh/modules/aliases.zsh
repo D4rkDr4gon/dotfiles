@@ -1,3 +1,7 @@
+# ====== THEME ======
+
+alias theme='/home/lcampassi/dotfiles/scripts/theme-switch.sh'
+
 # ====== ALIAS ======
 
 # Monitors and resolution
