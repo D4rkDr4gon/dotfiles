@@ -1,13 +1,13 @@
 /**
- * Tema: City Sci-Fi
+ * Tema: Kali Red
  */
 
 * {
-    bg:          #1a1a1a;
+    bg:          #0f0f0f;
     bg-alt:      #1a1a1a;
-    fg:          #e8e8e8;
-    accent:      #f5c542;
-    accent-alt:  #d4a017;
+    fg:          #c5c8c6;
+    accent:      #d32f2f;
+    accent-alt:  #a12020;
 
     background-color:   transparent;
     text-color:         @fg;

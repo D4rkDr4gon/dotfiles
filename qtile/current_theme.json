@@ -1,12 +1,12 @@
 {
-  "name": "City Sci-Fi",
-  "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper_city_sci-fi.jpg",
-  "primary": "#f5c542",
-  "secondary": "#d4a017",
-  "background": "#1a1a1a",
-  "foreground": "#e8e8e8",
-  "chip_battery": "#8a8a8a",
-  "chip_bluetooth": "#6a6a6a",
-  "chip_wlan": "#9a9a9a",
+  "name": "Kali Red",
+  "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper_dark_spaceship.jpg",
+  "primary": "#d32f2f",
+  "secondary": "#a12020",
+  "background": "#0f0f0f",
+  "foreground": "#c5c8c6",
+  "chip_battery": "#6f1515",
+  "chip_bluetooth": "#8a1b1b",
+  "chip_wlan": "#a12020",
   "chip_audio": "#b71c1c"
 }
