@@ -17,7 +17,7 @@ keys = [
     # ============= Aplication shortcuts =============
     # Open Apps
     Key([mod], "p", lazy.spawn("bitwarden"), desc="opens bitwarden password manager"),
-    Key([mod], "z", lazy.spawn("sigma-file-manager"), desc="opens file system"),
+    Key([mod], "f", lazy.spawn("thunar"), desc="opens file system"),
     Key([mod], "space", lazy.spawn(f"rofi -show drun"), desc="opens app manager"),
     Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
     Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
@@ -53,7 +53,7 @@ keys = [
     Key(["mod1"], "Tab", lazy.layout.next(), desc="move between tabs"),
     Key([mod], "Tab", lazy.next_layout(), desc="move between workspaces"),
     Key([mod], "q", lazy.window.kill(), desc="close focussed tab"),
-    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="fullscreen of focussed tab"),
+    Key([mod, "shift"], "f", lazy.window.toggle_fullscreen(), desc="fullscreen of focussed tab"),
     Key([mod], "t", lazy.window.toggle_floating(), desc="floating focussed tab"),
     
     # Moving between Monitors   
