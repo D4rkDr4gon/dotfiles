@@ -1,26 +1,24 @@
-/**
- * Tema: Kali Red
- */
-
 * {
-    bg:          #0f0f0f;
-    bg-alt:      #1a1a1a;
-    fg:          #c5c8c6;
-    accent:      #d32f2f;
-    accent-alt:  #a12020;
+    bg:            rgba(10, 10, 14, 0.65);
+    bg-alt:        rgba(22, 22, 28, 0.82);
+    fg:            #e8e8e8;
+    fg-dim:        #777777;
+    border-col:    rgba(255, 255, 255, 0.06);
+    accent:        rgba(255, 255, 255, 0.10);
+    accent-fg:     #ffffff;
 
-    background-color:   transparent;
-    text-color:         @fg;
-    font:               "Hack Regular 11";
+    background-color: transparent;
+    text-color:       @fg;
+    font:             "Hack Nerd Font Mono 11";
 }
 
 window {
     background-color:   @bg;
     border:             1px;
-    border-color:       @accent-alt;
-    border-radius:      2px;
-    width:              900px;
-    padding:            8px;
+    border-color:       @border-col;
+    border-radius:      16px;
+    width:              680px;
+    padding:            12px;
 }
 
 mainbox {
@@ -29,25 +27,27 @@ mainbox {
 
 inputbar {
     background-color:   @bg-alt;
-    border-radius:      2px;
-    padding:            10px;
-    margin:             0 0 5px 0;
+    border-radius:      10px;
+    padding:            14px 16px;
+    margin:             0 0 8px 0;
+    spacing:            12px;
     children:           [ prompt, entry ];
 }
 
 prompt {
-    text-color:         @accent;
-    font:               "Hack Bold 11";
-    padding:            0 10px;
+    text-color:         @fg-dim;
+    padding:            0;
 }
 
 entry {
-    placeholder:        "Search applications...";
-    placeholder-color:  #444444;
+    placeholder:        "Buscar...";
+    placeholder-color:  @fg-dim;
+    text-color:         @fg;
+    cursor-color:       @fg;
 }
 
 listview {
-    lines:              5;
+    lines:              6;
     columns:            1;
     fixed-height:       0;
     scrollbar:          false;
@@ -55,13 +55,13 @@ listview {
 }
 
 element {
-    padding:            5px 15px;
-    border-radius:      1px;
+    padding:            10px 16px;
+    border-radius:      10px;
 }
 
 element selected {
     background-color:   @accent;
-    text-color:         #ffffff;
+    text-color:         @accent-fg;
 }
 
 element-text {
@@ -70,6 +70,6 @@ element-text {
 }
 
 element-icon {
-    size:               18px;
-    padding:            0 12px 0 0;
+    size:               20px;
+    padding:            0 14px 0 0;
 }

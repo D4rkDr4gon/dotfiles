@@ -35,6 +35,8 @@ alias q="exit"
 
 # Networks
 alias hosts="sudo nvim /etc/hosts"
+alias vpnup="nmcli connection up wg-US-FREE-74"
+alias vpndown="nmcli connection down wg-US-FREE-74"
 
 # Navigation
 alias ..="cd .."
