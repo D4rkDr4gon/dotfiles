@@ -1,0 +1,12 @@
+{
+  "name": "AT-AT",
+  "wallpaper": "/usr/share/backgrounds/wallpapers/at-at.png",
+  "primary": "#b6896d",
+  "secondary": "#777777",
+  "background": "#1d1a22",
+  "foreground": "#c8c8c8",
+  "chip_battery": "#2a2632",
+  "chip_bluetooth": "#3a3642",
+  "chip_wlan": "#493936",
+  "chip_audio": "#58433d"
+}

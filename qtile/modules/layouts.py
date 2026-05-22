@@ -8,7 +8,7 @@ def load_theme_colors():
     if os.path.exists(theme_file):
         with open(theme_file) as f:
             theme = json.load(f)
-            return theme.get("accent", "#d32f2f"), theme.get("accent_alt", "#a12020")
+            return theme.get("primary", "#d32f2f"), theme.get("secondary", "#a12020")
     return "#d32f2f", "#a12020"
 
 accent, accent_alt = load_theme_colors()

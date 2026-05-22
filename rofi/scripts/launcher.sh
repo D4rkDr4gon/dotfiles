@@ -17,7 +17,7 @@ generate_app_list() {
     done | sort -fu
 }
 
-selection=$(generate_app_list | rofi -dmenu -p "" -theme ~/.config/rofi/theme.rasi \
+selection=$(generate_app_list | rofi -dmenu -p "APPS" \
     -theme-str 'entry { placeholder: "Search apps or type g <query> for web..."; }')
 
 [ -z "$selection" ] && exit 0

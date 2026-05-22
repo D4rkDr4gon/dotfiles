@@ -1,12 +1,12 @@
 {
   "name": "City Sci-Fi",
   "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper_city_sci-fi.jpg",
-  "primary": "#f5c542",
-  "secondary": "#d4a017",
-  "background": "#1a1a1a",
-  "foreground": "#e8e8e8",
-  "chip_battery": "#8a8a8a",
-  "chip_bluetooth": "#6a6a6a",
-  "chip_wlan": "#9a9a9a",
-  "chip_audio": "#b71c1c"
+  "primary": "#93aca6",
+  "secondary": "#689494",
+  "background": "#1b1f20",
+  "foreground": "#d0d0d0",
+  "chip_battery": "#2a3233",
+  "chip_bluetooth": "#30403d",
+  "chip_wlan": "#335051",
+  "chip_audio": "#516561"
 }

@@ -5,12 +5,6 @@ set -e
 THEMES_DIR="$HOME/dotfiles/themes"
 CURRENT_THEME_FILE="$HOME/.config/qtile/current_theme.json"
 POLYBAR_COLORS="$HOME/.config/polybar/colors.ini"
-ROFI_THEME="$HOME/.config/rofi/theme.rasi"
-KITTY_COLORS="$HOME/.config/kitty/colors.conf"
-ZSH_COLORS="$HOME/.zsh_colors"
-FASTFETCH_COLORS="$HOME/.config/fastfetch/colors.json"
-QTILE_SCREENS="$HOME/dotfiles/qtile/modules/screens.py"
-ROFI_DIR="$HOME/dotfiles/rofi"
 
 usage() {
     echo "Uso: theme <tema|comando>"
@@ -77,6 +71,7 @@ apply_theme_config() {
     cat > "$POLYBAR_COLORS" << EOF
 [colors]
 primary = $primary
+secondary = $secondary
 background = $background
 background-alt = #1a1a1a
 
@@ -92,84 +87,6 @@ chip-bright    = $secondary
 
 alert = #ff4444
 disabled = #555555
-EOF
-
-    cat > "$ROFI_THEME" << EOF
-/**
- * Tema: $(jq -r '.name' "$theme_dir/theme.json")
- */
-
-* {
-    bg:          $background;
-    bg-alt:      #1a1a1a;
-    fg:          $foreground;
-    accent:      $primary;
-    accent-alt:  $secondary;
-
-    background-color:   transparent;
-    text-color:         @fg;
-    font:               "Hack Regular 11";
-}
-
-window {
-    background-color:   @bg;
-    border:             1px;
-    border-color:       @accent-alt;
-    border-radius:      2px;
-    width:              900px;
-    padding:            8px;
-}
-
-mainbox {
-    children:           [ inputbar, listview ];
-}
-
-inputbar {
-    background-color:   @bg-alt;
-    border-radius:      2px;
-    padding:            10px;
-    margin:             0 0 5px 0;
-    children:           [ prompt, entry ];
-}
-
-prompt {
-    text-color:         @accent;
-    font:               "Hack Bold 11";
-    padding:            0 10px;
-}
-
-entry {
-    placeholder:        "Search applications...";
-    placeholder-color:  #444444;
-}
-
-listview {
-    lines:              5;
-    columns:            1;
-    fixed-height:       0;
-    scrollbar:          false;
-    spacing:            2px;
-}
-
-element {
-    padding:            5px 15px;
-    border-radius:      1px;
-}
-
-element selected {
-    background-color:   @accent;
-    text-color:         #ffffff;
-}
-
-element-text {
-    vertical-align:     0.5;
-    text-color:         inherit;
-}
-
-element-icon {
-    size:               18px;
-    padding:            0 12px 0 0;
-}
 EOF
 
     cat > "$KITTY_COLORS" << EOF

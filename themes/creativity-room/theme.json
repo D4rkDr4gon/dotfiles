@@ -1,12 +1,12 @@
 {
   "name": "Creativity Room",
   "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper_Creativity_Room.jpg",
-  "primary": "#7c4dff",
-  "secondary": "#536dfe",
-  "background": "#1a1a2e",
-  "foreground": "#e0e0e0",
-  "chip_battery": "#3f2b7d",
-  "chip_bluetooth": "#5c3f9e",
-  "chip_wlan": "#7a4dbf",
-  "chip_audio": "#986fe0"
+  "primary": "#c9d3a8",
+  "secondary": "#999a6f",
+  "background": "#28181b",
+  "foreground": "#d8d8d0",
+  "chip_battery": "#3a2025",
+  "chip_bluetooth": "#5d384a",
+  "chip_wlan": "#6d5455",
+  "chip_audio": "#934534"
 }

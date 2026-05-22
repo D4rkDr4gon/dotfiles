@@ -1,0 +1,12 @@
+{
+  "name": "Hacker",
+  "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper hacker.jpg",
+  "primary": "#00ff41",
+  "secondary": "#00cc33",
+  "background": "#0a0a0a",
+  "foreground": "#c5c8c6",
+  "chip_battery": "#0a1a0a",
+  "chip_bluetooth": "#0a2a0a",
+  "chip_wlan": "#0a3a0a",
+  "chip_audio": "#0a4a0a"
+}

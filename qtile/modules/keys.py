@@ -16,9 +16,9 @@ keys = [
     
     # ============= Aplication shortcuts =============
     # Open Apps
-    Key([mod], "p", lazy.spawn("bitwarden"), desc="opens bitwarden password manager"),
+    Key([mod], "p", lazy.spawn("bitwarden-desktop"), desc="opens bitwarden password manager"),
     Key([mod], "f", lazy.spawn("thunar"), desc="opens file system"),
-    Key([mod], "space", lazy.spawn(f"rofi -show drun"), desc="opens app manager"),
+    Key([mod], "space", lazy.spawn("rofi -show drun"), desc="opens app manager"),
     Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
     Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
     Key([mod], "Return", lazy.spawn(terminal), desc="opens terminal"),
