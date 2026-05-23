@@ -16,7 +16,7 @@ Estos dotfiles estan disenados con tres pilares fundamentales:
 | **Polybar** | Barra de estado | `polybar/` |
 | **Kitty** | Terminal emulator | `kitty/` |
 | **Zsh** | Shell + prompt (powerlevel10k) | `zsh/` |
-| **Rofi** | Application launcher & menus | `rofi/` |
+| **Rofi** | Application launcher (grid 5x4) & menus | `rofi/` |
 | **Picom** | Compositor (blur, transparencias) | `picom/` |
 | **Neovim** | Editor (LazyVim distro) | `lazy-nvim/` |
 | **Sublime Text** | Editor alternativo | `sublime-text/` |
@@ -95,7 +95,8 @@ dotfiles/
 │
 ├── rofi/                          # Launcher
 │   ├── config.rasi                # Config modo d-run/run/window
-│   ├── theme.rasi                 # Tema visual
+│   ├── theme.rasi                 # Tema visual (menus)
+│   ├── theme-drun.rasi            # Tema grid Android (app launcher)
 │   ├── favoritos.txt              # Apps favoritas
 │   └── scripts/
 │       ├── launcher.sh            # App launcher custom

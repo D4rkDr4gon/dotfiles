@@ -11,7 +11,7 @@
 | Atajo | Accion |
 |-------|--------|
 | `Mod + Enter` | Terminal (Kitty) |
-| `Mod + Space` | App launcher (Rofi) |
+| `Mod + Space` | App launcher grid 5x4 (Rofi Android-style) |
 | `Mod + B` | Navegador (Firefox) |
 | `Mod + F` | File manager (Thunar) |
 | `Mod + O` | Notas (Obsidian) |
@@ -188,6 +188,10 @@
 
 ## Rofi -- Menus
 
+### App Launcher (`Mod + Space`)
+- **Grid Android-style**: 5 columnas x 4 filas, icono arriba + nombre abajo
+- Busqueda en vivo para filtrar apps
+
 ### Action Menu (`Mod + L`)
 - **Suspend**: Suspender el sistema
 - **Reboot**: Reiniciar
@@ -197,6 +201,7 @@
 ### Settings Menu (`Mod + Shift + Space`)
 - **Themes**: Lista los 8 temas para cambio instantaneo
 - **Workspaces**: Selector de workspaces
+- **Apps**: App launcher (rofi drun)
 - **Search**: Busqueda en Google (abre Firefox en WEB workspace)
 - **Backgrounds**: Seleccionar wallpaper de `recursos/wallpapers/`
 

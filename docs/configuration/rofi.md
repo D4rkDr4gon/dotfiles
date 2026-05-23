@@ -7,7 +7,8 @@
 | Archivo | Descripcion |
 |---------|-------------|
 | `config.rasi` | Configuracion de modos (drun, run, window) |
-| `theme.rasi` | Tema visual personalizado |
+| `theme.rasi` | Tema visual personalizado (menus, settings) |
+| `theme-drun.rasi` | Tema grid Android-style para app launcher (5x4) |
 | `favoritos.txt` | Lista de apps favoritas |
 | `scripts/` | Scripts para funcionalidades extendidas |
 
@@ -17,7 +18,16 @@
 - **Sort**: fzf-style fuzzy matching
 - **Iconos**: Habilitados en las entradas
 
-## Tema
+## Tema Drun (Android Grid)
+
+`theme-drun.rasi` se usa exclusivamente para el app launcher (`Mod+Space`):
+
+- **Grid**: 5 columnas x 4 filas
+- **Layout**: icono arriba, texto abajo (vertical)
+- **Window**: centrado, 680px de ancho
+- **Iconos**: 36px
+
+## Tema General
 
 - **Posicion**: Norte (top)
 - **Ancho**: 480px
@@ -39,6 +49,6 @@
 
 ## Acceso
 
-- `Mod + Space` -- App launcher
+- `Mod + Space` -- App launcher (grid Android-style 5x4)
 - `Mod + L` -- Action menu (suspend/reboot/poweroff/logout)
 - `Mod + Shift + Space` -- Settings menu
