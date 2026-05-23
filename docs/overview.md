@@ -23,6 +23,7 @@ Estos dotfiles estan disenados con tres pilares fundamentales:
 | **Thunar** | File manager | `Thunar/` |
 | **Fastfetch** | System info display | `fastfetch/` |
 | **OneDrive** | Cloud sync | `onedrive/` |
+| **opencode** | AI assistant config + skills | `opencode/` |
 
 ## File Tree
 
@@ -45,6 +46,7 @@ dotfiles/
 │       ├── editors.md
 │       ├── fastfetch.md
 │       ├── thunar.md
+│       ├── opencode.md
 │       └── extras.md
 │
 ├── qtile/                         # Qtile WM
@@ -137,6 +139,12 @@ dotfiles/
 │   ├── config
 │   └── sync_list
 │
+├── opencode/                      # AI assistant (opencode)
+│   ├── opencode.jsonc             # Configuracion global
+│   ├── .gitignore                 # Ignora node_modules, lock files
+│   ├── package.json               # Plugin dependencies
+│   └── node_modules/              # Runtime (gitignored)
+│
 ├── themes/                        # Temas dinamicos (8)
 │   ├── at-at/
 │   ├── city/
@@ -194,6 +202,7 @@ Los archivos de configuracion se vinculan desde el repo a sus ubicaciones del si
 ~/.config/Thunar      -> ~/dotfiles/Thunar/
 ~/.config/zsh         -> ~/dotfiles/zsh/
 ~/.config/automat     -> ~/dotfiles/automat/
+~/.config/opencode    -> ~/dotfiles/opencode/
 ```
 
 ## Sistema de Temas Dinamicos
@@ -221,4 +230,5 @@ Cada tema define colores para todos los componentes. Al cambiar de tema (via `th
 - [Editores](configuration/editors.md)
 - [Fastfetch](configuration/fastfetch.md)
 - [Thunar](configuration/thunar.md)
+- [opencode](configuration/opencode.md)
 - [Extras](configuration/extras.md)

@@ -34,6 +34,7 @@ Entorno de trabajo personalizado con estética cyberpunk, optimizado para pentes
 | [Editores](docs/configuration/editors.md) | Neovim (LazyVim) y Sublime Text |
 | [Fastfetch](docs/configuration/fastfetch.md) | System info display |
 | [Thunar](docs/configuration/thunar.md) | File manager, custom actions |
+| [opencode](docs/configuration/opencode.md) | AI assistant, skills personalizadas |
 | [Extras](docs/configuration/extras.md) | OneDrive, scripts, recursos |
 
 ---
@@ -50,6 +51,7 @@ Compositor:  Picom (GLX + dual_kawase blur)
 Editores:    Neovim (LazyVim) / Sublime Text
 File Mgr:    Thunar
 Info:        Fastfetch
+AI:          opencode (skills personalizadas)
 ```
 
 ---
