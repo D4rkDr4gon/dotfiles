@@ -4,11 +4,11 @@ from .keys import keys, mod
 
 # Mapeo OFICIAL (una sola verdad)
 WORKSPACE_MAP = [
-    ("1", "NOTES "),
-    ("2", "FILES 󱍙"),
-    ("3", "DEV "),
-    ("4", "SYS "),
-    ("5", "WEB 󰈹")
+    ("1", ""),
+    ("2", "󱍙"),
+    ("3", ""),
+    ("4", ""),
+    ("5", "󰈹")
 ]
 
 # Grupos: name = lo que Polybar va a mostrar

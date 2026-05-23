@@ -12,10 +12,14 @@ polybar/
 └── modules/
     ├── battery.ini
     ├── bluetooth.ini
+    ├── bluetooth_status.sh
     ├── brillo.ini
     ├── date.ini
     ├── logo.ini
     ├── pulseaudio.ini
+    ├── vpn.ini
+    ├── vpn_status.sh
+    ├── vpn_toggle.sh
     ├── wlan.ini
     └── xworkspaces.ini
 ```
@@ -26,7 +30,7 @@ polybar/
 - **Altura**: 28px
 - **Esquinas**: Redondeadas (10px radius)
 - **Posicion**: Top
-- **Modulos**: Logo (izquierda) | Workspaces (centro) | System Tray + Fecha + Audio + Brillo + Red + Bluetooth + Bateria (derecha)
+- **Modulos**: Logo (izquierda) | Workspaces (centro) | System Tray + Fecha + Audio + Brillo + Red + VPN + Bluetooth + Bateria (derecha)
 
 ## Modulos
 
@@ -39,6 +43,7 @@ polybar/
 | `wlan.ini` | WiFi (󰤨/󰤮), click abre nmtui |
 | `battery.ini` | Bateria con charging/discharging/low states |
 | `date.ini` | Reloj HH:MM, alt muestra fecha completa |
+| `vpn.ini` | VPN (󰦝/󰦞) via `nmcli`, chequea ARCH-CH-US-3, click togglea conexion |
 | `bluetooth.ini` | Bluetooth on/off icon, click abre blueman-manager |
 
 ## Launch Script

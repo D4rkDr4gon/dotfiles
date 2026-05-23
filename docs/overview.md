@@ -65,14 +65,18 @@ dotfiles/
 │   ├── colors.ini                 # Colores (dinamico por tema)
 │   ├── launch.sh                  # Script de inicio
 │   └── modules/
-│       ├── battery.ini
-│       ├── bluetooth.ini
-│       ├── brillo.ini
-│       ├── date.ini
-│       ├── logo.ini
-│       ├── pulseaudio.ini
-│       ├── wlan.ini
-│       └── xworkspaces.ini
+    │       ├── battery.ini
+    │       ├── bluetooth.ini
+    │       ├── bluetooth_status.sh
+    │       ├── brillo.ini
+    │       ├── date.ini
+    │       ├── logo.ini
+    │       ├── pulseaudio.ini
+    │       ├── vpn.ini
+    │       ├── vpn_status.sh
+    │       ├── vpn_toggle.sh
+    │       ├── wlan.ini
+    │       └── xworkspaces.ini
 │
 ├── kitty/                         # Terminal
 │   ├── kitty.conf                 # Config principal

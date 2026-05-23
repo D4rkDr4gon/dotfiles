@@ -36,8 +36,8 @@ alias q="exit"
 
 # Networks
 alias hosts="sudo nvim /etc/hosts"
-alias vpnup="nmcli connection up ARCH_LINUX-CH-US-3"
-alias vpndown="nmcli connection down ARCH_LINUX-CH-US-3"
+alias vpnup="nmcli connection up ARCH-CH-US-3"
+alias vpndown="nmcli connection down ARCH-CH-US-3"
 alias vpnreplace="sh /home/lcampassi/dotfiles/scripts/vpn-replace.sh"
 
 # Navigation
