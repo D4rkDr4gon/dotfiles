@@ -5,6 +5,10 @@ set -e
 THEMES_DIR="$HOME/dotfiles/themes"
 CURRENT_THEME_FILE="$HOME/.config/qtile/current_theme.json"
 POLYBAR_COLORS="$HOME/.config/polybar/colors.ini"
+KITTY_COLORS="$HOME/.config/kitty/colors.conf"
+ZSH_COLORS="$HOME/.zsh_colors"
+FASTFETCH_COLORS="$HOME/.config/fastfetch/colors.json"
+QTILE_SCREENS="$HOME/dotfiles/qtile/modules/screens.py"
 
 usage() {
     echo "Uso: theme <tema|comando>"

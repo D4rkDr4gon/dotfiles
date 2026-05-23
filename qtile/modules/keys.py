@@ -47,7 +47,7 @@ keys = [
     # ============= Navigating Shortcuts =============
 
     # Moving between workspaces
-    Key([mod, "shift"], "space", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/qtile-workspace-switcher.sh"), desc="Workspace switcher"),
+    Key([mod, "shift"], "space", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/settings-menu.sh"), desc="Open settings menu"),
 
     # Move between tabs and workspaces in qtile
     Key(["mod1"], "Tab", lazy.layout.next(), desc="move between tabs"),

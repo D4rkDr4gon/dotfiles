@@ -6,4 +6,11 @@ query=$(rofi -dmenu -p "🌐 Search" -theme /home/lcampassi/.config/rofi/theme.r
 [ -z "$query" ] && exit 0
 
 encoded=$(echo "$query" | sed 's/ /+/g')
-firefox "https://www.google.com/search?q=$encoded"
+
+qtile cmd-obj -o group "WEB 󰈹" -f toscreen
+firefox "https://www.google.com/search?q=$encoded" &
+
+for i in {1..10}; do
+    wmctrl -a firefox 2>/dev/null && break
+    sleep 0.1
+done

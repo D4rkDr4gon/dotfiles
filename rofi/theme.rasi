@@ -1,12 +1,12 @@
 * {
-    bg0:    #212121F2;
-    bg1:    #2A2A2A;
-    bg2:    #3D3D3D80;
-    bg3:    #616161F2;
+    bg0:    #0a0a0aE8;
+    bg1:    #141414;
+    bg2:    #1E1E1E99;
+    bg3:    #333333F2;
     fg0:    #E6E6E6;
     fg1:    #FFFFFF;
     fg2:    #969696;
-    fg3:    #3D3D3D;
+    fg3:    #4A4A4A;
 
     font:   "Hack Nerd Font 12";
 
