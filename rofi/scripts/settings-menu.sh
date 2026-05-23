@@ -6,7 +6,7 @@ WALLPAPER_DIR="$HOME/dotfiles/recursos/wallpapers"
 THEME_SWITCH="$HOME/dotfiles/scripts/theme-switch.sh"
 
 show_main_menu() {
-    printf "  Themes\n  Workspaces\n  Search\n  Backgrounds\n" \
+    printf "  Themes\n  Workspaces\n󰏓  Apps\n  Search\n  Backgrounds\n" \
         | rofi -dmenu -p "Settings" -theme "$HOME/.config/rofi/theme.rasi" \
             -theme-str 'entry { placeholder: "Choose an option..."; }'
 }
@@ -95,6 +95,9 @@ main() {
             ;;
         "  Workspaces"|Workspaces)
             list_workspaces
+            ;;
+        "󰏓  Apps"|Apps)
+            rofi -show drun
             ;;
         "  Search"|Search)
             web_search

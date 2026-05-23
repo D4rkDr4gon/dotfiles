@@ -34,7 +34,7 @@
 | `emoji.sh` | Emoji picker (800+ emojis), copia al portapapeles |
 | `qtile-action-menu.sh` | Acciones del sistema: Suspend, Reboot, Poweroff, Logout |
 | `qtile-workspace-switcher.sh` | Selector de workspaces (NOTES/FILES/DEV/SYS/WEB) |
-| `settings-menu.sh` | Menu central: Themes, Workspaces, Web search, Backgrounds |
+| `settings-menu.sh` | Menu central: Themes, Workspaces, Apps, Web search, Backgrounds |
 | `web-search.sh` | Busqueda en Google, abre Firefox en WEB workspace |
 
 ## Acceso

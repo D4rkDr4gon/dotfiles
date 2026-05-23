@@ -36,7 +36,7 @@ polybar/
 
 | Modulo | Descripcion |
 |--------|-------------|
-| `logo.ini` | Icono Nerd Font (󰣇) en color primary |
+| `logo.ini` | Icono Nerd Font (󰣇) en color primary, click abre settings-menu (rofi) |
 | `xworkspaces.ini` | Labels de workspaces Qtile con estados: focused, occupied, urgent, empty |
 | `pulseaudio.ini` | Volumen (󰕾), mute state, click abre pavucontrol |
 | `brillo.ini` | Brillo (󱠃) via brightnessctl, scroll para ajustar |
