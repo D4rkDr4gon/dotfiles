@@ -193,6 +193,7 @@
 - Busqueda en vivo para filtrar apps
 
 ### Action Menu (`Mod + L`)
+- **Grid**: 4 iconos en fila con nombre abajo
 - **Suspend**: Suspender el sistema
 - **Reboot**: Reiniciar
 - **Poweroff**: Apagar

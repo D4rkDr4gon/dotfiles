@@ -97,6 +97,7 @@ dotfiles/
 │   ├── config.rasi                # Config modo d-run/run/window
 │   ├── theme.rasi                 # Tema visual (menus)
 │   ├── theme-drun.rasi            # Tema grid Android (app launcher)
+│   ├── theme-action.rasi          # Tema grid iconos (action menu)
 │   ├── favoritos.txt              # Apps favoritas
 │   └── scripts/
 │       ├── launcher.sh            # App launcher custom

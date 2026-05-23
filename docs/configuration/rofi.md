@@ -20,6 +20,16 @@
 
 ## Tema Drun (Android Grid)
 
+## Tema Action (Grid Iconos)
+
+`theme-action.rasi` se usa para el menu de acciones (`Mod+L`):
+
+- **Grid**: 4 columnas x 1 fila, icono arriba + texto abajo
+- **Window**: centrado, 520px de ancho
+- **Acciones**: Suspend, Reboot, Poweroff, Logout
+
+## Tema Drun (Android Grid)
+
 `theme-drun.rasi` se usa exclusivamente para el app launcher (`Mod+Space`):
 
 - **Grid**: 5 columnas x 4 filas
