@@ -2,7 +2,7 @@
 
 ## Prerrequisitos
 
-- **Arch Linux** (o derivado como Kali)
+- **Arch Linux**
 - Conexion a internet
 - `git` instalado
 - `yay` (AUR helper) -- ver `setup-yay.sh`
