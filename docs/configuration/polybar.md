@@ -42,9 +42,9 @@ polybar/
 | `brillo.ini` | Brillo (󱠃) via brightnessctl, scroll para ajustar |
 | `wlan.ini` | WiFi (󰤨/󰤮), click abre nmtui |
 | `battery.ini` | Bateria con charging/discharging/low states |
-| `date.ini` | Reloj HH:MM, alt muestra fecha completa |
+| `date.ini` | Reloj + dia de semana (Mon 14:30), alt muestra fecha completa con dia (Monday 2024-01-15 14:30:00) |
 | `vpn.ini` | VPN (󰦝/󰦞) via `nmcli`, chequea ARCH-CH-US-3, click togglea conexion |
-| `bluetooth.ini` | Bluetooth on/off icon, click abre blueman-manager |
+| `bluetooth.ini` | Bluetooth on/off icon, click abre bluetui en kitty |
 
 ## Launch Script
 
