@@ -1,12 +1,12 @@
 {
-  "name": "AT-AT",
-  "wallpaper": "/usr/share/backgrounds/wallpapers/at-at.png",
-  "primary": "#b6896d",
-  "secondary": "#777777",
-  "background": "#1d1a22",
-  "foreground": "#c8c8c8",
-  "chip_battery": "#2a2632",
-  "chip_bluetooth": "#3a3642",
-  "chip_wlan": "#493936",
-  "chip_audio": "#58433d"
+  "name": "City Sci-Fi",
+  "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper_city_sci-fi.jpg",
+  "primary": "#93aca6",
+  "secondary": "#689494",
+  "background": "#1b1f20",
+  "foreground": "#d0d0d0",
+  "chip_battery": "#2a3233",
+  "chip_bluetooth": "#30403d",
+  "chip_wlan": "#335051",
+  "chip_audio": "#516561"
 }
