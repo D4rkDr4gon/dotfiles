@@ -31,7 +31,9 @@ Aliases principales:
 - `q` -- `exit`
 - `..`/`...`/`....`/`.....` -- Navegacion rapida
 - `top` -- `btop`
-- `vpnup`/`vpndown` -- Wireguard VPN
+- `vpnup` -- `nmcli connection up ARCH_LINUX-CH-US-3` (conectar Wireguard VPN)
+- `vpndown` -- `nmcli connection down ARCH_LINUX-CH-US-3` (desconectar Wireguard VPN)
+- `vpnreplace` -- `sh ~/dotfiles/scripts/vpn-replace.sh <archivo.conf>` (reemplazar config de VPN)
 
 Lista completa en [Keybindings](../keybindings.md).
 

@@ -156,7 +156,8 @@ dotfiles/
 │   └── kali-red/
 │
 ├── scripts/                       # Scripts utilitarios
-│   └── theme-switch.sh            # Switch de temas
+│   ├── theme-switch.sh            # Switch de temas
+│   └── vpn-replace.sh             # Reemplazar config de Wireguard VPN
 │
 ├── automat/                       # Automatizacion
 │   ├── display-monitors.sh

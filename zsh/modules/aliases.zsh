@@ -28,6 +28,7 @@ alias n8nstop="sudo systemctl stop n8n"
 
 # System
 alias top='btop'
+alias venv='uv venv'
 
 # Terminal
 alias c="clear"
@@ -35,8 +36,9 @@ alias q="exit"
 
 # Networks
 alias hosts="sudo nvim /etc/hosts"
-alias vpnup="nmcli connection up wg-US-FREE-74"
-alias vpndown="nmcli connection down wg-US-FREE-74"
+alias vpnup="nmcli connection up ARCH_LINUX-CH-US-3"
+alias vpndown="nmcli connection down ARCH_LINUX-CH-US-3"
+alias vpnreplace="sh /home/lcampassi/dotfiles/scripts/vpn-replace.sh"
 
 # Navigation
 alias ..="cd .."

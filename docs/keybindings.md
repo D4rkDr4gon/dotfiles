@@ -170,9 +170,11 @@
 
 | Alias | Comando |
 |-------|---------|
-| `vpnup` | `nmcli connection up wg-US-FREE-74` |
-| `vpndown` | `nmcli connection down wg-US-FREE-74` |
+| `vpnup` | `nmcli connection up ARCH_LINUX-CH-US-3` |
 
+| `vpndown` | `nmcli connection down ARCH_LINUX-CH-US-3` |
+
+| `vpnreplace` | `sh ~/dotfiles/scripts/vpn-replace.sh <archivo.conf>` |
 ### AI / Tools
 
 | Alias | Comando |
