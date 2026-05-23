@@ -14,7 +14,13 @@ def load_theme_colors():
 accent, accent_alt = load_theme_colors()
 
 layouts = [
-    layout.Columns(border_focus_stack=[accent, accent_alt], border_width=4),
+    layout.Columns(
+        margin=4,
+        border_width=2,
+        border_focus=accent,
+        border_normal="#1a1a1a",
+        border_focus_stack=[accent, accent_alt],
+    ),
     layout.MonadTall(
         margin=8,
         border_width=2,
