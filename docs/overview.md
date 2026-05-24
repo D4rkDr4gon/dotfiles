@@ -18,6 +18,7 @@ Estos dotfiles estan disenados con tres pilares fundamentales:
 | **Zsh** | Shell + prompt (powerlevel10k) | `zsh/` |
 | **Rofi** | Application launcher (grid 5x4) & menus | `rofi/` |
 | **Picom** | Compositor (blur, transparencias) | `picom/` |
+| **Dunst** | Notification daemon + center | `dunst/` |
 | **Neovim** | Editor (LazyVim distro) | `lazy-nvim/` |
 | **Sublime Text** | Editor alternativo | `sublime-text/` |
 | **Thunar** | File manager | `Thunar/` |
@@ -109,6 +110,9 @@ dotfiles/
 │
 ├── picom/                         # Compositor
 │   └── picom.conf
+│
+├── dunst/                         # Notification daemon
+│   └── dunstrc
 │
 ├── lazy-nvim/                     # Neovim (LazyVim)
 │   ├── init.lua
@@ -209,6 +213,7 @@ Los archivos de configuracion se vinculan desde el repo a sus ubicaciones del si
 ~/.config/Thunar      -> ~/dotfiles/Thunar/
 ~/.config/zsh         -> ~/dotfiles/zsh/
 ~/.config/automat     -> ~/dotfiles/automat/
+~/.config/dunst       -> ~/dotfiles/dunst/
 ~/.config/opencode    -> ~/dotfiles/opencode/
 ```
 
@@ -238,4 +243,5 @@ Cada tema define colores para todos los componentes. Al cambiar de tema (via `th
 - [Fastfetch](configuration/fastfetch.md)
 - [Thunar](configuration/thunar.md)
 - [opencode](configuration/opencode.md)
+- [Dunst](configuration/dunst.md)
 - [Extras](configuration/extras.md)

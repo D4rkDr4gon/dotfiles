@@ -6,7 +6,7 @@ WALLPAPER_DIR="$HOME/dotfiles/recursos/wallpapers"
 THEME_SWITCH="$HOME/dotfiles/scripts/theme-switch.sh"
 
 show_main_menu() {
-    printf "  Themes\n  Workspaces\n󰏓  Apps\n  Search\n  Backgrounds\n" \
+    printf "  Themes\n  Workspaces\n󰏓  Apps\n  Search\n  Backgrounds\n  Notifications\n" \
         | rofi -dmenu -p "Settings" -theme "$HOME/.config/rofi/theme.rasi" \
             -theme-str 'entry { placeholder: "Choose an option..."; }'
 }
@@ -104,6 +104,9 @@ main() {
             ;;
         "  Backgrounds"|Backgrounds)
             list_backgrounds
+            ;;
+        "  Notifications"|Notifications)
+            bash "$SETTINGS_DIR/notification-center.sh"
             ;;
         *)
             exit 0

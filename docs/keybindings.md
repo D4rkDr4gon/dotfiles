@@ -205,6 +205,7 @@
 - **Apps**: App launcher (rofi drun)
 - **Search**: Busqueda en Google (abre Firefox en WEB workspace)
 - **Backgrounds**: Seleccionar wallpaper de `recursos/wallpapers/`
+- **Notifications**: Notification center (historial de notificaciones de Dunst en Rofi)
 
 ### Emoji Picker
 - Accesible desde Rofi con el script `emoji.sh`

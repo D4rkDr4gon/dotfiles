@@ -11,6 +11,7 @@ def autostart():
         ['nitrogen', '--restore'],
         ['bash', home + '/.config/polybar/launch.sh'],
         ['picom'],
+        ['dunst'],
     ]
 
     for p in processes:
@@ -48,3 +49,13 @@ def setup_environment():
         subprocess.Popen([os.path.expanduser("~/.local/bin/polybarupdate")])
     except Exception as e:
         print(f"Error updating polybar: {e}")
+
+    # === WELCOME NOTIFICATION ===
+    try:
+        subprocess.Popen([
+            "notify-send", "-u", "normal", "-t", "5000",
+            "Bienvenido D4rkDr4g0n",
+            "Sistema listo. Usá Mod+Shift+Space para ajustes."
+        ])
+    except Exception as e:
+        print(f"Error sending welcome notification: {e}")
