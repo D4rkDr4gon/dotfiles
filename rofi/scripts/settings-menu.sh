@@ -12,7 +12,6 @@ show_main_menu() {
 }
 
 list_themes() {
-    local entries=()
     local names=()
     local dirs=()
 
@@ -24,21 +23,57 @@ list_themes() {
         name=$(jq -r '.name // "unknown"' "$json" 2>/dev/null)
         local dir_name
         dir_name=$(basename "$theme_dir")
-        entries+=("$name")
         names+=("$name")
         dirs+=("$dir_name")
     done
 
-    local selection
-    selection=$(printf '%s\n' "${entries[@]}" | rofi -dmenu -p "Themes" \
-        -theme "$HOME/.config/rofi/theme.rasi" \
-        -theme-str 'entry { placeholder: "Select a theme..."; }')
+    while true; do
+        local selection
+        selection=$(printf '%s\n' "${names[@]}" | rofi -dmenu -p "Themes" \
+            -theme "$HOME/.config/rofi/theme.rasi" \
+            -theme-str 'entry { placeholder: "Select a theme..."; }')
 
-    [[ -z "$selection" ]] && exit 0
+        [[ -z "$selection" ]] && exit 0
 
-    for i in "${!names[@]}"; do
-        if [[ "${names[$i]}" == "$selection" ]]; then
-            bash "$THEME_SWITCH" "${dirs[$i]}"
+        local selected_dir=""
+        local selected_name="$selection"
+        for i in "${!names[@]}"; do
+            if [[ "${names[$i]}" == "$selection" ]]; then
+                selected_dir="${dirs[$i]}"
+                break
+            fi
+        done
+        [[ -z "$selected_dir" ]] && exit 0
+
+        local preview_path="$THEMES_DIR/$selected_dir/preview.png"
+        local has_preview=false
+        [[ -f "$preview_path" ]] && has_preview=true
+
+        local action
+        if $has_preview; then
+            local tmpdir
+            tmpdir=$(mktemp -d)
+            local thumbnail="$tmpdir/preview.jpg"
+            convert "$preview_path" -resize 800x400^ -gravity center -extent 800x400 "$thumbnail" 2>/dev/null
+
+            action=$(printf "✓  Apply\n←  Go Back\n" | rofi -dmenu -p "$selected_name" \
+                -theme "$HOME/.config/rofi/theme.rasi" \
+                -theme-str 'window { background-image: url("'"$thumbnail"'"); background-color: rgba(0,0,0,0.15); width: 800; }' \
+                -theme-str 'mainbox { padding: 400px 0 0; background-color: transparent; }' \
+                -theme-str 'inputbar { enabled: false; }' \
+                -theme-str 'listview { background-color: rgba(10,10,10,0.75); margin: 0 12px 12px; border-radius: 16px; lines: 2; fixed-height: false; }' \
+                -theme-str 'element { padding: 12px 16px; border-radius: 12px; }' \
+                -theme-str 'element selected { background-color: rgba(51,51,51,0.95); }')
+
+            rm -rf "$tmpdir"
+        else
+            action=$(printf "✓  Apply\n←  Go Back\n" | rofi -dmenu -p "$selected_name" \
+                -theme "$HOME/.config/rofi/theme.rasi" \
+                -theme-str 'entry { placeholder: "No preview available. Apply?"; }')
+        fi
+
+        if [[ "$action" == "✓  Apply" ]]; then
+            bash "$THEME_SWITCH" "$selected_dir"
             exit 0
         fi
     done
@@ -103,7 +138,8 @@ list_backgrounds() {
             sed -i "s|wallpaper = \".*\"|wallpaper = \"$selected_path\"|" \
                 "$HOME/dotfiles/qtile/modules/screens.py"
             qtile cmd-obj -o cmd -f reload_config 2>/dev/null || true
-            notify-send "Wallpaper" "Changed to $selection" -t 2000
+            bash /home/lcampassi/.config/polybar/launch.sh 2>/dev/null || true
+            notify-send "Fondo de pantalla" "Cambiado a $selection" -t 2000
             exit 0
         fi
     done
