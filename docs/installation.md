@@ -1,89 +1,88 @@
 # Instalacion
 
-## Prerrequisitos
-
-- **Arch Linux**
-- Conexion a internet
-- `git` instalado
-- `yay` (AUR helper) -- ver `setup-yay.sh`
-
-## Instalacion Rapida
+## Una Linea Para Instalarlos A Todos
 
 ```bash
-# 1. Clonar el repositorio
-git clone https://github.com/D4rkDr4gon/dotfiles.git ~/dotfiles
+bash <(curl -fsSL https://raw.githubusercontent.com/D4rkDr4g0n/dotfiles/main/install.sh)
+```
+
+O si ya clonaste el repo:
+
+```bash
+cd ~/dotfiles && bash install.sh
+```
+
+## Flags
+
+| Flag | Efecto |
+|------|--------|
+| `--help` / `-h` | Muestra ayuda |
+| `--no-ollama` | Salta descarga de modelos AI (~15GB) |
+| `--no-blackarch` | Salta configuracion de BlackArch |
+| `--no-aur` | Salta paquetes AUR |
+
+Ejemplo con flags:
+
+```bash
+bash install.sh --no-ollama --no-blackarch
+```
+
+## Que instala?
+
+- **WM + UI**: Qtile, Polybar, Picom, Rofi, Dunst, Nitrogen
+- **Terminal**: Kitty, Zsh + powerlevel10k
+- **Shell tools**: zoxide, fzf, fd, ripgrep, bat, lsd, yazi, fastfetch, btop
+- **Drivers**: AMDGPU, Vulkan, Xorg
+- **Audio**: PipeWire + WirePlumber
+- **Networking**: NetworkManager, iwd, Proton VPN
+- **Bluetooth**: Bluez + bluetui
+- **Desarrollo**: Neovim + LazyVim, Node.js, Python, Lua, Git, GitHub CLI
+- **Productividad**: Obsidian, Firefox, Thunar, Flameshot, CopyQ, Discord, Spotify, Bitwarden
+- **AI**: Ollama + modelos (opcional)
+- **Automation**: n8n
+- **Fonts**: Hack Nerd Font, JetBrains Mono, Font Awesome, Noto
+- **AUR**: yay + paquetes AUR
+
+## Instalacion Manual (scripts individuales)
+
+Si preferis instalar por partes, los scripts individuales estan en `automat/install/`:
+
+```bash
 cd ~/dotfiles
-
-# 2. Ejecutar scripts de instalacion en orden
-bash automat/install/setup-yay.sh          # AUR helper
-bash automat/install/install-fonts.sh      # Fuentes Nerd Font
-bash automat/install/install-zsh.sh        # Zsh + powerlevel10k
-bash automat/install/install-qtile.sh      # Qtile WM
-bash automat/install/install-polybar.sh    # Polybar
-bash automat/install/install-picom.sh      # Picom compositor
-bash automat/install/install-kitty.sh      # Kitty terminal
-bash automat/install/install-rofi.sh       # Rofi launcher
-bash automat/install/install-neovim.sh     # Neovim + LazyVim
-bash automat/install/install-tools.sh      # Apps (Obsidian, Firefox, etc.)
-bash automat/install/install-ollama.sh     # Ollama + modelos AI
-bash automat/install/install-n8n.sh        # n8n automation
-
-# 3. (Opcional) Repositorios de pentesting
-bash automat/install/setup-blackarch.sh    # BlackArch repos
-```
-
-## Instalacion Manual
-
-### Enlaces Simbolicos
-
-Si preferis configurar manualmente:
-
-```bash
-# Shell
-ln -sf ~/dotfiles/zsh/zshrc ~/.zshrc
-ln -sf ~/dotfiles/zsh ~/.config/zsh
-
-# WM y componentes
-ln -sf ~/dotfiles/qtile ~/.config/qtile
-ln -sf ~/dotfiles/polybar ~/.config/polybar
-ln -sf ~/dotfiles/picom ~/.config/picom
-ln -sf ~/dotfiles/rofi ~/.config/rofi
-ln -sf ~/dotfiles/kitty ~/.config/kitty
-ln -sf ~/dotfiles/Thunar ~/.config/Thunar
-ln -sf ~/dotfiles/automat ~/.config/automat
-
-# Neovim
-ln -sf ~/dotfiles/lazy-nvim ~/.config/nvim
-
-# Sublime Text (Linux)
-ln -sf ~/dotfiles/sublime-text ~/.config/sublime-text
-
-# OneDrive
-ln -sf ~/dotfiles/onedrive ~/.config/onedrive
-```
-
-### Dependencias Principales
-
-```bash
-# Core
-sudo pacman -S qtile polybar picom rofi kitty nitrogen brightnessctl pavucontrol
-
-# Shell
-sudo pacman -S zsh curl wget git
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-
-# Apps
-sudo pacman -S flameshot thunar obsidian firefox
-
-# Fuentes
-sudo pacman -S ttf-hack-nerd ttf-jetbrains-mono-nerd ttf-font-awesome noto-fonts noto-fonts-emoji
+bash automat/install/setup-yay.sh              # AUR helper
+bash automat/install/install-fonts.sh          # Fuentes
+bash automat/install/install-zsh.sh            # Zsh + p10k
+bash automat/install/install-qtile.sh          # Qtile
+bash automat/install/install-polybar.sh        # Polybar
+bash automat/install/install-picom.sh          # Compositor
+bash automat/install/install-kitty.sh          # Terminal
+bash automat/install/install-rofi.sh           # Launcher
+bash automat/install/install-neovim.sh         # Neovim + LazyVim
+bash automat/install/install-tools.sh          # Apps
+bash automat/install/install-ollama.sh         # Ollama + modelos
+bash automat/install/install-n8n.sh            # n8n
+bash automat/install/setup-blackarch.sh        # BlackArch (opcional)
 ```
 
 ## Post-Instalacion
 
-1. **Cambiar shell a Zsh**: `chsh -s $(which zsh)`
-2. **Configurar monitores**: `sh ~/dotfiles/automat/display-monitors.sh`
-3. **Seleccionar tema**: `theme at-at` o via Rofi Settings Menu
-4. **Configurar OneDrive**: Editar `onedrive/config` con tu tenant
-5. **Verificar**: `fastfetch` debe mostrar el logo y datos del sistema
+1. **Reinicia sesion** para usar Zsh
+2. **Selecciona Qtile** en lightdm
+3. **Aplica un tema**: `theme city-sci-fi`
+4. **Abre Neovim** para instalar plugins: `nvim`
+5. **Configura monitores**: `bash ~/dotfiles/automat/display-monitors.sh`
+6. **Configura OneDrive**: Editar `onedrive/config`
+7. **Verifica**: `fastfetch`
+
+## Enlaces Simbolicos
+
+Los symlinks se crean automaticamente con `install.sh`, pero podes hacerlo manual:
+
+```bash
+ln -sf ~/dotfiles/zsh/zshrc ~/.zshrc
+for dir in qtile polybar picom rofi kitty Thunar zsh automat; do
+    ln -sf ~/dotfiles/$dir ~/.config/$dir
+done
+ln -sf ~/dotfiles/lazy-nvim ~/.config/nvim
+ln -sf ~/dotfiles/sublime-text ~/.config/sublime-text
+```

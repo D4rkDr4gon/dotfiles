@@ -1,42 +1,34 @@
 #!/bin/bash
-
 set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/lib/common.sh"
 
-# Colores
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
-log() {
-    echo -e "${GREEN}[INFO]${NC} $1"
-}
-
-warn() {
-    echo -e "${YELLOW}[WARN]${NC} $1"
-}
-
-error() {
-    echo -e "${RED}[ERROR]${NC} $1"
-    exit 1
-}
-
-# Verificar si estamos en Arch
-check_arch() {
-    if [ ! -f /etc/arch-release ]; then
-        error "Este script es solo para Arch Linux"
+main() {
+    check_arch
+    header "N8N WORKFLOW AUTOMATION"
+    if ! command -v yay &>/dev/null; then
+        error "n8n requiere yay. Instala yay primero."
     fi
-}
+    install_yay_pkg "n8n"
 
-# Instalar n8n desde repos oficiales
-install_packages() {
-    log "Instalando n8n..."
-    
-    if yay -Q n8n >/dev/null 2>&1; then
-        log "✓ n8n ya está instalado"
-    else
-        yay -S --noconfirm n8n
-        log "✓ n8n instalado"
-    fi
+    # Crear servicio de usuario para n8n
+    mkdir -p "$HOME/.config/systemd/user"
+    cat > "$HOME/.config/systemd/user/n8n.service" << 'EOF'
+[Unit]
+Description=n8n Workflow Automation
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/n8n start
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
+EOF
+    systemctl --user daemon-reload 2>/dev/null || true
+    log "n8n instalado. Para habilitar: systemctl --user enable --now n8n"
+    log "Web UI: http://localhost:5678"
 }
+main "$@"
