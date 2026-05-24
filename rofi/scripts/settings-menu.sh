@@ -53,31 +53,57 @@ web_search() {
 }
 
 list_backgrounds() {
-    local wallpaper_files=()
-    local wallpaper_names=()
+    local wallpaper_dir="$WALLPAPER_DIR"
 
-    for f in "$WALLPAPER_DIR"/*.{jpg,jpeg,png}; do
+    local files=()
+    local names=()
+    for f in "$wallpaper_dir"/*.{jpg,jpeg,png}; do
         [[ -f "$f" ]] || continue
         local base
         base=$(basename "$f")
-        wallpaper_files+=("$f")
-        wallpaper_names+=("${base%.*}")
+        files+=("$f")
+        names+=("${base%.*}")
     done
 
-    local selection
-    selection=$(printf '%s\n' "${wallpaper_names[@]}" | rofi -dmenu -p "Backgrounds" \
-        -theme "$HOME/.config/rofi/theme.rasi" \
-        -theme-str 'entry { placeholder: "Select a wallpaper..."; }')
+    while true; do
+        local selection
+        selection=$(printf '%s\n' "${names[@]}" | rofi -dmenu -p "Backgrounds" \
+            -theme "$HOME/.config/rofi/theme.rasi" \
+            -theme-str 'entry { placeholder: "Select a wallpaper..."; }')
 
-    [[ -z "$selection" ]] && exit 0
+        [[ -z "$selection" ]] && exit 0
 
-    for i in "${!wallpaper_names[@]}"; do
-        if [[ "${wallpaper_names[$i]}" == "$selection" ]]; then
-            local path="${wallpaper_files[$i]}"
-            sed -i "s|wallpaper = \".*\"|wallpaper = \"$path\"|" "$HOME/dotfiles/qtile/modules/screens.py"
-            nitrogen --set-zoom-fill "$path"
+        local selected_path=""
+        for i in "${!names[@]}"; do
+            if [[ "${names[$i]}" == "$selection" ]]; then
+                selected_path="${files[$i]}"
+                break
+            fi
+        done
+        [[ -z "$selected_path" ]] && exit 0
+
+        local tmpdir
+        tmpdir=$(mktemp -d)
+        local thumbnail="$tmpdir/preview.jpg"
+        convert "$selected_path" -resize 800x400^ -gravity center -extent 800x400 "$thumbnail" 2>/dev/null
+
+        local action
+        action=$(printf "✓  Apply\n←  Go Back\n" | rofi -dmenu -p "" \
+            -theme "$HOME/.config/rofi/theme.rasi" \
+            -theme-str 'window { background-image: url("'"$thumbnail"'"); background-color: rgba(0,0,0,0.15); width: 800; }' \
+            -theme-str 'mainbox { padding: 400px 0 0; background-color: transparent; }' \
+            -theme-str 'inputbar { enabled: false; }' \
+            -theme-str 'listview { background-color: rgba(10,10,10,0.75); margin: 0 12px 12px; border-radius: 16px; lines: 2; fixed-height: false; }' \
+            -theme-str 'element { padding: 12px 16px; border-radius: 12px; }' \
+            -theme-str 'element selected { background-color: rgba(51,51,51,0.95); }')
+
+        rm -rf "$tmpdir"
+
+        if [[ "$action" == "✓  Apply" ]]; then
+            sed -i "s|wallpaper = \".*\"|wallpaper = \"$selected_path\"|" \
+                "$HOME/dotfiles/qtile/modules/screens.py"
             qtile cmd-obj -o cmd -f reload_config 2>/dev/null || true
-            notify-send "Wallpaper" "Changed to ${wallpaper_names[$i]}" -t 2000
+            notify-send "Wallpaper" "Changed to $selection" -t 2000
             exit 0
         fi
     done
