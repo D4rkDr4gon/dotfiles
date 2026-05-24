@@ -22,5 +22,5 @@ def autostart():
 
     subprocess.Popen([
         'bash', '-c',
-        'sleep 2 && notify-send -u normal -t 5000 "Bienvenido D4rkDr4g0n" "Sistema listo. Usá Mod+Shift+Space para ajustes."'
+        'sleep 2 && notify-send -u normal -t 5000 "Bienvenido de nuevo! D4rkDr4g0n" "Todos los sistemas en linea a la espera de ordenes."'
     ])
