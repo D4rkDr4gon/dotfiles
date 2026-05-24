@@ -37,14 +37,16 @@ while true; do
     [[ -z "$selected" || ! "$selected" =~ ^[0-9]+$ ]] && exit 0
 
     if [ "${ids[$selected]}" = "clear" ]; then
-        dunstctl close-all
+        dunstctl history-clear
         continue
     elif [ "$selected" -lt "${#ids[@]}" ]; then
         full="${summaries[$selected]}"
-        [ -n "${bodies[$selected]}" ] && full="$full\n\n${bodies[$selected]}"
-        echo -e "$full" | rofi -dmenu -p "Notification" \
-            -theme "$ROFI_THEME" \
-            -no-custom
+        if [ -n "${bodies[$selected]}" ]; then
+            full="${summaries[$selected]}
+
+${bodies[$selected]}"
+        fi
+        rofi -e "$full" -theme "$ROFI_THEME"
         continue
     fi
 done
