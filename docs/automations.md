@@ -10,11 +10,11 @@
 | `launch-logo.sh` | Muestra banner ASCII del dragon D4rkDr4g0n |
 | `launchgemma.sh` | Lanza Ollama + Gemma 3 en una nueva ventana de Kitty |
 
-### Vault (OneDrive/Obsidian)
+### Vault (Obsidian)
 
 | Script | Descripcion |
 |--------|-------------|
-| `vault-pull.sh` | Git pull en `~/OneDrive/vault` |
+| `vault-pull.sh` | Git pull en `/files/Personal-Vault` |
 | `vault-push.sh` | Git add/commit/push "D4 - YYYY-MM-DD" |
 
 ---

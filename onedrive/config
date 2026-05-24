@@ -1,5 +1,6 @@
-# Configuración específica para sincronizar solo el vault de Obsidian
 # OneDrive Client for Linux Configuration File
+# Nota: El vault de Obsidian ahora vive en /files/Personal-Vault/
+# (ya no se sincroniza via OneDrive)
 
 # Directorio de sincronización
 sync_dir = "~/OneDrive"

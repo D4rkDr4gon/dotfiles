@@ -8,7 +8,7 @@ Sincronizacion con Microsoft OneDrive para backup de configuraciones y documento
 
 | Archivo | Descripcion |
 |---------|-------------|
-| `config` | Configuracion del cliente: sync_dir = ~/OneDrive, optimizado para Obsidian (atomic writes), skip temp files, notificaciones desactivadas |
+| `config` | Configuracion del cliente: sync_dir = ~/OneDrive, skip temp files, notificaciones desactivadas |
 | `sync_list` | Lista de archivos/dirs a sincronizar |
 
 ## Recursos (`recursos/`)
@@ -53,6 +53,8 @@ Contiene paletas de temas, incluyendo `Fiery-Red-Sunset.theme` como referencia p
 |--------|-------------|
 | `theme-switch.sh` | Sistema central de cambio de temas. Actualiza polybar, kitty, zsh, qtile y fastfetch con los colores del tema seleccionado |
 
-## nvchad/ (Placeholder)
+## Personal Vault
 
-Directorio vacio para una configuracion alternativa de Neovim usando NvChad. Actualmente no en uso.
+**Ubicacion**: `/files/Personal-Vault/`
+
+El vault de Obsidian es un repo de Git que se sincroniza via `automat/vault-pull.sh` y `automat/vault-push.sh`. Ya no reside en OneDrive.

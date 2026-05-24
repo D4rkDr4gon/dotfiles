@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-cd ~/OneDrive/vault
+cd /files/Personal-Vault
 DATE=$(date +%Y-%m-%d)
 echo "Staging all changes..."
 git add -A

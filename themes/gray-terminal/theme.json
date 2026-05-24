@@ -1,0 +1,12 @@
+{
+  "name": "Gray Terminal",
+  "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper hacker.jpg",
+  "primary": "#808080",
+  "secondary": "#555555",
+  "background": "#0d0d0d",
+  "foreground": "#c8c8c8",
+  "chip_battery": "#1a1a1a",
+  "chip_bluetooth": "#2a2a2a",
+  "chip_wlan": "#3a3a3a",
+  "chip_audio": "#4a4a4a"
+}

@@ -7,6 +7,7 @@ CURRENT_THEME_FILE="$HOME/.config/qtile/current_theme.json"
 POLYBAR_COLORS="$HOME/.config/polybar/colors.ini"
 KITTY_COLORS="$HOME/.config/kitty/colors.conf"
 ZSH_COLORS="$HOME/.zsh_colors"
+BANNER_COLOR="$HOME/.zsh_banner_color"
 FASTFETCH_COLORS="$HOME/.config/fastfetch/colors.json"
 QTILE_SCREENS="$HOME/dotfiles/qtile/modules/screens.py"
 
@@ -112,6 +113,12 @@ export COLOR_BG="$background"
 export COLOR_FG="$foreground"
 EOF
 
+    local hex="${primary#\#}"
+    local r=$((16#${hex:0:2}))
+    local g=$((16#${hex:2:2}))
+    local b=$((16#${hex:4:2}))
+    printf '\033[38;2;%d;%d;%dm' "$r" "$g" "$b" > "$BANNER_COLOR"
+
     cat > "$FASTFETCH_COLORS" << EOF
 {
   "primary": "$primary",
@@ -127,10 +134,6 @@ EOF
 }
 
 reload_components() {
-    if command -v polybar &>/dev/null; then
-        polybarupdate 2>/dev/null || polybar-msg cmd restart 2>/dev/null || true
-    fi
-
     if command -v kitty &>/dev/null; then
         if [[ -f "$KITTY_COLORS" ]]; then
             kitty @ set-colors --all -c "$KITTY_COLORS" 2>/dev/null || true
@@ -145,11 +148,15 @@ reload_components() {
 apply_theme() {
     local theme_name=$1
     local theme_dir=$(load_theme "$theme_name")
+    local display_name=$(jq -r '.name' "$theme_dir/theme.json")
 
-    echo "Aplicando tema: $(jq -r '.name' "$theme_dir/theme.json")"
+    echo "Aplicando tema: $display_name"
 
     apply_theme_config "$theme_name" "$theme_dir"
     reload_components
+
+    /home/lcampassi/.config/polybar/launch.sh 2>/dev/null || true
+    notify-send "Tema aplicado" "$display_name" -i dialog-information 2>/dev/null || true
 
     echo "✓ Tema '$theme_name' aplicado"
 }

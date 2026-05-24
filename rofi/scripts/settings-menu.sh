@@ -39,7 +39,6 @@ list_themes() {
     for i in "${!names[@]}"; do
         if [[ "${names[$i]}" == "$selection" ]]; then
             bash "$THEME_SWITCH" "${dirs[$i]}"
-            notify-send "Theme" "Switched to ${names[$i]}" -t 2000
             exit 0
         fi
     done

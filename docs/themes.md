@@ -32,13 +32,13 @@ Mod + Shift + Space  ->  Themes
 
 | Tema | Wallpaper | Paleta |
 |------|-----------|--------|
-| **AT-AT** | `at-at.png` | Marron/gris, tonos calidos |
-| **Kali Red** | `wallpaper_dark_spaceship.jpg` | Rojo oscuro, sangre |
-| **Hacker** | `wallpaper hacker.jpg` | Verde matrix sobre negro |
-| **Hacker Setup** | `hacker-setup-dark.jpg` | Beige/teal calido |
-| **City** | `wallpaper_city.jpg` | Rosa/purpura, ciudad |
-| **City Sci-Fi** | `wallpaper_city_sci-fi.jpg` | Teal/gris, sci-fi |
-| **Creativity Room** | `wallpaper_Creativity_Room.jpg` | Tonos tierra calidos |
+| **Brown AT-AT** | `at-at.png` | Marron/gris, tonos calidos |
+| **Red Japan** | `japan-wallpaper.jpg` | Rojo oscuro, estilo japones |
+| **Gray Terminal** | `wallpaper hacker.jpg` | Grises, estilo terminal |
+| **Green Geek** | `hacker-setup-dark.jpg` | Verde terminal, estilo geek |
+| **Purple Sky** | `wallpaper_city.jpg` | Violeta, cielo nocturno |
+| **Ciberpunk** | `wallpaper_city_sci-fi.jpg` | Neon magenta/purple, cyberpunk |
+| **Chill Lofi** | `wallpaper_Creativity_Room.jpg` | Tonos tierra calidos |
 | **Data Center** | `Wallpaper data center.jpg` | Cian/verde tecnologia |
 
 ## Estructura de un Tema

@@ -211,6 +211,8 @@ Dual boot with Windows 11 on separate partition.
 | `vault-pull.service` | `multi-user.target` | Git pull vault repo on boot |
 | `vault-push.service` | `shutdown.target` | Git push vault repo on shutdown |
 
+> **Nota:** Los servicios systemd para vault estan fuera del repo de dotfiles en `~/.config/systemd/user/`. Si los moves desde `~/OneDrive/vault` a `/files/Personal-Vault`, actualizalos ahi tambien.
+
 ### Active Timers
 
 | Timer | Frequency |
@@ -428,7 +430,7 @@ Switch: `theme <name>` or via Rofi Settings Menu.
 
 ### Vault Git Sync (Obsidian)
 
-- Vault at `~/OneDrive/vault/` — Git repo
+- Vault at `/files/Personal-Vault/` — Git repo
 - **vault-pull.service:** `git pull --force` on boot
 - **vault-push.service:** `git add -A && git commit -m "D4 - YYYY-MM-DD" && git push --force` on shutdown
 

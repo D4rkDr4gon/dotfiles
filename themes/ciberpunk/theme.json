@@ -1,0 +1,12 @@
+{
+  "name": "Ciberpunk",
+  "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper_city_sci-fi.jpg",
+  "primary": "#ff2a6d",
+  "secondary": "#7b2d8e",
+  "background": "#0d0f1a",
+  "foreground": "#c0e8f0",
+  "chip_battery": "#1a1030",
+  "chip_bluetooth": "#2a2040",
+  "chip_wlan": "#3a2550",
+  "chip_audio": "#4a3060"
+}

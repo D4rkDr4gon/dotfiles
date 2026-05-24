@@ -1,0 +1,12 @@
+{
+  "name": "Purple Sky",
+  "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper_city.jpg",
+  "primary": "#9b59b6",
+  "secondary": "#7d3c98",
+  "background": "#0d0d1a",
+  "foreground": "#d0c8e0",
+  "chip_battery": "#1a1030",
+  "chip_bluetooth": "#2a1a40",
+  "chip_wlan": "#3a2550",
+  "chip_audio": "#4a3060"
+}
