@@ -54,7 +54,7 @@ list_themes() {
             local tmpdir
             tmpdir=$(mktemp -d)
             local thumbnail="$tmpdir/preview.jpg"
-            convert "$preview_path" -resize 800x400^ -gravity center -extent 800x400 "$thumbnail" 2>/dev/null
+            convert "$preview_path" -resize 800x400^ -gravity north -extent 800x400 "$thumbnail" 2>/dev/null
 
             action=$(printf "✓  Apply\n←  Go Back\n" | rofi -dmenu -p "$selected_name" \
                 -theme "$HOME/.config/rofi/theme.rasi" \
