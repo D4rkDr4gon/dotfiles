@@ -21,6 +21,10 @@ alias polybarupdate='/home/lcampassi/.config/polybar/launch.sh'
 alias zshconfig="nvim ~/.zshrc"
 alias logo="sh /home/lcampassi/dotfiles/automat/launch-logo.sh"
 
+# Repo lazygit
+alias vault="cd /files/Personal-Vault/ && lazygit"
+alias dotfiles="cd /home/lcampassi/dotfiles/ && lazygit"
+
 # AI & Automation
 alias launchgemma="sh /home/lcampasssi/.config/automat/launchgemma.sh"
 alias n8nstart="sudo systemctl start n8n"
