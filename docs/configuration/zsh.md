@@ -1,5 +1,52 @@
 # Zsh -- Shell
 
+## Diagrama de Arquitectura
+
+```mermaid
+graph TB
+    subgraph Entry["Entry Point"]
+        ZR[zshrc]
+    end
+
+    subgraph Modules["Módulos Zsh"]
+        AL[aliases.zsh<br/>Aliases de usuario]
+        HI[history.zsh<br/>Historial 100k líneas]
+        PA[paths.zsh<br/>Variables PATH]
+        PL[plugins.zsh<br/>autosuggestions + syntax-highlighting]
+        ST[startup.zsh<br/>Banner ASCII]
+        TH[theme.zsh<br/>Powerlevel10k]
+        TO[tools.zsh<br/>Funciones pentesting]
+    end
+
+    subgraph External["Integraciones"]
+        P10k[Powerlevel10k]
+        COL[~/.zsh_colors<br/>Colores dinámicos]
+    end
+
+    ZR --> AL
+    ZR --> HI
+    ZR --> PA
+    ZR --> PL
+    ZR --> ST
+    ZR --> TH
+    ZR --> TO
+    TH --> P10k
+    TH --> COL
+```
+
+## Tabla de Módulos
+
+| Archivo | Rol | Características Clave |
+|---------|-----|----------------------|
+| `zshrc` | Entry point | Punto de entrada, importa todos los módulos |
+| `aliases.zsh` | Aliases | theme, vi, cat (bat), ls (lsd), vpnup/vpndown, .. / ... |
+| `history.zsh` | Historial | 100k líneas, compartido entre sesiones, incremental, dedup |
+| `paths.zsh` | PATH | Agrega ~/.local/bin, ~/.opencode/bin |
+| `plugins.zsh` | Plugins | zsh-autosuggestions, zsh-syntax-highlighting |
+| `startup.zsh` | Banner | Muestra "D4rkDr4g0n" en ASCII rojo al abrir terminal |
+| `theme.zsh` | Prompt | Powerlevel10k, instant prompt, colores desde ~/.zsh_colors |
+| `tools.zsh` | Pentesting | extractPorts, hex-encode/decode, rot13 |
+
 **Ubicacion**: `zsh/`
 
 ## Estructura Modular

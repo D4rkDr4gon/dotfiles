@@ -194,7 +194,7 @@
 
 ### Action Menu (`Mod + L`)
 - **Grid**: 4 iconos en fila con nombre abajo
-- **Suspend**: Suspender el sistema
+- **Lock**: Bloqueo visual sin password (fondo blur, cualquier tecla desbloquea). Muestra notificacion de bienvenida al desbloquear
 - **Reboot**: Reiniciar
 - **Poweroff**: Apagar
 - **Logout**: Cerrar sesion de Qtile

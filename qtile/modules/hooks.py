@@ -7,6 +7,10 @@ from libqtile import hook
 def autostart():
     home = os.path.expanduser('~')
 
+    # Desactivar DPMS y screen saver — solo bloqueo manual
+    subprocess.Popen(['xset', 's', 'off'])
+    subprocess.Popen(['xset', '-dpms'])
+
     processes = [
         ['nitrogen', '--restore'],
         ['bash', home + '/.config/polybar/launch.sh'],

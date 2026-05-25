@@ -1,247 +1,181 @@
 # Overview
 
-## Filosofia
+## Core Philosophy
 
-Estos dotfiles estan disenados con tres pilares fundamentales:
+El entorno se sostiene sobre tres pilares fundamentales:
 
-- **Keyboard-driven**: Todo el entorno se controla con atajos de teclado. El mouse es opcional.
-- **Estetica unificada**: Tema cyberpunk oscuro con acentos rojos, transparencias y blur, consistente en todos los componentes.
+- **Keyboard-driven**: Control total del entorno via atajos de teclado. El mouse es opcional. Las combinaciones `mod4` (Super) gobiernan ventanas, workspaces, lanzadores y menus.
+- **Estetica unificada**: Tema cyberpunk oscuro con acentos rojos, transparencias (80% Kitty, 85% Dunst via Picom) y blur (dual_kawase, radius 6). Consistente en todos los componentes.
 - **Modularidad**: Cada componente es independiente y facil de modificar. El sistema de temas dinamicos permite cambiar la apariencia completa con un solo comando.
 
-## Componentes
+## Component Architecture
 
-| Componente | Proposito | Configuracion |
-|------------|-----------|---------------|
-| **Qtile** | Window Manager (tiling) | `qtile/` |
-| **Polybar** | Barra de estado | `polybar/` |
-| **Kitty** | Terminal emulator | `kitty/` |
-| **Zsh** | Shell + prompt (powerlevel10k) | `zsh/` |
-| **Rofi** | Application launcher (grid 5x4) & menus | `rofi/` |
-| **Picom** | Compositor (blur, transparencias) | `picom/` |
-| **Dunst** | Notification daemon + center | `dunst/` |
-| **Neovim** | Editor (LazyVim distro) | `lazy-nvim/` |
-| **Sublime Text** | Editor alternativo | `sublime-text/` |
-| **Thunar** | File manager | `Thunar/` |
-| **Fastfetch** | System info display | `fastfetch/` |
-| **OneDrive** | Cloud sync | `onedrive/` |
-| **opencode** | AI assistant config + skills | `opencode/` |
+El siguiente diagrama muestra como los componentes principales se relacionan entre si y con el sistema de temas:
+
+```mermaid
+graph TB
+    subgraph Input["Input Layer"]
+        KB[Keybindings<br/>mod4 + *]
+        M[Mouse Bindings]
+    end
+
+    subgraph WM["Window Manager"]
+        Q[Ctile config.py]
+        QM[Ctile Modules<br/>groups.py, keys.py<br/>layouts.py, hooks.py]
+    end
+
+    subgraph Visual["Visual Layer"]
+        PB[Polybar<br/>config.ini + modules]
+        PC[Picom<br/>picom.conf]
+        DN[Dunst<br/>dunstrc]
+    end
+
+    subgraph Shell["Terminal & Shell"]
+        KT[Kitty<br/>kitty.conf]
+        ZH[Zsh<br/>zshrc + modules/]
+    end
+
+    subgraph Launcher["Application Launcher"]
+        RF[Rofi<br/>config.rasi + themes]
+        RF_S[Rofi Scripts<br/>launcher, settings, actions]
+    end
+
+    subgraph Theme["Theme Engine"]
+        TS[theme-switch.sh]
+        TJ[themes/*/theme.json]
+    end
+
+    KB --> Q
+    M --> Q
+    Q --> QM
+    Q --> PB
+    Q --> PC
+    Q --> DN
+    Q --> KT
+    KT --> ZH
+    Q --> RF
+
+    TS --> TJ
+    TS --> PB
+    TS --> KT
+    TS --> ZH
+    TS --> Q
+```
+
+**Sources:** `qtile/config.py`, `polybar/config.ini`, `kitty/kitty.conf`, `zsh/zshrc`, `scripts/theme-switch.sh`
+
+## Component Table
+
+| Componente | Proposito | Configuracion | Docs |
+|------------|-----------|---------------|------|
+| **Ctile** | Window Manager (tiling) | `qtile/` | [docs](configuration/qtile.md) |
+| **Polybar** | Barra de estado | `polybar/` | [docs](configuration/polybar.md) |
+| **Kitty** | Terminal emulator | `kitty/` | [docs](configuration/kitty.md) |
+| **Zsh** | Shell + prompt (powerlevel10k) | `zsh/` | [docs](configuration/zsh.md) |
+| **Rofi** | Application launcher & menus | `rofi/` | [docs](configuration/rofi.md) |
+| **Picom** | Compositor (blur, transparencias) | `picom/` | [docs](configuration/picom.md) |
+| **Dunst** | Notification daemon | `dunst/` | [docs](configuration/dunst.md) |
+| **Neovim** | Editor (LazyVim) | `lazy-nvim/` | [docs](configuration/editors.md) |
+| **Sublime Text** | Editor alternativo | `sublime-text/` | [docs](configuration/editors.md) |
+| **Thunar** | File manager | `Thunar/` | [docs](configuration/thunar.md) |
+| **Fastfetch** | System info display | `fastfetch/` | [docs](configuration/fastfetch.md) |
+| **OneDrive** | Cloud sync | `onedrive/` | [docs](configuration/extras.md) |
+| **Lock Screen** | Custom C lockscreen | `scripts/lock-screen` | [docs](configuration/lock-screen.md) |
+| **opencode** | AI assistant config + skills | `opencode/` | [docs](configuration/opencode.md) |
+
+## Symlink Structure
+
+Los archivos de configuracion se vinculan desde el repo a sus ubicaciones del sistema via symlinks, permitiendo gestion centralizada desde `~/dotfiles`:
+
+| System Path | Repository Target |
+|-------------|-------------------|
+| `~/.zshrc` | `~/dotfiles/zsh/zshrc` |
+| `~/.config/qtile` | `~/dotfiles/qtile/` |
+| `~/.config/polybar` | `~/dotfiles/polybar/` |
+| `~/.config/picom` | `~/dotfiles/picom/` |
+| `~/.config/rofi` | `~/dotfiles/rofi/` |
+| `~/.config/kitty` | `~/dotfiles/kitty/` |
+| `~/.config/Thunar` | `~/dotfiles/Thunar/` |
+| `~/.config/zsh` | `~/dotfiles/zsh/` |
+| `~/.config/automat` | `~/dotfiles/automat/` |
+| `~/.config/dunst` | `~/dotfiles/dunst/` |
+| `~/.config/opencode` | `~/dotfiles/opencode/` |
+| `~/.config/nvim` | `~/dotfiles/lazy-nvim/` |
+
+## Theme Data Flow
+
+Cada tema define colores para todos los componentes. El siguiente diagrama muestra como `theme-switch.sh` distribuye los valores desde `theme.json` a cada componente:
+
+```mermaid
+graph LR
+    TJ[theme.json] --> TS[theme-switch.sh]
+
+    TS -->|sed + echo| PC[polybar/colors.ini<br/>primary, secondary<br/>background, foreground, chip]
+    TS -->|printf| KC[kitty/colors.conf<br/>foreground, background<br/>cursor, selection, tabs]
+    TS -->|source| ZC[~/.zsh_colors<br/>COLOR_PRIMARY, COLOR_ACCENT<br/>COLOR_BG, COLOR_FG]
+    TS -->|jq + cp| QT[qtile/current_theme.json<br/>theme activo]
+    TS -->|sed| SC[qtile/modules/screens.py<br/>wallpaper path]
+
+    PC --> PR[Polybar Reload]
+    KC --> KR[Kitty @ set-colors]
+    ZC --> ZR[Zsh source]
+    QT --> QR[Ctile reload_config]
+    SC --> QR
+```
+
+**Sources:** `scripts/theme-switch.sh:62-134`, `polybar/colors.ini`, `kitty/colors.conf`, `zsh/modules/theme.zsh`, `qtile/current_theme.json`
 
 ## File Tree
 
 ```
 dotfiles/
 ├── README.md
-├── docs/                          # Documentacion
+├── docs/
 │   ├── overview.md
 │   ├── installation.md
 │   ├── keybindings.md
 │   ├── themes.md
 │   ├── automations.md
 │   └── configuration/
-│       ├── qtile.md
-│       ├── polybar.md
-│       ├── kitty.md
-│       ├── zsh.md
-│       ├── rofi.md
-│       ├── picom.md
-│       ├── editors.md
-│       ├── fastfetch.md
-│       ├── thunar.md
-│       ├── opencode.md
-│       └── extras.md
+│       ├── qtile.md, polybar.md, kitty.md, zsh.md, rofi.md
+│       ├── picom.md, dunst.md, editors.md, fastfetch.md
+│       ├── thunar.md, opencode.md, extras.md
 │
-├── qtile/                         # Qtile WM
-│   ├── config.py                  # Entry point principal
-│   ├── current_theme.json         # Tema activo
-│   └── modules/
-│       ├── groups.py              # Workspaces (NOTES, FILES, DEV, SYS, WEB)
-│       ├── keys.py                # Keybindings
-│       ├── layouts.py             # Layouts: Columns, MonadTall, Stack
-│       ├── mouse.py               # Mouse bindings
-│       ├── screens.py             # Pantallas y wallpapers
-│       └── hooks.py               # Autostart y eventos
-│
-├── polybar/                       # Status bar
-│   ├── config.ini                 # Barra principal
-│   ├── colors.ini                 # Colores (dinamico por tema)
-│   ├── launch.sh                  # Script de inicio
-│   └── modules/
-    │       ├── battery.ini
-    │       ├── bluetooth.ini
-    │       ├── bluetooth_status.sh
-    │       ├── brillo.ini
-    │       ├── date.ini
-    │       ├── logo.ini
-    │       ├── pulseaudio.ini
-    │       ├── vpn.ini
-    │       ├── vpn_status.sh
-    │       ├── vpn_toggle.sh
-    │       ├── wlan.ini
-    │       └── xworkspaces.ini
-│
-├── kitty/                         # Terminal
-│   ├── kitty.conf                 # Config principal
-│   └── colors.conf                # Colores (dinamico por tema)
-│
-├── zsh/                           # Shell
-│   ├── zshrc                      # Entry point
-│   └── modules/
-│       ├── aliases.zsh
-│       ├── history.zsh
-│       ├── paths.zsh
-│       ├── plugins.zsh
-│       ├── startup.zsh
-│       ├── theme.zsh
-│       └── tools.zsh
-│
-├── rofi/                          # Launcher
-│   ├── config.rasi                # Config modo d-run/run/window
-│   ├── theme.rasi                 # Tema visual (menus)
-│   ├── theme-drun.rasi            # Tema grid Android (app launcher)
-│   ├── theme-action.rasi          # Tema grid iconos (action menu)
-│   ├── favoritos.txt              # Apps favoritas
-│   └── scripts/
-│       ├── launcher.sh            # App launcher custom
-│       ├── emoji.sh               # Emoji picker
-│       ├── qtile-action-menu.sh   # Suspend/Reboot/Poweroff/Logout
-│       ├── qtile-workspace-switcher.sh
-│       ├── settings-menu.sh       # Menu central de config
-│       └── web-search.sh          # Busqueda en Google
-│
-├── picom/                         # Compositor
-│   └── picom.conf
-│
-├── dunst/                         # Notification daemon
-│   └── dunstrc
-│
-├── lazy-nvim/                     # Neovim (LazyVim)
-│   ├── init.lua
-│   ├── lazy-lock.json
-│   └── lua/
-│       ├── config/
-│       │   ├── init.lua
-│       │   ├── lazy.lua
-│       │   ├── options.lua
-│       │   ├── keymaps.lua
-│       │   ├── autocmds.lua
-│       │   ├── colors.lua
-│       │   └── highlights.lua
-│       └── plugins/
-│           ├── colorscheme.lua
-│           └── example.lua
-│
-├── sublime-text/                  # Sublime Text
-│   └── Packages/User/
-│       ├── Preferences.sublime-settings
-│       ├── Package Control.sublime-settings
-│       └── Kali-Red-Hack.sublime-color-scheme
-│
-├── Thunar/                        # File manager
-│   ├── accels.scm                 # Keyboard shortcuts
-│   └── uca.xml                    # Custom actions
-│
-├── fastfetch/                     # System info
-│   ├── config.jsonc
-│   ├── ascii/                     # ASCII logos
-│   └── png/                       # PNG logos
-│
-├── onedrive/                      # Cloud sync
-│   ├── config
-│   └── sync_list
-│
-├── opencode/                      # AI assistant (opencode)
-│   ├── opencode.jsonc             # Configuracion global
-│   ├── .gitignore                 # Ignora node_modules, lock files
-│   ├── package.json               # Plugin dependencies
-│   └── node_modules/              # Runtime (gitignored)
-│
-├── themes/                        # Temas dinamicos (8)
-│   ├── at-at/
-│   ├── city/
-│   ├── city-sci-fi/
-│   ├── creativity-room/
-│   ├── data-center/
-│   ├── hacker/
-│   ├── hacker-setup/
-│   └── kali-red/
-│
-├── scripts/                       # Scripts utilitarios
-│   ├── theme-switch.sh            # Switch de temas
-│   └── vpn-replace.sh             # Reemplazar config de Wireguard VPN
-│
-├── automat/                       # Automatizacion
-│   ├── display-monitors.sh
-│   ├── launch-logo.sh
-│   ├── launchgemma.sh
-│   ├── vault-pull.sh
-│   ├── vault-push.sh
-│   └── install/                   # Scripts de instalacion
-│       ├── install-fonts.sh
-│       ├── install-kitty.sh
-│       ├── install-n8n.sh
-│       ├── install-neovim.sh
-│       ├── install-ollama.sh
-│       ├── install-picom.sh
-│       ├── install-polybar.sh
-│       ├── install-qtile.sh
-│       ├── install-rofi.sh
-│       ├── install-tools.sh
-│       ├── install-zsh.sh
-│       ├── setup-blackarch.sh
-│       └── setup-yay.sh
-│
-└── recursos/                      # Recursos
-    ├── wallpapers/                # 18+ wallpapers
-    ├── finnancials/
-    │   └── gastos.py             # TUI expense manager
-    ├── logo-bloqueo.png
-    ├── logo.txt
-    └── tux.txt
+├── qtile/
+├── polybar/
+├── kitty/
+├── zsh/
+├── rofi/
+├── picom/
+├── dunst/
+├── lazy-nvim/
+├── sublime-text/
+├── Thunar/
+├── fastfetch/
+├── onedrive/
+├── opencode/
+├── themes/                  # 8 temas dinamicos
+├── scripts/                 # theme-switch.sh, lock-screen.sh, vpn-replace.sh
+├── automat/                 # Automatizacion + install scripts
+└── recursos/                # Wallpapers, ASCII, herramientas
 ```
 
-## Estructura de Enlaces Simbolicos
+## Navigation Guide
 
-Los archivos de configuracion se vinculan desde el repo a sus ubicaciones del sistema:
-
-```bash
-~/.zshrc              -> ~/dotfiles/zsh/zshrc
-~/.config/qtile       -> ~/dotfiles/qtile/
-~/.config/polybar     -> ~/dotfiles/polybar/
-~/.config/picom       -> ~/dotfiles/picom/
-~/.config/rofi        -> ~/dotfiles/rofi/
-~/.config/kitty       -> ~/dotfiles/kitty/
-~/.config/Thunar      -> ~/dotfiles/Thunar/
-~/.config/zsh         -> ~/dotfiles/zsh/
-~/.config/automat     -> ~/dotfiles/automat/
-~/.config/dunst       -> ~/dotfiles/dunst/
-~/.config/opencode    -> ~/dotfiles/opencode/
-```
-
-## Sistema de Temas Dinamicos
-
-Cada tema define colores para todos los componentes. Al cambiar de tema (via `theme <nombre>` o Rofi), se actualizan automaticamente:
-
-- Polybar (`colors.ini`)
-- Kitty (`colors.conf`)
-- Zsh (`~/.zsh_colors`)
-- Qtile (wallpaper)
-- Fastfetch (colores)
-
-## Atajos de Navegacion
-
-- [Instalacion](installation.md)
-- [Atajos de Teclado](keybindings.md)
-- [Temas](themes.md)
-- [Automatizaciones](automations.md)
-- [Configuracion Qtile](configuration/qtile.md)
-- [Configuracion Polybar](configuration/polybar.md)
-- [Configuracion Kitty](configuration/kitty.md)
-- [Configuracion Zsh](configuration/zsh.md)
-- [Configuracion Rofi](configuration/rofi.md)
-- [Configuracion Picom](configuration/picom.md)
-- [Editores](configuration/editors.md)
-- [Fastfetch](configuration/fastfetch.md)
-- [Thunar](configuration/thunar.md)
-- [opencode](configuration/opencode.md)
-- [Dunst](configuration/dunst.md)
-- [Extras](configuration/extras.md)
+- [Instalacion](installation.md) — Deployment desde cero, flags, scripts individuales
+- [Atajos de Teclado](keybindings.md) — Todos los shortcuts Qtile, Kitty, Thunar, Zsh
+- [Temas](themes.md) — Sistema de temas dinamicos, creacion y personalizacion
+- [Automatizaciones](automations.md) — Scripts de instalacion, vault, AI, utilities
+- [Configuracion Ctile](configuration/qtile.md) — Window manager, grupos, layouts, hooks
+- [Configuracion Polybar](configuration/polybar.md) — Barra de estado, modulos, colores
+- [Configuracion Kitty](configuration/kitty.md) — Terminal, colores, keybindings
+- [Configuracion Zsh](configuration/zsh.md) — Shell, aliases, plugins, prompt
+- [Configuracion Rofi](configuration/rofi.md) — Launcher, temas, scripts
+- [Configuracion Picom](configuration/picom.md) — Compositor, blur, animaciones
+- [Configuracion Dunst](configuration/dunst.md) — Notificaciones, notification center
+- [Editores](configuration/editors.md) — Neovim (LazyVim) y Sublime Text
+- [Fastfetch](configuration/fastfetch.md) — System info display
+- [Thunar](configuration/thunar.md) — File manager, custom actions
+- [opencode](configuration/opencode.md) — AI assistant, skills personalizadas
+- [Lock Screen](configuration/lock-screen.md) — Custom C lockscreen, blur, unlock
+- [Extras](configuration/extras.md) — OneDrive, wallpapers, herramientas

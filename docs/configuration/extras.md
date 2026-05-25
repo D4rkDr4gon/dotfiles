@@ -52,6 +52,7 @@ Contiene paletas de temas, incluyendo `Fiery-Red-Sunset.theme` como referencia p
 | Script | Descripcion |
 |--------|-------------|
 | `theme-switch.sh` | Sistema central de cambio de temas. Actualiza polybar, kitty, zsh, qtile y fastfetch con los colores del tema seleccionado |
+| `lock-screen.sh` | Wrapper del lockscreen custom en C. Muestra notificacion de bienvenida al desbloquear |
 
 ## Personal Vault
 

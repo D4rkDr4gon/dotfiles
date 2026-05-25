@@ -1,5 +1,60 @@
 # Polybar -- Status Bar
 
+## Diagrama de Arquitectura
+
+```mermaid
+graph TB
+    subgraph Core["Configuración Principal"]
+        CI[config.ini]
+        CL[colors.ini]
+    end
+
+    subgraph Modules["Módulos"]
+        LOGO[logo.ini<br/>Icono Nerd Font]
+        XWS[xworkspaces.ini<br/>Workspaces Qtile]
+        PA[pulseaudio.ini<br/>Volumen + pavucontrol]
+        BR[brillo.ini<br/>brightnessctl]
+        WL[wlan.ini<br/>WiFi + nmtui]
+        BT[battery.ini<br/>Estado batería]
+        DT[date.ini<br/>Reloj]
+        VPN[vpn.ini<br/>Wireguard + nmcli]
+        BL[bluetooth.ini<br/>Bluetooth + bluetui]
+    end
+
+    subgraph Launch["Launch Script"]
+        LS[launch.sh<br/>Multi-monitor]
+    end
+
+    CI --> CL
+    CI --> LOGO
+    CI --> XWS
+    CI --> PA
+    CI --> BR
+    CI --> WL
+    CI --> BT
+    CI --> DT
+    CI --> VPN
+    CI --> BL
+    LS --> CI
+```
+
+## Tabla de Módulos
+
+| Archivo | Rol | Características Clave |
+|---------|-----|----------------------|
+| `config.ini` | Configuración principal | 98% ancho, 28px, top, esquinas redondeadas 10px |
+| `colors.ini` | Paleta de colores | Actualizado por theme-switch dinámicamente |
+| `launch.sh` | Script de inicio | Mata instancias previas, lanza barra por monitor |
+| `logo.ini` | Logo + menú | Icono Nerd Font, click abre settings-menu en rofi |
+| `xworkspaces.ini` | Workspaces | Estados: focused, occupied, urgent, empty |
+| `pulseaudio.ini` | Volumen | Icono 󰕾, mute, click abre pavucontrol |
+| `brillo.ini` | Brillo | Icono 󰃃, scroll para ajustar vía brightnessctl |
+| `wlan.ini` | WiFi | Icono 󰤨/󰤮, click abre nmtui |
+| `battery.ini` | Batería | Estados charging / discharging / low |
+| `date.ini` | Reloj | Mon 14:30, alt muestra fecha completa |
+| `vpn.ini` | VPN | Icono 󰦝/󰦞, chequea ARCH-CH-US-3, click togglea |
+| `bluetooth.ini` | Bluetooth | On/off icon, click abre bluetui en kitty |
+
 **Ubicacion**: `polybar/`
 
 ## Estructura

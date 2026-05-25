@@ -1,24 +1,68 @@
 # Rofi -- Application Launcher
 
-**Ubicacion**: `rofi/`
+## Diagrama de Arquitectura
+
+```mermaid
+graph TB
+    subgraph Config["Archivos de Configuración"]
+        CR[config.rasi<br/>Modos: drun, run, window]
+        TR[theme.rasi<br/>Tema visual general]
+    end
+
+    subgraph Themes["Temas Específicos"]
+        TDR[theme-drun.rasi<br/>Grid Android 5x4]
+        TAR[theme-action.rasi<br/>Grid iconos 4x1]
+    end
+
+    subgraph Scripts["Scripts"]
+        LAUNCH[launcher.sh<br/>App launcher + Google search]
+        EMOJI[emoji.sh<br/>800+ emojis]
+        QACT[qtile-action-menu.sh<br/>Suspend, Reboot, Poweroff, Logout]
+        QWS[qtile-workspace-switcher.sh<br/>Selector workspaces]
+        SETT[settings-menu.sh<br/>Menú central]
+        WS[web-search.sh<br/>Búsqueda en Google]
+        NC[notification-center.sh<br/>Centro de notificaciones]
+    end
+
+    subgraph Access["Atajos"]
+        MS[Mod + Space]
+        ML[Mod + L]
+        MSS[Mod + Shift + Space]
+    end
+
+    CR --> TR
+    TR --> TDR
+    TR --> TAR
+    TR --> LAUNCH
+    TR --> EMOJI
+    TR --> QACT
+    TR --> QWS
+    TR --> SETT
+    TR --> WS
+    TR --> NC
+    MS --> TDR
+    ML --> TAR
+    MSS --> SETT
+```
 
 ## Archivos
 
-| Archivo | Descripcion |
-|---------|-------------|
-| `config.rasi` | Configuracion de modos (drun, run, window) |
-| `theme.rasi` | Tema visual personalizado (menus, settings) |
-| `theme-drun.rasi` | Tema grid Android-style para app launcher (5x4) |
-| `favoritos.txt` | Lista de apps favoritas |
-| `scripts/` | Scripts para funcionalidades extendidas |
+| Archivo | Rol | Características Clave |
+|---------|-----|----------------------|
+| `config.rasi` | Configuración de modos | drun, run, window, fuzzy matching fzf-style |
+| `theme.rasi` | Tema visual general | Norte, 480px, border-radius 24px, fondo oscuro |
+| `theme-drun.rasi` | Grid app launcher | 5 columnas x 4 filas, iconos 36px, 680px ancho |
+| `theme-action.rasi` | Grid acciones | 4 columnas x 1 fila, icono + texto, 520px ancho |
+| `favoritos.txt` | Apps favoritas | Lista de aplicaciones favoritas |
+| `scripts/` | Scripts extendidos | Launcher, emoji, acciones, workspaces, settings, web, notificaciones |
+
+**Ubicacion**: `rofi/`
 
 ## Configuracion
 
 - **Modos**: drun (apps instaladas), run (comandos), window (ventanas activas)
 - **Sort**: fzf-style fuzzy matching
 - **Iconos**: Habilitados en las entradas
-
-## Tema Drun (Android Grid)
 
 ## Tema Action (Grid Iconos)
 

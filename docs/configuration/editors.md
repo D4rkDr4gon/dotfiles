@@ -1,5 +1,58 @@
 # Editores
 
+## Diagrama de Arquitectura
+
+```mermaid
+graph TB
+    subgraph NV["Neovim - LazyVim"]
+        NINIT[init.lua<br/>Entry point]
+        NLAZY[lazy.lua<br/>Bootstrap lazy.nvim]
+        NOPT[options.lua<br/>Opciones]
+        NKEY[keymaps.lua<br/>Keymaps]
+        NAUTO[autocmds.lua<br/>Autocomandos]
+        NCOL[colors.lua<br/>Paleta custom]
+        NHI[highlights.lua<br/>TokyoNight highlights]
+        NPLUG[plugins/<br/>colorscheme.lua + example.lua]
+        NINIT --> NLAZY
+        NINIT --> NOPT
+        NINIT --> NKEY
+        NINIT --> NAUTO
+        NINIT --> NCOL
+        NINIT --> NHI
+        NINIT --> NPLUG
+    end
+
+    subgraph ST["Sublime Text"]
+        SPREF[Preferences.sublime-settings<br/>Tema Kali-Red-Hack]
+        SPKG[Package Control.sublime-settings<br/>Canales de paquetes]
+        SCS[Kali-Red-Hack.sublime-color-scheme<br/>Color scheme cyberpunk]
+    end
+```
+
+## Tabla de Configuración
+
+### Neovim
+
+| Archivo | Rol | Características Clave |
+|---------|-----|----------------------|
+| `init.lua` | Entry point | Punto de entrada de LazyVim |
+| `lua/config/lazy.lua` | Bootstrap | Inicializa lazy.nvim |
+| `lua/config/options.lua` | Opciones | Defaults de LazyVim |
+| `lua/config/keymaps.lua` | Keymaps | Atajos de teclado |
+| `lua/config/autocmds.lua` | Autocomandos | Placeholder para eventos |
+| `lua/config/colors.lua` | Colores custom | bg #0f0f0f, fg #c5c8c6, red #d32f2f |
+| `lua/config/highlights.lua` | Highlights | Overrides de tokyonight |
+| `lua/plugins/colorscheme.lua` | Tema | Tokyo Night |
+| `lazy-lock.json` | Lock | Versiones bloqueadas de plugins |
+
+### Sublime Text
+
+| Archivo | Rol | Características Clave |
+|---------|-----|----------------------|
+| `Preferences.sublime-settings` | Configuración | Kali-Red-Hack, Hack 10pt, caret rojo, tema Dark |
+| `Package Control.sublime-settings` | Paquetes | Canales de paquetes instalados |
+| `Kali-Red-Hack.sublime-color-scheme` | Color scheme | Estética cyberpunk custom |
+
 ## Neovim -- LazyVim
 
 **Ubicacion**: `lazy-nvim/`

@@ -1,5 +1,53 @@
 # Qtile -- Window Manager
 
+## Diagrama de Arquitectura
+
+```mermaid
+graph TB
+    subgraph Entry["Entry Point"]
+        CF[config.py]
+    end
+
+    subgraph Modules["Módulos Qtile"]
+        KY[keys.py<br/>Keybindings mod4]
+        GR[groups.py<br/>5 Workspaces]
+        LY[layouts.py<br/>Columns, MonadTall, Stack]
+        SC[screens.py<br/>Dual monitor + wallpaper]
+        MO[mouse.py<br/>Mouse bindings]
+        HK[hooks.py<br/>Autostart + eventos]
+    end
+
+    subgraph External["Componentes Externos"]
+        PB[Polybar]
+        PC[Picom]
+        KT[Kitty]
+        RF[Rofi]
+    end
+
+    CF --> KY
+    CF --> GR
+    CF --> LY
+    CF --> SC
+    CF --> MO
+    CF --> HK
+    HK --> PB
+    HK --> PC
+    HK --> KT
+    HK --> RF
+```
+
+## Tabla de Módulos
+
+| Archivo | Rol | Características Clave |
+|---------|-----|----------------------|
+| `config.py` | Entry point | Punto de entrada, importa todos los módulos |
+| `groups.py` | Workspaces | 5 workspaces (NOTES, FILES, DEV, SYS, WEB) |
+| `keys.py` | Keybindings | Atajos de teclado con mod4 |
+| `layouts.py` | Layouts | Columns, MonadTall, Stack + reglas flotación |
+| `screens.py` | Pantallas | Dual monitor, wallpaper desde tema |
+| `mouse.py` | Mouse | Bindings de ratón |
+| `hooks.py` | Eventos | Autostart de polybar, picom, kitty, rofi |
+
 **Ubicacion**: `qtile/`
 
 ## Estructura Modular

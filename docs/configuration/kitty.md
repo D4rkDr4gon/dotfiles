@@ -1,13 +1,43 @@
 # Kitty -- Terminal
 
-**Ubicacion**: `kitty/`
+## Diagrama de Arquitectura
+
+```mermaid
+graph TB
+    subgraph Config["Archivos de Configuración"]
+        KC[kitty.conf<br/>Configuración principal]
+        CC[colors.conf<br/>Colores dinámicos]
+    end
+
+    subgraph Theme["Sistema de Temas"]
+        TS[theme-switch.sh<br/>Actualiza paleta]
+    end
+
+    subgraph Features["Características"]
+        FONT[Hack Nerd Font 10pt]
+        OPAC[80% de opacidad]
+        TABS[Powerline tabs<br/>Slanted separators]
+        SHELL[Zsh por defecto]
+        COPY[Copy on select]
+    end
+
+    TS --> CC
+    KC --> CC
+    KC --> FONT
+    KC --> OPAC
+    KC --> TABS
+    KC --> SHELL
+    KC --> COPY
+```
 
 ## Archivos
 
-| Archivo | Descripcion |
-|---------|-------------|
-| `kitty.conf` | Configuracion principal |
-| `colors.conf` | Colores (dinamicos, actualizados por tema) |
+| Archivo | Rol | Características Clave |
+|---------|-----|----------------------|
+| `kitty.conf` | Configuración principal | Font, opacidad, tabs, atajos de teclado |
+| `colors.conf` | Paleta de colores | Actualizado dinámicamente por theme-switch.sh |
+
+**Ubicacion**: `kitty/`
 
 ## Configuracion Visual
 
