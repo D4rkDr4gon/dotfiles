@@ -20,6 +20,7 @@ alias fastfetch='fastfetch --logo /home/lcampassi/.config/fastfetch/png/logo.png
 alias polybarupdate='/home/lcampassi/.config/polybar/launch.sh'
 alias zshconfig="nvim ~/.zshrc"
 alias logo="sh /home/lcampassi/dotfiles/automat/launch-logo.sh"
+alias threatdeck="~/.cargo/bin/ThreatDeck"
 
 # Repo lazygit
 alias vault="cd /files/Personal-Vault/ && lazygit"
