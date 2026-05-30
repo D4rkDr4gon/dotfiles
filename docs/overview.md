@@ -19,7 +19,7 @@ Qtile 0.36+ soporta Wayland nativamente. El autostart detecta automáticamente e
 | **Barra** | Polybar | Waybar (misma estética) |
 | **Compositor** | Picom (GLX + blur) | No necesario (wlroots) |
 | **Wallpaper** | Nitrogen | Qtile `Screen(wallpaper=...)` |
-| **Lock** | betterlockscreen | swaylock |
+| **Lock** | betterlockscreen | gtklock (CSS custom + grim + ImageMagick) |
 | **Screenshot** | Flameshot | grim + slurp |
 | **Monitores** | xrandr | wlr-randr |
 
@@ -92,7 +92,7 @@ graph TB
 | **Thunar** | File manager | `Thunar/` | [docs](configuration/thunar.md) |
 | **Fastfetch** | System info display | `fastfetch/` | [docs](configuration/fastfetch.md) |
 | **OneDrive** | Cloud sync | `onedrive/` | [docs](configuration/extras.md) |
-| **Lock Screen** | swaylock (Wayland) / betterlockscreen (X11) | `swaylock/` + `scripts/` | [docs](configuration/lock-screen.md) |
+| **Lock Screen** | gtklock (Wayland) / betterlockscreen (X11) | `gtklock/` + `scripts/` | [docs](configuration/lock-screen.md) |
 | **opencode** | AI assistant config + skills | `opencode/` | [docs](configuration/opencode.md) |
 | **Screenshots** | grim+slurp (Wayland) / Flameshot (X11) | `scripts/screenshot.sh` | [docs](configuration/wayland.md) |
 
@@ -106,7 +106,7 @@ Los archivos de configuracion se vinculan desde el repo a sus ubicaciones del si
 | `~/.config/qtile` | `~/dotfiles/qtile/` |
 | `~/.config/polybar` | `~/dotfiles/polybar/` |
 | `~/.config/waybar` | `~/dotfiles/waybar/` |
-| `~/.config/swaylock` | `~/dotfiles/swaylock/` |
+| `~/.config/gtklock` | `~/dotfiles/gtklock/` |
 | `~/.config/picom` | `~/dotfiles/picom/` |
 | `~/.config/rofi` | `~/dotfiles/rofi/` |
 | `~/.config/kitty` | `~/dotfiles/kitty/` |
@@ -167,7 +167,8 @@ dotfiles/
 │   ├── launch.sh
 │   ├── modules/
 │   └── scripts/
-├── swaylock/                  # Wayland lock screen config
+├── gtklock/                   # Wayland lock screen config (GTK-based)
+│   ├── config.ini, style.css, layout.ui
 ├── kitty/
 ├── zsh/
 ├── rofi/
@@ -193,7 +194,7 @@ dotfiles/
 - [Automatizaciones](automations.md) — Scripts de instalacion, vault, AI, utilities
 - [Configuracion Ctile](configuration/qtile.md) — Window manager, grupos, layouts, hooks, dual-backend
 - [Configuracion Polybar](configuration/polybar.md) — Barra de estado X11, modulos, colores
-- [Wayland Architecture](configuration/wayland.md) — Migracion, dual-backend, Waybar, swaylock, grim+slurp
+- [Wayland Architecture](configuration/wayland.md) — Migracion, dual-backend, Waybar, gtklock, grim+slurp
 - [Configuracion Kitty](configuration/kitty.md) — Terminal, colores, keybindings, Wayland
 - [Configuracion Zsh](configuration/zsh.md) — Shell, aliases, plugins, prompt
 - [Configuracion Rofi](configuration/rofi.md) — Launcher, temas, scripts
@@ -203,5 +204,5 @@ dotfiles/
 - [Fastfetch](configuration/fastfetch.md) — System info display
 - [Thunar](configuration/thunar.md) — File manager, custom actions
 - [opencode](configuration/opencode.md) — AI assistant, skills personalizadas
-- [Lock Screen](configuration/lock-screen.md) — swaylock / betterlockscreen, blur, unlock
+- [Lock Screen](configuration/lock-screen.md) — gtklock / betterlockscreen, CSS custom, clock + banner
 - [Extras](configuration/extras.md) — OneDrive, wallpapers, herramientas

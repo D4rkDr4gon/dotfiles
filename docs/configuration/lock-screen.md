@@ -6,8 +6,8 @@ El lock screen se adapta automáticamente al backend:
 
 | Backend | Programa | Características |
 |---------|----------|-----------------|
-| **X11** | betterlockscreen / i3lock-color | Bloqueo visual sin password, fondo blur, cualquier tecla desbloquea |
-| **Wayland** | swaylock | Blur + clock + indicator, config en `swaylock/config` |
+| **X11** | custom C binary (`lock-screen`) | Bloqueo visual sin password, fondo blur, clock + ASCII banner |
+| **Wayland** | gtklock + grim + ImageMagick | Blur + ASCII banner en fondo, clock vivo con CSS, auth form glass |
 
 La detección se hace en `scripts/lock-screen.sh` via `$XDG_SESSION_TYPE`.
 
@@ -62,41 +62,58 @@ gcc -O2 -o lock-screen lock-screen.c $(pkg-config --cflags --libs xft xinerama x
 
 ### Overview (Wayland)
 
-En Wayland se usa `swaylock` con la configuración de `swaylock/config`:
+En Wayland se usa **gtklock** con pre-renderizado de fondo via `grim` + ImageMagick y un layout GTK3 custom para posicionar los elementos:
 
 ```
-ignore-empty-password
-daemonize
-clock
-indicator-idle-visible
-indicator-radius=100
-indicator-thickness=10
-effect-blur=7x5
+config:   ~/.config/gtklock/config.ini
+style:    ~/.config/gtklock/style.css
+layout:   ~/.config/gtklock/layout.ui
 ```
 
-### Behavior (Wayland)
+### Comportamiento
 
 | Feature | Detail |
 |---------|--------|
-| **Unlock** | Password (misma que la de usuario) |
-| **Background** | Current screen blurred with `effect-blur=7x5` |
-| **Clock** | Live clock on the lock screen |
-| **Indicator** | Circular indicator appears on keypress |
+| **Unlock** | Password via PAM (input field estilizado glass) |
+| **Background** | Current screen capturada con `grim`, blurred (Gaussian 0x8), banner ASCII compuesto en bottom-right |
+| **Clock** | Label nativo de gtklock, **vivo** (actualiza cada segundo), posicionado en bottom-left vía layout custom |
+| **Date** | Label nativo de gtklock, debajo del clock |
+| **Banner** | ASCII art "D4rkDr4g0n" con nombre/título renderizado en bottom-right (baked en background) |
+| **Auth form** | Aparece con fade al enfocar la pantalla (idle-hide), estilo glass semi-transparente en bottom-right |
+| **Indicator** | Password reveal toggle, mensajes de error/warning |
+| **Modules** | `playerctl-module` (controles multimedia), `userinfo-module` (avatar + username) |
 | **Welcome Notification** | `notify-send` al desbloquear (mismo que X11) |
 
-### Files (Wayland)
+### Files
 
 | File | Purpose |
 |------|---------|
-| `swaylock/config` | swaylock configuration |
-| `scripts/lock-screen.sh` | Shell wrapper, detecta backend y ejecuta swaylock |
+| `gtklock/config.ini` | Configuración general (time-format, modules, estilo y layout paths) |
+| `gtklock/style.css` | Estilo GTK3 CSS completo (glass auth form, clock, etc.) |
+| `gtklock/layout.ui` | Layout GTK3 custom (clock bottom-left, auth bottom-right) |
+| `scripts/lock-screen.sh` | Shell wrapper, pre-renderiza fondo y lanza gtklock |
+| `recursos/lock-banner.txt` | ASCII art banner para compositar en el fondo |
 
-### Dependencies (Wayland)
+### Dependencies
 
-- `swaylock` (package from official repos)
+| Paquete | Propósito |
+|---------|-----------|
+| `gtklock` | Lock screen GTK-based para Wayland |
+| `grim` | Captura de pantalla |
+| `imagemagick` | Procesamiento de imagen (blur, compositing) |
+| `gtklock-playerctl-module` | (Opcional) Controles multimedia en lockscreen |
+| `gtklock-userinfo-module` | (Opcional) Avatar + username en lockscreen |
+
+### Personalización
+
+- **Clock**: editá `#clock-label` y `#date-label` en `style.css` (font-size, color, text-shadow, etc.)
+- **Auth form**: editá `#body-revealer`, `#input-field`, `#unlock-button` en `style.css`
+- **Layout**: editá `layout.ui` para cambiar posición de clock, auth form, etc.
+- **Banner background**: editá `lock-screen.sh` para cambiar blur, banner file, posición, etc.
 
 ## Notes
 
 - En X11 el bloqueo es visual sin password (keyboard/pointer grab).
 - En Wayland se requiere la password del usuario (estándar de seguridad de Wayland).
 - Ambos backends muestran la notificación "Bienvenido de nuevo! D4rkDr4g0n" al desbloquear.
+- gtklock permite personalización CSS completa, a diferencia de swaylock que no tiene overlays custom.
