@@ -5,12 +5,12 @@ source "$SCRIPT_DIR/lib/common.sh"
 
 main() {
     check_arch
-    header "POLYBAR"
+    header "POLYBAR (X11 ONLY)"
     install_pacman_pkg "polybar"
     stow_config "polybar"
     if [ -f "$HOME/.config/polybar/launch.sh" ]; then
         chmod +x "$HOME/.config/polybar/launch.sh"
     fi
-    log "Polybar instalado"
+    log "Polybar instalado (solo X11). En Wayland se usa Waybar: bash install-wayland.sh"
 }
 main "$@"

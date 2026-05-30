@@ -44,6 +44,7 @@ graph LR
 | `--no-ollama` | Salta descarga de modelos AI (~15GB) |
 | `--no-blackarch` | Salta configuracion de BlackArch |
 | `--no-aur` | Salta paquetes AUR |
+| `--no-wayland` | Salta paquetes Wayland (solo X11) |
 
 Ejemplo:
 
@@ -83,6 +84,7 @@ bash install.sh --no-ollama --no-blackarch
 | `install-rofi.sh` | Launcher | — | `~/.config/rofi/` |
 | `install-neovim.sh` | Editor (LazyVim) | — | `~/.config/nvim/` |
 | `install-tools.sh` | Apps de productividad | yay | — |
+| `install-wayland.sh` | Paquetes Wayland (waybar, grim, slurp, swaylock, etc.) | — | `~/.config/waybar/`, `~/.config/swaylock/` |
 | `install-ollama.sh` | AI models | — | Systemd service |
 | `install-n8n.sh` | Workflow automation | — | Systemd user service |
 | `setup-blackarch.sh` | BlackArch repos | — | `/etc/pacman.conf` |
@@ -103,6 +105,7 @@ bash automat/install/install-kitty.sh
 bash automat/install/install-rofi.sh
 bash automat/install/install-neovim.sh
 bash automat/install/install-tools.sh
+bash automat/install/install-wayland.sh  # opcional, para sesion Wayland
 bash automat/install/install-ollama.sh
 bash automat/install/install-n8n.sh
 bash automat/install/setup-blackarch.sh  # opcional
@@ -119,6 +122,12 @@ bash automat/install/setup-blackarch.sh  # opcional
 7. **Verifica**: `fastfetch`
 
 ### Paquetes Wayland (opcional, para sesión Wayland)
+
+```bash
+bash automat/install/install-wayland.sh
+```
+
+O manualmente:
 
 ```bash
 yay -S waybar wlr-randr swaybg grim slurp swaylock swayidle wl-clipboard

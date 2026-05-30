@@ -25,18 +25,30 @@ main() {
         for pkg in "${AUR_PKGS[@]}"; do install_yay_pkg "$pkg"; done
     fi
 
-    # Desktop entry
-    local desktop="/usr/share/xsessions/qtile.desktop"
-    if [ ! -f "$desktop" ]; then
-        sudo tee "$desktop" > /dev/null <<< '[Desktop Entry]
+    # Desktop entries
+    local xsessions="/usr/share/xsessions/qtile.desktop"
+    if [ ! -f "$xsessions" ]; then
+        sudo tee "$xsessions" > /dev/null <<< '[Desktop Entry]
 Name=Qtile
-Comment=Qtile Session
+Comment=Qtile Session (X11)
 Exec=/usr/bin/qtile start
 Type=Application
 Keywords=wm;tiling'
-        log "Session file creado"
+        log "Session X11 creada"
     fi
 
-    log "Qtile instalado. Seleccionalo en lightdm."
+    local wayland_sessions="/usr/share/wayland-sessions/qtile-wayland.desktop"
+    if [ ! -f "$wayland_sessions" ]; then
+        sudo mkdir -p /usr/share/wayland-sessions
+        sudo tee "$wayland_sessions" > /dev/null <<< '[Desktop Entry]
+Name=Qtile (Wayland)
+Comment=Qtile Session (Wayland)
+Exec=/usr/bin/qtile start -b wayland
+Type=Application
+Keywords=wm;tiling;wayland'
+        log "Session Wayland creada"
+    fi
+
+    log "Qtile instalado. Seleccionalo en lightdm (Qtile para X11, Qtile (Wayland) para Wayland)."
 }
 main "$@"

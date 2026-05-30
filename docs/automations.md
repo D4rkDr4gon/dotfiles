@@ -50,6 +50,10 @@ graph TB
         N8[install-n8n.sh<br/>Workflow automation]
     end
 
+    subgraph Wayland["Wayland (optional)"]
+        WL[install-wayland.sh<br/>Waybar, swaylock<br/>grim, slurp, etc.]
+    end
+
     subgraph Optional["Optional"]
         BA[setup-blackarch.sh<br/>BlackArch repos]
     end
@@ -64,6 +68,7 @@ graph TB
     QT --> KT
     QT --> NV
     QT --> TL
+    TL --> WL
     TL --> OL
     TL --> N8
     PC --> BA
@@ -128,7 +133,8 @@ graph LR
 | `install-kitty.sh` | Kitty terminal + stow | — |
 | `install-rofi.sh` | Rofi + sigma-file-manager | — |
 | `install-neovim.sh` | Neovim + LazyVim starter | — |
-| `install-tools.sh` | Obsidian, Flameshot, Firefox, CopyQ, Discord, Spotify | yay |
+| `install-tools.sh` | Obsidian, Flameshot, Firefox, CopyQ, Discord, Spotify + Wayland tools | yay |
+| `install-wayland.sh` | Wayland packages: waybar, wlr-randr, swaybg, grim, slurp, swaylock, swayidle, wl-clipboard | — |
 | `install-ollama.sh` | Ollama service + scripts de utilidad | — |
 | `ollama-pull.sh` | Descarga modelos Ollama (~15GB) | ollama |
 | `install-n8n.sh` | n8n workflow automation + systemd user service | — |
@@ -148,6 +154,7 @@ bash automat/install/install-kitty.sh
 bash automat/install/install-rofi.sh
 bash automat/install/install-neovim.sh
 bash automat/install/install-tools.sh
+bash automat/install/install-wayland.sh  # opcional, para sesion Wayland
 bash automat/install/install-ollama.sh
 bash automat/install/install-n8n.sh
 bash automat/install/setup-blackarch.sh  # opcional

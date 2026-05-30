@@ -123,6 +123,11 @@ PACKAGES_AUR=(
     onedrive-abraunegg
 )
 
+WAYLAND_PKGS=(
+    waybar swaybg swaylock
+    wayland wlroots0.19 wlr-randr grim slurp swayidle
+)
+
 install_official_packages() {
     header "INSTALANDO PAQUETES OFICIALES"
     local missing=()
@@ -164,10 +169,12 @@ create_symlinks() {
     header "CREANDO SYMLINKS"
     cd "$DOTFILES_DIR"
 
-    local stow_dirs=(
-        qtile polybar picom rofi kitty dunst fastfetch Thunar
-        zsh automat onedrive opencode lazy-nvim
-    )
+    local base_dirs=(qtile polybar picom rofi kitty dunst fastfetch Thunar zsh automat onedrive opencode lazy-nvim)
+    local stow_dirs=("${base_dirs[@]}")
+
+    if ! $skip_wayland; then
+        stow_dirs+=(waybar swaylock)
+    fi
 
     for dir in "${stow_dirs[@]}"; do
         if [ -d "$dir" ]; then
@@ -389,10 +396,11 @@ show_summary() {
     echo ""
     echo -e "${YELLOW}  PROXIMOS PASOS:${NC}"
     echo "  1. Reinicia sesion para usar Zsh"
-    echo "  2. Selecciona Qtile en el gestor de sesiones (lightdm)"
+    echo "  2. Selecciona Qtile (X11) o Qtile (Wayland) en lightdm"
     echo "  3. Aplica un tema: theme city-sci-fi"
     echo "  4. Abri Neovim para instalar plugins (nvim)"
     echo "  5. Configura monitores: bash ~/dotfiles/automat/display-monitors.sh"
+    echo "  6. Para session Wayland: instala paquetes extra con install-wayland.sh"
     echo ""
     echo -e "${CYAN}  Para aplicar un tema: theme at-at${NC}"
     echo -e "${CYAN}  Para abrir menu: Super + Espacio${NC}"
@@ -418,16 +426,21 @@ main() {
     for arg in "$@"; do
         case "$arg" in
             --help|-h)
-                echo "Uso: bash install.sh [--help|--no-ollama|--no-blackarch|--no-aur]"
+                echo "Uso: bash install.sh [--help|--no-ollama|--no-blackarch|--no-aur|--no-wayland]"
                 echo ""
                 echo "  Sin flags: Instalacion completa (interactiva para opcionales)"
                 echo "  --no-ollama:   Salta descarga de modelos AI"
                 echo "  --no-blackarch: Salta configuracion de BlackArch"
                 echo "  --no-aur:      Salta paquetes AUR"
+                echo "  --no-wayland:  Salta paquetes y symlinks de Wayland (solo X11)"
                 exit 0
                 ;;
         esac
     done
+
+    # Wayland (se puede saltar con --no-wayland)
+    skip_wayland=false
+    for arg in "$@"; do [ "$arg" = "--no-wayland" ] && skip_wayland=true; done
 
     detect_system
     auto_detect_dotfiles
@@ -441,6 +454,17 @@ main() {
 
     install_yay
     install_official_packages
+
+    # Wayland packages (se pueden saltar con --no-wayland)
+    if ! $skip_wayland; then
+        header "INSTALANDO PAQUETES WAYLAND"
+        for pkg in "${WAYLAND_PKGS[@]}"; do
+            if ! pacman -Q "$pkg" &>/dev/null; then
+                sudo pacman -S --noconfirm "$pkg"
+            fi
+        done
+        log "Paquetes Wayland instalados"
+    fi
 
     # AUR (se puede saltar con --no-aur)
     local skip_aur=false
