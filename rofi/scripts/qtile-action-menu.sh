@@ -7,7 +7,7 @@ CHOICE=$(printf "Lock\0icon\x1fsystem-lock-screen\nReboot\0icon\x1fsystem-reboot
 
 case "$CHOICE" in
 "Lock")
-  ~/dotfiles/scripts/lock-screen.sh
+  bash ~/dotfiles/scripts/lock-screen.sh
   ;;
 "Reboot")
   reboot now

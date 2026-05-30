@@ -52,7 +52,8 @@ Sistema de notificaciones con centro de historial integrado en Rofi.
 
 ## Integracion
 
-- **Picom**: Aplica 85% de opacidad a Dunst (misma que Rofi) y excluye esquinas redondeadas
+- **Picom (X11)**: Aplica opacidad a Dunst y excluye esquinas redondeadas
+- **Wayland**: Dunst no necesita compositor externo, funciona nativamente
 - **Rofi**: El notification center usa `theme.rasi` para verse identico al launcher
   - Muestra solo el summary de cada notificacion (una linea limpia)
   - Al seleccionar una noti, abre el texto completo en ventana con scroll

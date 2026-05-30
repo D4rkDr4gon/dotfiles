@@ -1,4 +1,8 @@
-# Picom -- Compositor
+# Picom -- Compositor (X11 only)
+
+## Overview
+
+Picom es el compositor utilizado exclusivamente en el backend X11. En **Wayland** no es necesario: el compositor wlroots de Qtile maneja el rendering, vsync, y transparencias nativamente.
 
 ## Diagrama de Arquitectura
 
@@ -18,19 +22,19 @@ graph TB
     end
 
     subgraph Opacity["Reglas de Opacidad"]
-        RO[Rofi: 80%]
-        PB[Polybar: 95%]
-        QT[Qtile: 95%]
-        KT[Kitty: 85%]
-        ST[Sublime Text: 95%]
-        OB[Obsidian: 95%]
+        RO[Rofi: 75%]
+        PB[Polybar: 100%]
+        QT[Qtile: 100%]
+        KT[Kitty: 70%]
+        ST[Sublime Text: 75%]
+        OB[Obsidian: 65%]
     end
 
     subgraph Exclusions["Exclusiones de Bordes"]
         DOC[Docks]
         DES[Escritorio]
-        POL[Polybar / polybar*]
-        DM[dmenu]
+        POL[Polybar]
+        DM[Dmenu]
     end
 
     PC --> BK
@@ -55,12 +59,12 @@ graph TB
 
 | Ventana | Opacidad |
 |---------|----------|
-| Rofi | 80% |
-| Polybar | 95% |
-| Qtile | 95% |
-| Kitty | 85% |
-| Sublime Text | 95% |
-| Obsidian | 95% |
+| Rofi | 75% |
+| Polybar | 100% |
+| Qtile | 100% |
+| Kitty | 70% |
+| Sublime Text | 75% |
+| Obsidian | 65% |
 
 **Ubicacion**: `picom/picom.conf`
 
@@ -81,12 +85,12 @@ Ventanas con opacidad reducida:
 
 | Ventana | Opacidad |
 |---------|----------|
-| Rofi | 80% |
-| Polybar | 95% |
-| Qtile | 95% |
-| Kitty | 85% |
-| Sublime Text | 95% |
-| Obsidian | 95% |
+| Rofi | 75% |
+| Polybar | 100% |
+| Qtile | 100% |
+| Kitty | 70% |
+| Sublime Text | 75% |
+| Obsidian | 65% |
 
 ## Exclusiones de Bordes Redondeados
 
@@ -95,10 +99,19 @@ No aplica border radius a:
 - Escritorio
 - Polybar
 - dmenu
-- Ventanas con nombre `polybar*`
+- Dunst
 
 ## Efectos
 
 - **Blur dual_kawase**: Desenfoque de fondo con calidad media/alta
 - **Fade**: Transiciones suaves de 200ms al abrir/cerrar/mapear ventanas
 - **Sin sombras**: Estilo plano y limpio
+
+## Wayland
+
+En Wayland, Picom no se ejecuta. El compositor wlroots de Qtile maneja:
+- Vsync
+- Opacidad de ventanas (Kitty maneja su propia transparencia)
+- Sin blur de fondo ni esquinas redondeadas globales
+
+Si se desea blur y esquinas redondeadas en Wayland, considerar migrar a Hyprland (que lo soporta nativamente).

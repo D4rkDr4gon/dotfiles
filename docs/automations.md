@@ -75,10 +75,12 @@ graph TB
 
 | Script | Descripcion | Atajo |
 |--------|-------------|-------|
-| `display-monitors.sh` | Configura monitores via xrandr | `display-monitors` |
+| `display-monitors.sh` | Configura monitores (xrandr en X11, wlr-randr en Wayland) | `display-monitors` |
 | `launch-logo.sh` | Muestra banner ASCII del dragon D4rkDr4g0n | `logo` |
 | `launchgemma.sh` | Lanza Ollama + Gemma 3 en Kitty | `launchgemma` |
-| `lock-screen.sh` | Lock screen custom (fondo blur, cualquier tecla desbloquea) | `Mod+L → Lock` |
+| `lock-screen.sh` | Lock screen (swaylock en Wayland, betterlockscreen en X11) | `Mod+L → Lock` |
+| `barupdate.sh` | Reinicia la barra según el backend (Polybar/Waybar) | `barupdate` |
+| `screenshot.sh` | Screenshot (grim+slurp en Wayland, Flameshot en X11) | `Print` / `Mod+Shift+S` |
 
 ### Vault (Obsidian)
 
@@ -109,7 +111,7 @@ graph LR
 
     Daily -->|Git Sync| OV[Obsidian Vault<br/>Personal-Vault]
     AI -->|Local LLM| GM[Gemma 3]
-    Display -->|xrandr| MM[Multi-monitor]
+    Display -->|xrandr/wlr-randr| MM[Multi-monitor]
     Display -->|ASCII| BN[Banner]
 ```
 

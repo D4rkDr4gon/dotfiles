@@ -1,0 +1,75 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "modules-left": ["custom/logo", "custom/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["custom/brillo", "pulseaudio", "network", "custom/vpn", "custom/bluetooth", "battery"],
+
+    "custom/logo": {
+        "format": "󰣇",
+        "on-click": "/usr/bin/bash /home/lcampassi/.config/rofi/scripts/settings-menu.sh"
+    },
+
+    "custom/workspaces": {
+        "exec": "python3 /home/lcampassi/.config/waybar/scripts/qtile-workspaces.py",
+        "exec-on-event": false,
+        "interval": 1,
+        "return-type": "json",
+        "format": "{}",
+        "on-click": "bash /home/lcampassi/.config/rofi/scripts/qtile-workspace-switcher.sh",
+        "on-scroll-up": "bash /home/lcampassi/.config/waybar/scripts/qtile-workspace-switch.sh prev",
+        "on-scroll-down": "bash /home/lcampassi/.config/waybar/scripts/qtile-workspace-switch.sh next"
+    },
+
+    "clock": {
+        "format": "{:%a %H:%M}",
+        "format-alt": "{:%A %Y-%m-%d %H:%M:%S}",
+        "interval": 1
+    },
+
+    "custom/brillo": {
+        "exec": "brightnessctl -m | cut -d, -f4",
+        "interval": 1,
+        "format": "󱠃 {}",
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-"
+    },
+
+    "pulseaudio": {
+        "format": "󰕾 {volume}%",
+        "format-muted": "  Muted",
+        "on-click-right": "pavucontrol"
+    },
+
+    "network": {
+        "format-wifi": "󰤨",
+        "format-ethernet": "󰛳",
+        "format-disconnected": "󰤭",
+        "on-click": "nmtui"
+    },
+
+    "custom/vpn": {
+        "exec": "/usr/bin/bash /home/lcampassi/.config/polybar/modules/vpn_status.sh",
+        "interval": 5,
+        "on-click": "/usr/bin/bash /home/lcampassi/.config/polybar/modules/vpn_toggle.sh",
+        "on-click-right": "/usr/bin/bash /home/lcampassi/.config/polybar/modules/vpn_ip.sh"
+    },
+
+    "custom/bluetooth": {
+        "exec": "/usr/bin/bash /home/lcampassi/.config/polybar/modules/bluetooth_status.sh",
+        "interval": 2,
+        "on-click": "kitty --title bluetui -e bluetui"
+    },
+
+    "battery": {
+        "bat": "BAT0",
+        "interval": 5,
+        "format": "󰂄",
+        "format-charging": "󰂄",
+        "format-discharging": "󰁹",
+        "format-full": "󰂄",
+        "format-low": "󰂎 {capacity}%",
+        "on-click": "/bin/bash -c 'notify-send -u low \"Batería\" \"$(cat /sys/class/power_supply/BAT0/capacity)% - $(cat /sys/class/power_supply/BAT0/status)\"'"
+    }
+}

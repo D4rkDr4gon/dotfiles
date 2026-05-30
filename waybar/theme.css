@@ -1,0 +1,11 @@
+@define-color primary #c62828;
+@define-color secondary #8e1a1a;
+@define-color background rgba(15, 15, 16, 0.95);
+@define-color foreground #c5c8c6;
+@define-color foreground-alt #8a8a8a;
+@define-color chip-battery #1a1515;
+@define-color chip-bluetooth #2a1a1a;
+@define-color chip-wlan #3a2020;
+@define-color chip-audio #4a2525;
+@define-color alert #ff4444;
+@define-color disabled #555555;

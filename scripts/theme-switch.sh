@@ -5,6 +5,7 @@ set -e
 THEMES_DIR="$HOME/dotfiles/themes"
 CURRENT_THEME_FILE="$HOME/.config/qtile/current_theme.json"
 POLYBAR_COLORS="$HOME/.config/polybar/colors.ini"
+WAYBAR_COLORS="$HOME/.config/waybar/theme.css"
 KITTY_COLORS="$HOME/.config/kitty/colors.conf"
 ZSH_COLORS="$HOME/.zsh_colors"
 BANNER_COLOR="$HOME/.zsh_banner_color"
@@ -73,6 +74,12 @@ apply_theme_config() {
     local chip_wlan=$(jq -r '.chip_wlan' "$theme_dir/theme.json")
     local chip_audio=$(jq -r '.chip_audio' "$theme_dir/theme.json")
 
+    # Extraer RGB para Waybar (necesita formato rgba)
+    local bg_hex="${background#\#}"
+    local bg_r=$((16#${bg_hex:0:2}))
+    local bg_g=$((16#${bg_hex:2:2}))
+    local bg_b=$((16#${bg_hex:4:2}))
+
     cat > "$POLYBAR_COLORS" << EOF
 [colors]
 primary = $primary
@@ -119,6 +126,20 @@ EOF
     local b=$((16#${hex:4:2}))
     printf '\033[38;2;%d;%d;%dm' "$r" "$g" "$b" > "$BANNER_COLOR"
 
+    cat > "$WAYBAR_COLORS" << EOF
+@define-color primary $primary;
+@define-color secondary $secondary;
+@define-color background rgba($bg_r, $bg_g, $bg_b, 0.95);
+@define-color foreground $foreground;
+@define-color foreground-alt #8a8a8a;
+@define-color chip-battery $chip_battery;
+@define-color chip-bluetooth $chip_bluetooth;
+@define-color chip-wlan $chip_wlan;
+@define-color chip-audio $chip_audio;
+@define-color alert #ff4444;
+@define-color disabled #555555;
+EOF
+
     cat > "$FASTFETCH_COLORS" << EOF
 {
   "primary": "$primary",
@@ -143,6 +164,10 @@ reload_components() {
     if pgrep -x qtile &>/dev/null; then
         qtile cmd-obj -o cmd -f reload_config 2>/dev/null || true
     fi
+
+    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+        bash "$HOME/.config/waybar/launch.sh" 2>/dev/null || true
+    fi
 }
 
 apply_theme() {
@@ -155,7 +180,9 @@ apply_theme() {
     apply_theme_config "$theme_name" "$theme_dir"
     reload_components
 
-    /home/lcampassi/.config/polybar/launch.sh 2>/dev/null || true
+    if [ "$XDG_SESSION_TYPE" != "wayland" ]; then
+        bash ~/.config/polybar/launch.sh 2>/dev/null || true
+    fi
     notify-send "Tema aplicado" "$display_name" -i dialog-information 2>/dev/null || true
 
     echo "✓ Tema '$theme_name' aplicado"

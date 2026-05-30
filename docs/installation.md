@@ -55,15 +55,15 @@ bash install.sh --no-ollama --no-blackarch
 
 | Categoria | Paquetes |
 |-----------|----------|
-| **WM + UI** | Ctile, Polybar, Picom, Rofi, Dunst, Nitrogen |
+| **WM + UI** | Ctile, Polybar, Picom, Waybar, Rofi, Dunst, Nitrogen, swaylock |
 | **Terminal** | Kitty, Zsh + powerlevel10k |
 | **Shell Tools** | zoxide, fzf, fd, ripgrep, bat, lsd, yazi, fastfetch, btop |
-| **Drivers** | AMDGPU, Vulkan, Xorg |
+| **Drivers** | AMDGPU, Vulkan, Xorg, Wayland |
 | **Audio** | PipeWire + WirePlumber |
 | **Networking** | NetworkManager, iwd, Proton VPN |
 | **Bluetooth** | Bluez + bluetui |
 | **Desarrollo** | Neovim + LazyVim, Node.js, Python, Lua, Git, GitHub CLI |
-| **Productividad** | Obsidian, Firefox, Thunar, Flameshot, CopyQ, Discord, Spotify, Bitwarden |
+| **Productividad** | Obsidian, Firefox, Thunar, Flameshot, grim+slurp, swaylock, swayidle, CopyQ, Discord, Spotify, Bitwarden |
 | **AI** | Ollama + modelos (opcional) |
 | **Automation** | n8n |
 | **Fonts** | Hack Nerd Font, JetBrains Mono, Font Awesome, Noto |
@@ -77,8 +77,8 @@ bash install.sh --no-ollama --no-blackarch
 | `install-fonts.sh` | Nerd Fonts, Awesome, Noto | — | `/usr/share/fonts/` |
 | `install-zsh.sh` | Shell + powerlevel10k | fonts | `~/.config/zsh/` |
 | `install-qtile.sh` | Window Manager | — | `~/.config/qtile/` |
-| `install-polybar.sh` | Status bar | — | `~/.config/polybar/` |
-| `install-picom.sh` | Compositor | — | `~/.config/picom/` |
+| `install-polybar.sh` | Status bar (X11) | — | `~/.config/polybar/` |
+| `install-picom.sh` | Compositor (X11) | — | `~/.config/picom/` |
 | `install-kitty.sh` | Terminal | — | `~/.config/kitty/` |
 | `install-rofi.sh` | Launcher | — | `~/.config/rofi/` |
 | `install-neovim.sh` | Editor (LazyVim) | — | `~/.config/nvim/` |
@@ -111,12 +111,28 @@ bash automat/install/setup-blackarch.sh  # opcional
 ## Post-Instalacion
 
 1. **Reinicia sesion** para usar Zsh como shell default
-2. **Selecciona Ctile** en lightdm
+2. **Selecciona Ctile** en lightdm (o "Ctile (Wayland)" para Wayland)
 3. **Aplica un tema**: `theme city-sci-fi`
 4. **Abre Neovim** para instalar plugins: `nvim` + `Lazy!`
 5. **Configura monitores**: `bash ~/dotfiles/automat/display-monitors.sh`
 6. **Configura OneDrive**: Editar `onedrive/config` con tu tenant
 7. **Verifica**: `fastfetch`
+
+### Paquetes Wayland (opcional, para sesión Wayland)
+
+```bash
+yay -S waybar wlr-randr swaybg grim slurp swaylock swayidle wl-clipboard
+```
+
+Rofi 2.0+ ya tiene soporte Wayland nativo. No requiere paquete extra.
+
+### Sesión Wayland
+
+Desde LightDM seleccionar "Qtile (Wayland)". También se puede iniciar desde TTY:
+
+```bash
+qtile start -b wayland
+```
 
 ## Symlinks Manuales
 
@@ -124,7 +140,7 @@ Los symlinks se crean automaticamente con `install.sh`, pero podes hacerlo manua
 
 ```bash
 ln -sf ~/dotfiles/zsh/zshrc ~/.zshrc
-for dir in qtile polybar picom rofi kitty Thunar zsh automat dunst opencode; do
+for dir in qtile polybar waybar swaylock picom rofi kitty Thunar zsh automat dunst opencode; do
     ln -sf ~/dotfiles/$dir ~/.config/$dir
 done
 ln -sf ~/dotfiles/lazy-nvim ~/.config/nvim

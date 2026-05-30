@@ -57,18 +57,27 @@ Dual boot with Windows 11 on separate partition.
 | `xf86-video-amdgpu` `xf86-video-ati` | AMD drivers |
 | `vulkan-radeon` | Vulkan for AMD |
 | `lightdm` `lightdm-gtk-greeter` | Display manager |
-| `picom` | Compositor (blur, rounded corners) |
-| `nitrogen` | Wallpaper setter |
+| `picom` | Compositor (X11: blur, rounded corners) |
+| `nitrogen` | Wallpaper setter (X11) |
+| `wayland` | Wayland protocol libraries |
+| `wlroots0.19` | wlroots compositor library (Qtile Wayland backend) |
+| `waybar` | Status bar (Wayland) |
+| `swaybg` | Wallpaper setter (Wayland, fallback) |
+| `swaylock` | Screen locker (Wayland) |
+| `swayidle` | Idle management (Wayland, optional) |
+| `wlr-randr` | Monitor config (Wayland) |
+| `grim` `slurp` | Screenshots (Wayland) |
+| `wl-clipboard` | Clipboard CLI (Wayland) |
 
 ### 2.3 WM & UI Components
 
 | Package | Purpose |
 |---|---|
-| `qtile` | Tiling window manager (Python) |
-| `polybar` | Status bar |
-| `rofi` | App launcher + menus |
-| `dunst` | Notification daemon |
-| `xclip` | Clipboard CLI |
+| `qtile` | Tiling window manager (Python, X11 + Wayland) |
+| `polybar` | Status bar (X11) |
+| `rofi` | App launcher + menus (X11 + Wayland nativo 2.0+) |
+| `dunst` | Notification daemon (X11 + Wayland) |
+| `xclip` | Clipboard CLI (X11) |
 
 ### 2.4 Terminal & Shell
 
@@ -170,7 +179,7 @@ Dual boot with Windows 11 on separate partition.
 
 | Package | Purpose |
 |---|---|
-| `betterlockscreen` | Screen locker |
+| `betterlockscreen` | Screen locker (X11) |
 | `conan` | C/C++ package manager |
 | `cura-bin` | 3D printing slicer |
 | `forticlient-vpn` | Fortinet VPN |
@@ -238,15 +247,17 @@ dotfiles/
 ├── lazy-nvim/            → ~/.config/nvim/  (LazyVim)
 ├── onedrive/             → ~/.config/onedrive/
 ├── opencode/             → ~/.config/opencode/
-├── picom/                → ~/.config/picom/
-├── polybar/              → ~/.config/polybar/
+├── picom/                → ~/.config/picom/  (X11)
+├── polybar/              → ~/.config/polybar/  (X11)
 ├── qtile/                → ~/.config/qtile/
 ├── recursos/             # Wallpapers, logos, scripts
 ├── rofi/                 → ~/.config/rofi/
 ├── scripts/              # Utility scripts
 ├── sublime-text/         → ~/.config/sublime-text/
+├── swaylock/             → ~/.config/swaylock/  (Wayland)
 ├── themes/               # 8 dynamic themes
 ├── Thunar/               → ~/.config/Thunar/
+├── waybar/               → ~/.config/waybar/  (Wayland)
 └── zsh/                  → ~/.config/zsh/  (modules/)
 ```
 
@@ -257,6 +268,8 @@ dotfiles/
 | `~/.zshrc` | `~/dotfiles/zsh/zshrc` |
 | `~/.config/qtile` | `~/dotfiles/qtile/` |
 | `~/.config/polybar` | `~/dotfiles/polybar/` |
+| `~/.config/waybar` | `~/dotfiles/waybar/` |
+| `~/.config/swaylock` | `~/dotfiles/swaylock/` |
 | `~/.config/picom` | `~/dotfiles/picom/` |
 | `~/.config/rofi` | `~/dotfiles/rofi/` |
 | `~/.config/kitty` | `~/dotfiles/kitty/` |
@@ -288,14 +301,19 @@ dotfiles/
 2. **MonadTall** — master-stack vertical
 3. **Stack** — 2-stack horizontal
 
-### Autostart (on login)
+### Autostart (on login) — Dual-backend
 
+**X11:**
 1. `nitrogen --restore` (wallpaper)
 2. `polybar launch.sh` (status bar per monitor)
 3. `picom` (compositor)
 4. `dunst` (notifications)
-5. `polybarupdate` (polybar refresh)
-6. Welcome notification via `notify-send`
+5. Welcome notification
+
+**Wayland:**
+1. `waybar launch.sh` (status bar)
+2. `dunst` (notifications)
+3. Welcome notification
 
 ---
 
@@ -348,7 +366,8 @@ Switch: `theme <name>` or via Rofi Settings Menu.
 
 ### Components updated per theme
 
-- `polybar/colors.ini`
+- `polybar/colors.ini` (X11)
+- `waybar/theme.css` (Wayland)
 - `kitty/colors.conf`
 - `~/.zsh_colors`
 - `qtile/current_theme.json` (layout border colors)
@@ -362,9 +381,9 @@ Switch: `theme <name>` or via Rofi Settings Menu.
 | Icon Theme | Papirus-Dark |
 | Font | Hack Nerd Font (10-12pt) |
 | Kitty opacity | 0.8 |
-| Picom blur | dual_kawase (strength 6) |
-| Picom corner radius | 12px |
-| Picom backend | GLX, vsync |
+| Picom blur (X11) | dual_kawase (strength 6) |
+| Picom corner radius (X11) | 12px |
+| Wayland compositing | wlroots (vsync, transparencias nativas) |
 
 ---
 
@@ -495,7 +514,8 @@ systemctl enable vault-pull.service vault-push.service --now
 - [ ] Install n8n
 - [ ] Set up online accounts (Firefox, Bitwarden, Proton, etc.)
 - [ ] Apply theme
-- [ ] Configure dual monitors
+- [ ] Install Wayland packages (`waybar wlr-randr swaybg grim slurp swaylock swayidle wl-clipboard`)
+- [ ] Configure dual monitors (xrandr/wlr-randr)
 - [ ] Configure VPN connections
 - [ ] Set up fingerprint reader (`fprintd-enroll`)
 - [ ] Enable custom systemd services (vault-pull, vault-push)
@@ -527,11 +547,13 @@ User (managed via dotfiles):
   ~/.gitconfig
   ~/.p10k.zsh
   ~/.config/qtile/
-  ~/.config/polybar/
+  ~/.config/polybar/                (X11)
+  ~/.config/waybar/                 (Wayland)
+  ~/.config/swaylock/               (Wayland)
   ~/.config/kitty/
   ~/.config/nvim/
   ~/.config/rofi/
-  ~/.config/picom/
+  ~/.config/picom/                  (X11)
   ~/.config/dunst/
   ~/.config/Thunar/
   ~/.config/fastfetch/

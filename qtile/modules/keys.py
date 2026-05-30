@@ -38,8 +38,8 @@ keys = [
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-"), desc="Brightness down"),
     
     # Take screenshots
-    Key([mod, "shift"], "s", lazy.spawn("flameshot gui"), desc="take screenshoot"),
-    Key([], "print", lazy.spawn("flameshot gui"), desc="take screenshoot"),
+    Key([mod, "shift"], "s", lazy.spawn("/home/lcampassi/dotfiles/scripts/screenshot.sh"), desc="take screenshot"),
+    Key([], "print", lazy.spawn("/home/lcampassi/dotfiles/scripts/screenshot.sh"), desc="take screenshot"),
   
     #Clipboard control
     Key([mod], "v", lazy.spawn("copyq"), desc = "cliboard History"),
@@ -81,7 +81,7 @@ keys = [
     # ============= qtile internal =============
 
     # Actions for qtile
-    Key([mod, "control"], "r", lazy.reload_config(), lazy.spawn("sh polybarupdate"),  desc="reloads qtiles's configuration"),
+    Key([mod, "control"], "r", lazy.reload_config(), lazy.spawn("/home/lcampassi/dotfiles/scripts/barupdate.sh"),  desc="reloads qtiles's configuration"),
     Key([mod], "l", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/qtile-action-menu.sh"), desc="blocks PC"),
 
     # =========== qtile stacks ================

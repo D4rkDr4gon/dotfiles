@@ -1,5 +1,14 @@
 # Qtile -- Window Manager
 
+## Dual-Backend
+
+Qtile 0.36+ soporta tanto X11 como Wayland nativamente. El backend se selecciona al iniciar sesión:
+
+- **Qtile** (LightDM) → X11
+- **Qtile (Wayland)** (LightDM) → Wayland
+
+El autostart en `hooks.py` detecta automáticamente el backend via `WAYLAND_DISPLAY` y arranca los componentes correspondientes.
+
 ## Diagrama de Arquitectura
 
 ```mermaid
@@ -14,14 +23,22 @@ graph TB
         LY[layouts.py<br/>Columns, MonadTall, Stack]
         SC[screens.py<br/>Dual monitor + wallpaper]
         MO[mouse.py<br/>Mouse bindings]
-        HK[hooks.py<br/>Autostart + eventos]
+        HK[hooks.py<br/>Autostart dual-backend]
     end
 
-    subgraph External["Componentes Externos"]
+    subgraph X11["X11 Backend"]
         PB[Polybar]
         PC[Picom]
+    end
+
+    subgraph Wayland["Wayland Backend"]
+        WB[Waybar]
+    end
+
+    subgraph Shared["Shared Components"]
         KT[Kitty]
         RF[Rofi]
+        DN[Dunst]
     end
 
     CF --> KY
@@ -32,21 +49,23 @@ graph TB
     CF --> HK
     HK --> PB
     HK --> PC
+    HK --> WB
     HK --> KT
     HK --> RF
+    HK --> DN
 ```
 
 ## Tabla de Módulos
 
 | Archivo | Rol | Características Clave |
 |---------|-----|----------------------|
-| `config.py` | Entry point | Punto de entrada, importa todos los módulos |
+| `config.py` | Entry point | Punto de entrada, importa todos los módulos, config Wayland (`wl_input_rules`, `wl_xcursor_*`) |
 | `groups.py` | Workspaces | 5 workspaces (NOTES, FILES, DEV, SYS, WEB) |
-| `keys.py` | Keybindings | Atajos de teclado con mod4 |
+| `keys.py` | Keybindings | Atajos de teclado con mod4, scripts con detección de backend |
 | `layouts.py` | Layouts | Columns, MonadTall, Stack + reglas flotación |
-| `screens.py` | Pantallas | Dual monitor, wallpaper desde tema |
+| `screens.py` | Pantallas | Dual monitor, wallpaper desde tema (funciona en X11 y Wayland) |
 | `mouse.py` | Mouse | Bindings de ratón |
-| `hooks.py` | Eventos | Autostart de polybar, picom, kitty, rofi |
+| `hooks.py` | Eventos | Autostart dual-backend (Waybar/Wayland vs Polybar+Picom/X11) |
 
 **Ubicacion**: `qtile/`
 
@@ -62,7 +81,7 @@ qtile/
     ├── layouts.py             # Layouts y reglas
     ├── mouse.py               # Mouse bindings
     ├── screens.py             # Pantallas y wallpapers
-    └── hooks.py               # Autostart y eventos
+    └── hooks.py               # Autostart dual-backend
 ```
 
 ## Workspaces (Groups)
@@ -85,24 +104,40 @@ Tres layouts configurados en `layouts.py`:
 - **MonadTall**: Layout principal con master a izquierda y stack a derecha
 - **Stack**: Ventanas apiladas
 
-Las reglas de flotacion incluyen: `confirmreset`, `xdman`, `Xephyr`, `firefox-config-qt`, `About.*`, `gnome-keyring-prompt`, `pavucontrol`, `arandr`, `obsidian`, `Lxappearance`, `xfce4-*`.
-
 ## Screens
 
 Configuracion de pantallas en `screens.py`:
 
 - **Dual monitor**: Laptop + externo
-- **Wallpaper**: Cargado desde el tema activo via `qtile/current_theme.json`
-- **Barra**: Polybar se maneja aparte (no desde Qtile)
+- **Wallpaper**: Cargado desde el tema activo (funciona en X11 y Wayland)
+- **Barra**: Polybar (X11) o Waybar (Wayland) se manejan aparte
 
 ## Hooks (Autostart)
 
-En `hooks.py`, al iniciar Qtile:
+En `hooks.py`, al iniciar Qtile se detecta el backend:
 
-1. `nitrogen --restore` -- wallpaper
-2. `~/.config/polybar/launch.sh` -- barra de estado
-3. `picom --config ~/.config/picom/picom.conf` -- compositor
-4. Configuracion de monitores para multi-screen
+**Wayland:**
+1. `~/.config/waybar/launch.sh` -- Waybar
+2. `dunst` -- notificaciones
+
+**X11:**
+1. `xset s off` + `xset -dpms` -- desactivar DPMS
+2. `nitrogen --restore` -- wallpaper
+3. `~/.config/polybar/launch.sh` -- Polybar
+4. `picom` -- compositor
+5. `dunst` -- notificaciones
+
+## Configuración Wayland
+
+En `config.py`:
+
+```python
+wl_input_rules = [
+    ("type:keyboard", {"xkb_layout": "es"}),
+]
+wl_xcursor_theme = "Adwaita"
+wl_xcursor_size = 24
+```
 
 ## Atajos
 

@@ -3,6 +3,8 @@ from libqtile import layout
 from libqtile.config import Match
 from typing import List
 
+os.environ.setdefault("GTK_THEME", "Matcha-dark-aliz")
+
 # 1. IMPORTACIÓN DE MÓDULOS PROPIOS
 # Asegúrate de haber creado la carpeta 'modules' y el archivo '__init__.py'
 from modules.keys import keys, mod
@@ -24,7 +26,7 @@ extension_defaults = widget_defaults.copy()
 dgroups_key_binder = None
 dgroups_app_rules: list[Match] = []
 follow_mouse_focus = True
-bring_front_click = False
+bring_front_click = True
 floats_kept_above = True
 cursor_warp = False
 auto_fullscreen = True
@@ -37,6 +39,10 @@ auto_minimize = True
 wmname = "LG3D"
 
 # 3. CONFIGURACIÓN PARA WAYLAND (Opcional)
-wl_input_rules = None
-wl_xcursor_theme = None
+from libqtile.backend.wayland import InputConfig
+
+wl_input_rules = {
+    "type:keyboard": InputConfig(kb_layout="es"),
+}
+wl_xcursor_theme = "Adwaita"
 wl_xcursor_size = 24

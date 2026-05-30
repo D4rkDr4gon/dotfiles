@@ -1,4 +1,6 @@
-# Polybar -- Status Bar
+# Polybar -- Status Bar (X11)
+
+> **Nota**: Polybar solo funciona en X11. En Wayland se usa [Waybar](wayland.md) con la misma estética y módulos equivalentes.
 
 ## Diagrama de Arquitectura
 

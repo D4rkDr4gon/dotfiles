@@ -1,0 +1,51 @@
+@import url("theme.css");
+
+* {
+    font-family: "Hack Nerd Font";
+    font-size: 10pt;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background: @background;
+    border-radius: 10px;
+    margin: 8px 10px 0 10px;
+}
+
+#custom-logo {
+    color: @primary;
+    font-size: 14pt;
+}
+
+#custom-workspaces {
+    padding: 0 2px;
+    font-size: 12pt;
+}
+
+#custom-brillo,
+#pulseaudio,
+#network,
+#custom-vpn,
+#custom-bluetooth,
+#battery {
+    padding: 0 12px;
+    color: @primary;
+}
+
+#clock {
+    color: @primary;
+}
+
+#battery.low {
+    color: @alert;
+}
+
+#clock {
+    padding: 0 6px;
+}
+
+#custom-logo {
+    padding: 0 4px;
+}

@@ -10,7 +10,9 @@ encoded=$(echo "$query" | sed 's/ /+/g')
 qtile cmd-obj -o group " 󰈹 " -f toscreen
 firefox "https://www.google.com/search?q=$encoded" &
 
-for i in {1..10}; do
-    wmctrl -a firefox 2>/dev/null && break
-    sleep 0.1
-done
+if [ "$XDG_SESSION_TYPE" != "wayland" ]; then
+    for i in {1..10}; do
+        wmctrl -a firefox 2>/dev/null && break
+        sleep 0.1
+    done
+fi

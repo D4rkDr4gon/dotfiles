@@ -34,7 +34,7 @@ graph TB
 
 | Archivo | Rol | Características Clave |
 |---------|-----|----------------------|
-| `kitty.conf` | Configuración principal | Font, opacidad, tabs, atajos de teclado |
+| `kitty.conf` | Configuración principal | Font, opacidad, tabs, atajos de teclado, `linux_display_server wayland` |
 | `colors.conf` | Paleta de colores | Actualizado dinámicamente por theme-switch.sh |
 
 **Ubicacion**: `kitty/`
@@ -43,6 +43,7 @@ graph TB
 
 - **Font**: Hack Nerd Font 10pt
 - **Opacidad**: 80% de fondo
+- **Wayland**: Soporte nativo via `linux_display_server wayland` en kitty.conf
 - **Tabs**: Powerline style con slanted separators
 - **Shell**: Zsh por defecto
 - **Copy on select**: Seleccionar texto lo copia automaticamente

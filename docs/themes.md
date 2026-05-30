@@ -4,9 +4,9 @@
 
 El sistema de temas permite cambiar la apariencia completa del entorno con un solo comando. Cada tema es un directorio con un `theme.json` que define colores y wallpaper. El `theme-switch.sh` actua como orquestrador central: parsea el JSON, genera archivos de configuracion especificos por componente, y dispara recargas en vivo sin necesidad de logout.
 
-## Theme Data Distribution Map
+Soporta tanto el backend X11 (Polybar) como Wayland (Waybar) simultáneamente.
 
-El siguiente diagrama ilustra como los datos fluyen desde un archivo `theme.json` estatico a traves de `theme-switch.sh` hacia los distintos componentes del sistema:
+## Theme Data Distribution Map
 
 ```mermaid
 graph TB
@@ -23,6 +23,7 @@ graph TB
 
     subgraph Targets["Component Configs"]
         PC[polybar/colors.ini<br/>primary, secondary<br/>background, foreground, chip-*]
+        WC[waybar/theme.css<br/>@define-color vars]
         KC[kitty/colors.conf<br/>foreground, background<br/>cursor, selection, tabs]
         ZC[~/.zsh_colors<br/>COLOR_PRIMARY, COLOR_ACCENT<br/>COLOR_BG, COLOR_FG]
         QT[qtile/current_theme.json<br/>Active theme state]
@@ -31,6 +32,7 @@ graph TB
 
     subgraph Reload["Live Reload"]
         PR[Polybar: launch.sh]
+        WR[Waybar: launch.sh]
         KR[Kitty: kitty @ set-colors]
         QR[Ctile: reload_config]
         ZR[Zsh: source on next session]
@@ -38,18 +40,20 @@ graph TB
 
     TJ --> TS
     GEN --> PC
+    GEN --> WC
     GEN --> KC
     GEN --> ZC
     GEN --> QT
     GEN --> SC
     PC --> PR
+    WC --> WR
     KC --> KR
     QT --> QR
     SC --> QR
     ZC --> ZR
 ```
 
-**Sources:** `scripts/theme-switch.sh:62-134`, `scripts/theme-switch.sh:136-146`, `scripts/theme-switch.sh:148-162`
+**Sources:** `scripts/theme-switch.sh:62-155`, `scripts/theme-switch.sh:157-184`, `scripts/theme-switch.sh:186-200`
 
 ## Pipeline Overview
 
@@ -65,19 +69,21 @@ graph TB
 | Componente | Target File | Formato | Variables Inyectadas |
 |------------|-------------|---------|---------------------|
 | Polybar | `polybar/colors.ini` | INI | `primary`, `secondary`, `background`, `foreground`, `chip-*` |
+| Waybar | `waybar/theme.css` | GTK @define-color | `primary`, `secondary`, `background rgba`, `chip-*` |
 | Kitty | `kitty/colors.conf` | Key-Value | `foreground`, `background`, `cursor`, `selection`, `tabs` |
 | Zsh | `~/.zsh_colors` | Shell Export | `COLOR_PRIMARY`, `COLOR_ACCENT`, `COLOR_BG`, `COLOR_FG` |
 | Fastfetch | `fastfetch/colors.json` | JSON | `primary`, `secondary`, `background`, `foreground` |
-| Ctile | `qtile/modules/screens.py` | Python (sed) | `wallpaper` path |
+| Qtile | `qtile/modules/screens.py` | Python (sed) | `wallpaper` path |
 
 ## Live Component Reloading
 
 Una vez escritos los archivos, los cambios se aplican sin logout:
 
 1. **Kitty**: Usa `kitty @ set-colors` para actualizar todas las terminales activas al instante
-2. **Ctile**: Llama `qtile cmd-obj -o cmd -f reload_config` para re-leer los modulos Python
-3. **Polybar**: Ejecuta `launch.sh` para matar y reiniciar la barra con el nuevo `colors.ini`
-4. **Zsh**: Las sesiones futuras hacen source de `~/.zsh_colors` via `zsh/modules/theme.zsh`
+2. **Qtile**: Llama `qtile cmd-obj -o cmd -f reload_config` para re-leer los módulos Python
+3. **Polybar** (X11): Ejecuta `launch.sh` para matar y reiniciar la barra con el nuevo `colors.ini`
+4. **Waybar** (Wayland): Detecta `XDG_SESSION_TYPE=wayland` y ejecuta `launch.sh` con el nuevo `theme.css`
+5. **Zsh**: Las sesiones futuras hacen source de `~/.zsh_colors` via `zsh/modules/theme.zsh`
 
 ## Uso
 
@@ -134,11 +140,11 @@ Cada tema vive en `themes/<nombre>/theme.json`:
 |-------|-------------|
 | `name` | Nombre del tema |
 | `wallpaper` | Ruta absoluta al wallpaper |
-| `colors.primary` | Color principal (polybar, prompt, layouts) |
+| `colors.primary` | Color principal (polybar/waybar, prompt, layouts) |
 | `colors.secondary` | Color secundario |
 | `colors.background` | Color de fondo |
 | `colors.foreground` | Color de texto |
-| `colors.chip` | Colores especificos para modulos de polybar |
+| `colors.chip` | Colores especificos para modulos de la barra |
 
 ## Crear un Nuevo Tema
 
@@ -147,4 +153,4 @@ Cada tema vive en `themes/<nombre>/theme.json`:
 3. Crear `theme.json` siguiendo la estructura de arriba
 4. Usar: `theme mi-tema`
 
-El tema se integrara automaticamente en el listado de Rofi.
+El tema se integrara automaticamente en el listado de Rofi y generara config tanto para Polybar (X11) como Waybar (Wayland).

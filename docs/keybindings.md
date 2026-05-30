@@ -49,7 +49,7 @@
 
 | Atajo | Accion |
 |-------|--------|
-| `Mod + Ctrl + R` | Recargar Qtile + Polybar |
+| `Mod + Ctrl + R` | Recargar Qtile + barra (Polybar en X11, Waybar en Wayland) |
 | `Mod + L` | Menu de accion (Suspend/Reboot/Poweroff/Logout) |
 | `Mod + Shift + Space` | Settings menu (Rofi) |
 
@@ -74,8 +74,8 @@
 | `XF86AudioMicMute` | Silenciar microfono |
 | `XF86MonBrightnessUp` | Brillo +10% |
 | `XF86MonBrightnessDown` | Brillo -10% |
-| `Print` | Screenshot (Flameshot) |
-| `Mod + Shift + S` | Screenshot (Flameshot) |
+| `Print` | Screenshot (Flameshot en X11, grim+slurp en Wayland) |
+| `Mod + Shift + S` | Screenshot (Flameshot en X11, grim+slurp en Wayland) |
 
 ### Mouse
 
@@ -163,6 +163,7 @@
 | `theme` | `~/dotfiles/scripts/theme-switch.sh` |
 | `zshconfig` | `nvim ~/.zshrc` |
 | `polybarupdate` | `~/.config/polybar/launch.sh` |
+| `barupdate` | `~/dotfiles/scripts/barupdate.sh` (barra según backend) |
 | `display-monitors` | `sh ~/dotfiles/automat/display-monitors.sh` |
 | `hosts` | `sudo nvim /etc/hosts` |
 
@@ -194,7 +195,7 @@
 
 ### Action Menu (`Mod + L`)
 - **Grid**: 4 iconos en fila con nombre abajo
-- **Lock**: Bloqueo visual sin password (fondo blur, cualquier tecla desbloquea). Muestra notificacion de bienvenida al desbloquear
+- **Lock**: En X11 usa betterlockscreen (bloqueo visual sin password). En Wayland usa swaylock (blur + clock + indicator). Muestra notificacion de bienvenida al desbloquear
 - **Reboot**: Reiniciar
 - **Poweroff**: Apagar
 - **Logout**: Cerrar sesion de Qtile

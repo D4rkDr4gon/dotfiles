@@ -138,7 +138,7 @@ list_backgrounds() {
             sed -i "s|wallpaper = \".*\"|wallpaper = \"$selected_path\"|" \
                 "$HOME/dotfiles/qtile/modules/screens.py"
             qtile cmd-obj -o cmd -f reload_config 2>/dev/null || true
-            bash /home/lcampassi/.config/polybar/launch.sh 2>/dev/null || true
+            bash /home/lcampassi/dotfiles/scripts/barupdate.sh 2>/dev/null || true
             notify-send "Fondo de pantalla" "Cambiado a $selection" -t 2000
             exit 0
         fi

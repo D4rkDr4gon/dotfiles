@@ -18,6 +18,7 @@ alias catnl='/usr/bin/bat --paging=never'
 # Apps
 alias fastfetch='fastfetch --logo /home/lcampassi/.config/fastfetch/png/logo.png'
 alias polybarupdate='/home/lcampassi/.config/polybar/launch.sh'
+alias barupdate='/home/lcampassi/dotfiles/scripts/barupdate.sh'
 alias zshconfig="nvim ~/.zshrc"
 alias logo="sh /home/lcampassi/dotfiles/automat/launch-logo.sh"
 alias threatdeck="~/.cargo/bin/ThreatDeck"
@@ -34,6 +35,7 @@ alias n8nstop="sudo systemctl stop n8n"
 # System
 alias top='btop'
 alias venv='uv venv'
+alias ischarging="cat /sys/class/power_supply/BAT0/status"
 
 # Terminal
 alias c="clear"

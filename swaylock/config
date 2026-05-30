@@ -1,0 +1,8 @@
+# swaylock config
+ignore-empty-password
+daemonize
+clock
+indicator-idle-visible
+indicator-radius=100
+indicator-thickness=10
+effect-blur=7x5
