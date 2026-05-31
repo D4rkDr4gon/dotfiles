@@ -26,6 +26,7 @@ alias threatdeck="~/.cargo/bin/ThreatDeck"
 # Repo lazygit
 alias vault="cd /files/Personal-Vault/ && lazygit"
 alias dotfiles="cd /home/lcampassi/dotfiles/ && lazygit"
+alias airepo="cd /home/lcampassi/MY-AGENT-SKILLS/ && lazygit"
 
 # AI & Automation
 alias launchgemma="sh /home/lcampasssi/.config/automat/launchgemma.sh"
