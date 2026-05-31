@@ -1,6 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "skills": {
-    "paths": ["/home/lcampassi/MY-AGENT-SKILLS"]
+    "paths": ["/home/lcampassi/MY-AGENT-SKILLS/SKILLS"]
+  },
+  "agent": {
+    "build": { "color": "#00B894" },
+    "plan": { "color": "#FF9F43" },
+    "general": { "color": "#A855F7" },
+    "explore": { "color": "#0EA5E9" }
   }
 }

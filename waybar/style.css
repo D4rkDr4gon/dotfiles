@@ -15,8 +15,13 @@ window#waybar {
 }
 
 #custom-logo {
-    color: @primary;
-    font-size: 14pt;
+    background-image: url("logo.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-width: 28px;
+    min-height: 28px;
+    padding: 0 4px;
 }
 
 #custom-workspaces {
@@ -46,6 +51,3 @@ window#waybar {
     padding: 0 6px;
 }
 
-#custom-logo {
-    padding: 0 4px;
-}

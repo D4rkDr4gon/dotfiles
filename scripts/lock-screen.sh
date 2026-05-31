@@ -60,10 +60,15 @@ if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 
   gtklock -b "$FINAL" >> "$LOG" 2>&1
 else
-  if [[ -n "$WALLPAPER" && -f "$WALLPAPER" ]]; then
-    "$(dirname "$0")/lock-screen" --wallpaper "$WALLPAPER" >> "$LOG" 2>&1
+  if command -v betterlockscreen &>/dev/null; then
+    if [[ -n "$WALLPAPER" && -f "$WALLPAPER" ]]; then
+      betterlockscreen -u "$WALLPAPER" >> "$LOG" 2>&1
+    fi
+    betterlockscreen -l dim >> "$LOG" 2>&1
+  elif [[ -n "$WALLPAPER" && -f "$WALLPAPER" ]]; then
+    i3lock -i "$WALLPAPER" -t >> "$LOG" 2>&1
   else
-    "$(dirname "$0")/lock-screen" >> "$LOG" 2>&1
+    i3lock -c 000000 >> "$LOG" 2>&1
   fi
 fi
 

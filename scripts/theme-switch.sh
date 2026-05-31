@@ -181,6 +181,10 @@ apply_theme() {
     reload_components
 
     if [ "$XDG_SESSION_TYPE" != "wayland" ]; then
+        local wallpaper=$(jq -r '.wallpaper' "$theme_dir/theme.json")
+        if [[ -n "$wallpaper" && -f "$wallpaper" ]]; then
+            betterlockscreen -u "$wallpaper" >> /tmp/betterlockscreen.log 2>&1 || true
+        fi
         bash ~/.config/polybar/launch.sh 2>/dev/null || true
     fi
     notify-send "Tema aplicado" "$display_name" -i dialog-information 2>/dev/null || true

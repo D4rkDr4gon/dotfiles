@@ -100,6 +100,19 @@ Waybar reemplaza a Polybar en Wayland. Configurado para verse idéntico:
 - `style.css`: Misma apariencia (98% width, 28px height, radius 10px, colores del tema activo)
 - `theme.css`: Generado por `theme-switch.sh` con `@define-color` (importado por style.css)
 
+### Custom Logo
+
+El módulo `custom/logo` (primer módulo a la izquierda) muestra una imagen personalizada en lugar del ícono Nerd Font de Arch Linux.
+
+**Archivos involucrados:**
+- `logo.png` — Imagen (cara/avatar) que se muestra como logo; ubicada en el mismo directorio que el resto de la config de Waybar.
+- `config.jsonc` — El `format` se dejó vacío (`"  "`) ya que la imagen se renderiza vía CSS.
+- `style.css` — `#custom-logo` usa `background-image: url("logo.png")` con `background-size: contain`, `background-position: center` y `background-repeat: no-repeat`. Tamaño mínimo de 28×28px para coincidir con la altura de la barra.
+
+**Comportamiento:**
+- Misma funcionalidad que antes: `on-click` ejecuta el menú de settings de Rofi.
+- La imagen se carga desde la ruta relativa al directorio de configuración de Waybar (`~/.config/waybar/`).
+
 Los scripts de VPN y Bluetooth son compartidos con Polybar (no usan X11).
 
 ## Paquetes Wayland

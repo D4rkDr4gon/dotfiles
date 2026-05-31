@@ -7,7 +7,7 @@
     "modules-right": ["custom/brillo", "pulseaudio", "network", "custom/vpn", "custom/bluetooth", "battery"],
 
     "custom/logo": {
-        "format": "󰣇",
+        "format": "  ",
         "on-click": "/usr/bin/bash /home/lcampassi/.config/rofi/scripts/settings-menu.sh"
     },
 

@@ -1,12 +1,12 @@
 {
-  "name": "Chill Lofi",
-  "wallpaper": "/usr/share/backgrounds/wallpapers/wallpaper_Creativity_Room.jpg",
-  "primary": "#c9d3a8",
-  "secondary": "#999a6f",
-  "background": "#28181b",
-  "foreground": "#d8d8d0",
-  "chip_battery": "#3a2025",
-  "chip_bluetooth": "#5d384a",
-  "chip_wlan": "#6d5455",
-  "chip_audio": "#934534"
+  "name": "Red Japan",
+  "wallpaper": "/home/lcampassi/dotfiles/recursos/wallpapers/japan-wallpaper.jpg",
+  "primary": "#c62828",
+  "secondary": "#8e1a1a",
+  "background": "#0f0f10",
+  "foreground": "#c5c8c6",
+  "chip_battery": "#1a1515",
+  "chip_bluetooth": "#2a1a1a",
+  "chip_wlan": "#3a2020",
+  "chip_audio": "#4a2525"
 }
