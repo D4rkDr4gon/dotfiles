@@ -8,5 +8,37 @@
     "plan": { "color": "#FF9F43" },
     "general": { "color": "#A855F7" },
     "explore": { "color": "#0EA5E9" }
+  },
+  "mcpServers": {
+    // ── Docker ──────────────────────────────────────────────
+    // Instalar: npm install -g @anthropic/docker-mcp-server
+    // o:       docker pull mcp/docker
+    // "docker": {
+    //   "command": "npx",
+    //   "args": ["-y", "@anthropic/docker-mcp-server"]
+    // },
+    //
+    // ── GitHub ──────────────────────────────────────────────
+    // Instalar: npm install -g @modelcontextprotocol/server-github
+    // "github": {
+    //   "command": "npx",
+    //   "args": ["-y", "@modelcontextprotocol/server-github"],
+    //   "env": {
+    //     "GITHUB_TOKEN": "<personal-access-token>"
+    //   }
+    // },
+    //
+    // ── Filesystem (acceso controlado a directorios) ─────────
+    // Instalar: npm install -g @modelcontextprotocol/server-filesystem
+    // "filesystem": {
+    //   "command": "npx",
+    //   "args": [
+    //     "-y",
+    //     "@modelcontextprotocol/server-filesystem",
+    //     "/home/lcampassi",
+    //     "/files/Personal-Vault",
+    //     "/home/lcampassi/MY-AGENT-SKILLS"
+    //   ]
+    // }
   }
 }
