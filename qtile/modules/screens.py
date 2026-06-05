@@ -1,6 +1,6 @@
 from libqtile.config import Screen
 
-wallpaper = "/home/lcampassi/dotfiles/recursos/wallpapers/B - Red.png"
+wallpaper = "/home/lcampassi/dotfiles/recursos/wallpapers/wallpaper_dog_room.jpg"
 
 screens = [
     Screen(

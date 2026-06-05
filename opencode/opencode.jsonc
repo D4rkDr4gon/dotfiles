@@ -9,7 +9,7 @@
     "general": { "color": "#A855F7" },
     "explore": { "color": "#0EA5E9" }
   },
-  "mcpServers": {
+  "mcp": {
     // ── Docker ──────────────────────────────────────────────
     // Instalar: npm install -g @anthropic/docker-mcp-server
     // o:       docker pull mcp/docker
