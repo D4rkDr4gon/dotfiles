@@ -28,6 +28,8 @@ graph TB
         ZC[~/.zsh_colors<br/>COLOR_PRIMARY, COLOR_ACCENT<br/>COLOR_BG, COLOR_FG]
         QT[qtile/current_theme.json<br/>Active theme state]
         SC[qtile/modules/screens.py<br/>Wallpaper path]
+        GC[gtk-3.0/gtk.css<br/>@define-color CSS vars<br/>Thunar + GTK3 apps]
+        OC[opencode.jsonc<br/>Agent colors]
     end
 
     subgraph Reload["Live Reload"]
@@ -36,6 +38,7 @@ graph TB
         KR[Kitty: kitty @ set-colors]
         QR[Ctile: reload_config]
         ZR[Zsh: source on next session]
+        TH[Thunar: thunar -q<br/>re-abrir para nuevo estilo]
     end
 
     TJ --> TS
@@ -45,15 +48,18 @@ graph TB
     GEN --> ZC
     GEN --> QT
     GEN --> SC
+    GEN --> GC
+    GEN --> OC
     PC --> PR
     WC --> WR
     KC --> KR
     QT --> QR
     SC --> QR
     ZC --> ZR
+    GC --> TH
 ```
 
-**Sources:** `scripts/theme-switch.sh:62-155`, `scripts/theme-switch.sh:157-184`, `scripts/theme-switch.sh:186-200`
+**Sources:** `scripts/theme-switch.sh`, `gtk-3.0/gtk.css`, `opencode/opencode.jsonc`
 
 ## Pipeline Overview
 
@@ -70,9 +76,11 @@ graph TB
 |------------|-------------|---------|---------------------|
 | Polybar | `polybar/colors.ini` | INI | `primary`, `secondary`, `background`, `foreground`, `chip-*` |
 | Waybar | `waybar/theme.css` | GTK @define-color | `primary`, `secondary`, `background rgba`, `chip-*` |
-| Kitty | `kitty/colors.conf` | Key-Value | `foreground`, `background`, `cursor`, `selection`, `tabs` |
+| Kitty | `kitty/colors.conf` | Key-Value | `foreground`, `background`, `cursor`, `cursor_text_color`, `selection`, `tabs`, `url_color`, `borders`, `statusbar` |
 | Zsh | `~/.zsh_colors` | Shell Export | `COLOR_PRIMARY`, `COLOR_ACCENT`, `COLOR_BG`, `COLOR_FG` |
 | Fastfetch | `fastfetch/colors.json` | JSON | `primary`, `secondary`, `background`, `foreground` |
+| GTK3 | `gtk-3.0/gtk.css` | CSS @define-color | `theme_bg`, `theme_fg`, `theme_primary`, `theme_secondary`, `theme_selected_bg`, `theme_selected_fg` |
+| opencode | `opencode.jsonc` | JSON (sed) | `build` → primary, `plan` → secondary, `general` → foreground, `explore` → primary |
 | Qtile | `qtile/modules/screens.py` | Python (sed) | `wallpaper` path |
 
 ## Live Component Reloading
@@ -84,6 +92,10 @@ Una vez escritos los archivos, los cambios se aplican sin logout:
 3. **Polybar** (X11): Ejecuta `launch.sh` para matar y reiniciar la barra con el nuevo `colors.ini`
 4. **Waybar** (Wayland): Detecta `XDG_SESSION_TYPE=wayland` y ejecuta `launch.sh` con el nuevo `theme.css`
 5. **Zsh**: Las sesiones futuras hacen source de `~/.zsh_colors` via `zsh/modules/theme.zsh`
+6. **Thunar**: Si está abierto, se cierra con `thunar -q` para que al re-abrirlo tome los nuevos estilos GTK CSS
+7. **opencode**: Los colores de agentes en `opencode.jsonc` se actualizan via `sed` (no requiere recarga)
+
+**Nota:** GTK CSS (`gtk-3.0/gtk.css`) no se recarga en caliente — Thunar debe cerrarse y re-abrirse. `theme-switch.sh` lo maneja automáticamente si el proceso está activo.
 
 ## Uso
 

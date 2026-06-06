@@ -92,6 +92,7 @@ graph TB
 | **Thunar** | File manager | `Thunar/` | [docs](configuration/thunar.md) |
 | **Fastfetch** | System info display | `fastfetch/` | [docs](configuration/fastfetch.md) |
 | **OneDrive** | Cloud sync | `onedrive/` | [docs](configuration/extras.md) |
+| **GTK3** | Tema GTK base + CSS dinámico (Thunar, apps GTK3) | `gtk-3.0/` | [docs](configuration/gtk.md) |
 | **Lock Screen** | gtklock (Wayland) / betterlockscreen (X11) | `gtklock/` + `scripts/` | [docs](configuration/lock-screen.md) |
 | **opencode** | AI assistant config + skills | `opencode/` | [docs](configuration/opencode.md) |
 | **Screenshots** | grim+slurp (Wayland) / Flameshot (X11) | `scripts/screenshot.sh` | [docs](configuration/wayland.md) |
@@ -116,6 +117,7 @@ Los archivos de configuracion se vinculan desde el repo a sus ubicaciones del si
 | `~/.config/dunst` | `~/dotfiles/dunst/` |
 | `~/.config/opencode` | `~/dotfiles/opencode/` |
 | `~/.config/nvim` | `~/dotfiles/lazy-nvim/` |
+| `~/.config/gtk-3.0/settings.ini` | `~/dotfiles/gtk-3.0/settings.ini` |
 
 ## Theme Data Flow
 
@@ -129,6 +131,8 @@ graph LR
     TS -->|cat + @define-color| WC[waybar/theme.css<br/>primary, secondary<br/>background rgba, chip]
     TS -->|printf| KC[kitty/colors.conf<br/>foreground, background<br/>cursor, selection, tabs]
     TS -->|source| ZC[~/.zsh_colors<br/>COLOR_PRIMARY, COLOR_ACCENT<br/>COLOR_BG, COLOR_FG]
+    TS -->|cat + @define-color| GC[gtk-3.0/gtk.css<br/>theme_bg, theme_fg<br/>theme_primary, theme_secondary]
+    TS -->|sed| OC[opencode.jsonc<br/>agent colors]
     TS -->|jq + cp| QT[qtile/current_theme.json<br/>theme activo]
     TS -->|sed| SC[qtile/modules/screens.py<br/>wallpaper path]
 
@@ -140,7 +144,7 @@ graph LR
     SC --> QR
 ```
 
-**Sources:** `scripts/theme-switch.sh:62-141`, `polybar/colors.ini`, `waybar/theme.css`, `kitty/colors.conf`, `zsh/modules/theme.zsh`, `qtile/current_theme.json`
+**Sources:** `scripts/theme-switch.sh:62-141`, `polybar/colors.ini`, `waybar/theme.css`, `kitty/colors.conf`, `zsh/modules/theme.zsh`, `gtk-3.0/`, `opencode/opencode.jsonc`, `qtile/current_theme.json`
 
 ## File Tree
 
@@ -156,7 +160,7 @@ dotfiles/
 │   └── configuration/
 │       ├── qtile.md, polybar.md, wayland.md, kitty.md, zsh.md, rofi.md
 │       ├── picom.md, dunst.md, editors.md, fastfetch.md
-│       ├── thunar.md, opencode.md, extras.md, lock-screen.md
+│       ├── thunar.md, gtk.md, opencode.md, extras.md, lock-screen.md
 │
 ├── qtile/
 ├── polybar/
@@ -178,6 +182,8 @@ dotfiles/
 ├── sublime-text/
 ├── Thunar/
 ├── fastfetch/
+├── gtk-3.0/
+│   └── settings.ini              # Tema GTK base (Matcha-dark-aliz, Papirus-Dark)
 ├── onedrive/
 ├── opencode/
 ├── themes/                    # 8 temas dinamicos
@@ -203,6 +209,7 @@ dotfiles/
 - [Editores](configuration/editors.md) — Neovim (LazyVim) y Sublime Text
 - [Fastfetch](configuration/fastfetch.md) — System info display
 - [Thunar](configuration/thunar.md) — File manager, custom actions
+- [GTK3](configuration/gtk.md) — Tema GTK base, CSS dinámico para Thunar y apps GTK
 - [opencode](configuration/opencode.md) — AI assistant, skills personalizadas
 - [Lock Screen](configuration/lock-screen.md) — gtklock / betterlockscreen, CSS custom, clock + banner
 - [Extras](configuration/extras.md) — OneDrive, wallpapers, herramientas

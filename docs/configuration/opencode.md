@@ -20,12 +20,12 @@
     "paths": ["/home/lcampassi/MY-AGENT-SKILLS/SKILLS"]
   },
   "agent": {
-    "build": { "color": "#00B894" },
-    "plan": { "color": "#FF9F43" },
-    "general": { "color": "#A855F7" },
-    "explore": { "color": "#0EA5E9" }
+    "build": { "color": "#00ff41" },
+    "plan": { "color": "#00cc33" },
+    "general": { "color": "#c5e8c5" },
+    "explore": { "color": "#00ff41" }
   },
-  "mcpServers": {
+  "mcp": {
     // MCP servers disponibles (comentados por defecto)
   }
 }
@@ -36,7 +36,20 @@
 - **$schema**: Referencia al schema oficial de opencode
 - **skills.paths**: Directorio donde residen las skills personalizadas
 - **agent**: Personalización visual de agentes built-in
-- **mcpServers**: Servidores MCP (Model Context Protocol) opcionales
+- **mcp**: Servidores MCP (Model Context Protocol) opcionales
+
+### Colores Dinámicos de Agentes
+
+Los colores de los agentes en `opencode.jsonc` se actualizan automáticamente al cambiar de tema vía `theme-switch.sh`:
+
+| Agente | Variable de theme.json | Propósito |
+|--------|----------------------|-----------|
+| `build` | `primary` | Color principal del tema |
+| `plan` | `secondary` | Color secundario del tema |
+| `general` | `foreground` | Color de texto / foreground |
+| `explore` | `primary` | Color principal del tema |
+
+Esto permite que la interfaz de opencode en el editor refleje la paleta activa del sistema. Los cambios son inmediatos — no requieren recarga de opencode.
 
 ## Agentes Disponibles
 
@@ -82,7 +95,7 @@ Las skills viven en `/home/lcampassi/MY-AGENT-SKILLS/SKILLS/` e incluyen:
 
 ## MCP Servers (Model Context Protocol)
 
-Los MCP servers extienden las capacidades de opencode. Están preconfigurados en `opencode.jsonc` pero comentados. Para activarlos:
+Los MCP servers extienden las capacidades de opencode. Están preconfigurados en la sección `mcp` de `opencode.jsonc` pero comentados. Para activarlos:
 
 ### Docker
 ```bash
