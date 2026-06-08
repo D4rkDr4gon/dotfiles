@@ -4,7 +4,7 @@
 
 El sistema de temas permite cambiar la apariencia completa del entorno con un solo comando. Cada tema es un directorio con un `theme.json` que define colores y wallpaper. El `theme-switch.sh` actua como orquestrador central: parsea el JSON, genera archivos de configuracion especificos por componente, y dispara recargas en vivo sin necesidad de logout.
 
-Soporta tanto el backend X11 (Polybar) como Wayland (Waybar) simultáneamente.
+Soporta tanto el backend X11 (Polybar) como Wayland (Waybar) simultáneamente. El cambio de wallpaper está optimizado usando `feh` (X11, ~50ms) en lugar de recargar todo el config de Qtile.
 
 ## Theme Data Distribution Map
 
@@ -18,7 +18,8 @@ graph TB
         TS[Parse theme.json]
         TS -->|jq| VC[Validate colors]
         VC -->|apply_theme_config| GEN[Generate configs]
-        GEN -->|reload_components| REL[Live Reload]
+        GEN -->|_set_wallpaper_direct| WP[Set Wallpaper Direct]
+        WP -->|reload_components| REL[Live Reload]
     end
 
     subgraph Targets["Component Configs"]
@@ -33,10 +34,10 @@ graph TB
     end
 
     subgraph Reload["Live Reload"]
+        WPW[Wallpaper: feh --bg-fill<br/>~50ms en X11<br/>o Qtile set_wallpaper directo]
         PR[Polybar: launch.sh]
         WR[Waybar: launch.sh]
         KR[Kitty: kitty @ set-colors]
-        QR[Ctile: reload_config]
         ZR[Zsh: source on next session]
         TH[Thunar: thunar -q<br/>re-abrir para nuevo estilo]
     end
@@ -50,11 +51,10 @@ graph TB
     GEN --> SC
     GEN --> GC
     GEN --> OC
+    SC --> WPW
     PC --> PR
     WC --> WR
     KC --> KR
-    QT --> QR
-    SC --> QR
     ZC --> ZR
     GC --> TH
 ```
@@ -65,10 +65,11 @@ graph TB
 
 `theme-switch.sh` sigue una ruta de ejecucion lineal:
 
-1. **Dependency Check**: Verifica que `jq` este instalado
+1. **Dependency Check**: Verifica que `jq` este instalado; advierte si `feh` no está presente (recomendado para wallpaper rápido)
 2. **Theme Validation**: Confirma que el directorio del tema y `theme.json` existan
 3. **Config Generation** (`apply_theme_config`): Extrae hex codes y escribe en formatos especificos por componente
-4. **Live Reload** (`reload_components`): Notifica a cada componente para que aplique los cambios
+4. **Wallpaper Direct** (`_set_wallpaper_direct`): Aplica el wallpaper de forma directa sin recargar Qtile (usa `feh` si está instalado, o `qtile cmd-obj set_wallpaper` como fallback)
+5. **Live Reload** (`reload_components`): Notifica a cada componente para que aplique los cambios (kitty colors, waybar/polybar, thunar)
 
 ## Configuration Generation
 
@@ -87,8 +88,8 @@ graph TB
 
 Una vez escritos los archivos, los cambios se aplican sin logout:
 
-1. **Kitty**: Usa `kitty @ set-colors` para actualizar todas las terminales activas al instante
-2. **Qtile**: Llama `qtile cmd-obj -o cmd -f reload_config` para re-leer los módulos Python
+1. **Wallpaper** (X11): `_set_wallpaper_direct()` intenta `feh --bg-fill` primero (~50ms). Si `feh` no está instalado, usa `qtile cmd-obj -o screen N -f set_wallpaper` como fallback (solo aplica wallpaper, sin recargar todo el config de Qtile)
+2. **Kitty**: Usa `kitty @ set-colors` para actualizar todas las terminales activas al instante
 3. **Polybar** (X11): Ejecuta `launch.sh` para matar y reiniciar la barra con el nuevo `colors.ini`
 4. **Waybar** (Wayland): Detecta `XDG_SESSION_TYPE=wayland` y ejecuta `launch.sh` con el nuevo `theme.css`
 5. **Zsh**: Las sesiones futuras hacen source de `~/.zsh_colors` via `zsh/modules/theme.zsh`
@@ -96,6 +97,43 @@ Una vez escritos los archivos, los cambios se aplican sin logout:
 7. **opencode**: Los colores de agentes en `opencode.jsonc` se actualizan via `sed` (no requiere recarga)
 
 **Nota:** GTK CSS (`gtk-3.0/gtk.css`) no se recarga en caliente — Thunar debe cerrarse y re-abrirse. `theme-switch.sh` lo maneja automáticamente si el proceso está activo.
+
+## Optimización de Wallpaper
+
+El principal cuello de botella del cambio de temas era la recarga completa del config de Qtile (`qtile cmd-obj -o cmd -f reload_config`), que reevalúa todos los módulos Python (barras, widgets, screens, layouts) solo para cambiar el wallpaper.
+
+### Flujo optimizado
+
+```
+apply_theme_config()  →  _set_wallpaper_direct()  →  reload_components()
+                              ↕
+               ┌──────────────────────────────┐
+               │  1. feh --bg-fill (X11, ~50ms) │
+               │  2. qtile set_wallpaper        │
+               │     (fallback, sin reload)     │
+               └──────────────────────────────┘
+```
+
+### `_set_wallpaper_direct()`
+
+Estrategia de dos niveles:
+
+| Nivel | Método | Tiempo | Requisito |
+|-------|--------|--------|-----------|
+| 1 (rápido) | `feh --bg-fill` | ~50ms | `feh` instalado |
+| 2 (fallback) | `qtile cmd-obj -o screen N -f set_wallpaper` | ~200ms | Qtile en ejecución |
+
+**`feh`** es un visor de imágenes mínimo que puede establecer el wallpaper de X11 directamente a través del protocolo `_XROOTMAP_ID`. No depende de Qtile ni de ningún entorno de escritorio, y es significativamente más rápido que pasar por Cairo (que Qtile usa internamente).
+
+### Recomendación
+
+```bash
+sudo pacman -S feh
+```
+
+Si `feh` no está instalado, `theme-switch.sh` muestra una advertencia y usa el método fallback de Qtile. La experiencia sigue siendo funcional, pero el cambio de wallpaper será ~4x más lento.
+
+**Nota:** En Wayland este método no aplica — `feh` solo funciona en X11. El wallpaper en Wayland se maneja directamente desde `screens.py` con Qtile.
 
 ## Uso
 

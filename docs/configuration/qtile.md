@@ -112,6 +112,15 @@ Configuracion de pantallas en `screens.py`:
 - **Wallpaper**: Cargado desde el tema activo (funciona en X11 y Wayland)
 - **Barra**: Polybar (X11) o Waybar (Wayland) se manejan aparte
 
+### Wallpaper durante cambio de temas
+
+Al ejecutar `theme <nombre>`, el wallpaper se aplica de forma optimizada sin recargar todo Qtile:
+
+1. **X11**: `theme-switch.sh` ejecuta `feh --bg-fill` — método directo que escribe en `_XROOTMAP_ID`, independiente de Qtile (~50ms). Si `feh` no está instalado, usa `qtile cmd-obj -o screen N -f set_wallpaper` que aplica solo el wallpaper sin recargar la config completa.
+2. **Wayland**: No hay atajo vía `feh`. El wallpaper se escribe en `screens.py` via `sed`, y Qtile lo pickea en el próximo reload o en el próximo inicio de sesión.
+
+**Ver**: `scripts/theme-switch.sh` → `_set_wallpaper_direct()`
+
 ## Hooks (Autostart)
 
 En `hooks.py`, al iniciar Qtile se detecta el backend:
