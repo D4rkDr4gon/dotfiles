@@ -140,8 +140,8 @@ graph LR
     WC --> WR[Waybar Reload]
     KC --> KR[Kitty @ set-colors]
     ZC --> ZR[Zsh source]
-    QT --> QR[Ctile reload_config]
-    SC --> QR
+    QT --> QS[Qtile set_wallpaper directo]
+    SC --> QS
 ```
 
 **Sources:** `scripts/theme-switch.sh:62-141`, `polybar/colors.ini`, `waybar/theme.css`, `kitty/colors.conf`, `zsh/modules/theme.zsh`, `gtk-3.0/`, `opencode/opencode.jsonc`, `qtile/current_theme.json`

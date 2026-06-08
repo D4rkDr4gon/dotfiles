@@ -89,12 +89,13 @@ graph TB
 Una vez escritos los archivos, los cambios se aplican sin logout:
 
 1. **Wallpaper** (X11): `_set_wallpaper_direct()` intenta `feh --bg-fill` primero (~50ms). Si `feh` no está instalado, usa `qtile cmd-obj -o screen N -f set_wallpaper` como fallback (solo aplica wallpaper, sin recargar todo el config de Qtile)
-2. **Kitty**: Usa `kitty @ set-colors` para actualizar todas las terminales activas al instante
-3. **Polybar** (X11): Ejecuta `launch.sh` para matar y reiniciar la barra con el nuevo `colors.ini`
-4. **Waybar** (Wayland): Detecta `XDG_SESSION_TYPE=wayland` y ejecuta `launch.sh` con el nuevo `theme.css`
-5. **Zsh**: Las sesiones futuras hacen source de `~/.zsh_colors` via `zsh/modules/theme.zsh`
-6. **Thunar**: Si está abierto, se cierra con `thunar -q` para que al re-abrirlo tome los nuevos estilos GTK CSS
-7. **opencode**: Los colores de agentes en `opencode.jsonc` se actualizan via `sed` (no requiere recarga)
+2. **Wallpaper** (Wayland): `_set_wallpaper_direct()` usa `qtile cmd-obj -o screen N -f set_wallpaper` directamente. Qtile Wayland lo implementa con Cairo + wlr-layer-shell — pinta el wallpaper en vivo, no requiere `reload_config` (~200ms)
+3. **Kitty**: Usa `kitty @ set-colors` para actualizar todas las terminales activas al instante
+4. **Polybar** (X11): Ejecuta `launch.sh` para matar y reiniciar la barra con el nuevo `colors.ini`
+5. **Waybar** (Wayland): Detecta `XDG_SESSION_TYPE=wayland` y ejecuta `launch.sh` con el nuevo `theme.css`
+6. **Zsh**: Las sesiones futuras hacen source de `~/.zsh_colors` via `zsh/modules/theme.zsh`
+7. **Thunar**: Si está abierto, se cierra con `thunar -q` para que al re-abrirlo tome los nuevos estilos GTK CSS
+8. **opencode**: Los colores de agentes en `opencode.jsonc` se actualizan via `sed` (no requiere recarga)
 
 **Nota:** GTK CSS (`gtk-3.0/gtk.css`) no se recarga en caliente — Thunar debe cerrarse y re-abrirse. `theme-switch.sh` lo maneja automáticamente si el proceso está activo.
 
@@ -133,7 +134,7 @@ sudo pacman -S feh
 
 Si `feh` no está instalado, `theme-switch.sh` muestra una advertencia y usa el método fallback de Qtile. La experiencia sigue siendo funcional, pero el cambio de wallpaper será ~4x más lento.
 
-**Nota:** En Wayland este método no aplica — `feh` solo funciona en X11. El wallpaper en Wayland se maneja directamente desde `screens.py` con Qtile.
+**Nota:** En Wayland este método usa `qtile cmd-obj -o screen N -f set_wallpaper` directamente — Qtile Wayland lo implementa con Cairo + wlr-layer-shell y aplica el wallpaper en vivo sin recargar la configuración. `feh` solo funciona en X11.
 
 ## Uso
 

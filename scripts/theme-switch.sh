@@ -10,6 +10,8 @@ KITTY_COLORS="$HOME/.config/kitty/colors.conf"
 ZSH_COLORS="$HOME/.zsh_colors"
 BANNER_COLOR="$HOME/.zsh_banner_color"
 FASTFETCH_COLORS="$HOME/.config/fastfetch/colors.json"
+GTK_CSS="$HOME/.config/gtk-3.0/gtk.css"
+OPENCODE_CONFIG="$HOME/.config/opencode/opencode.jsonc"
 QTILE_SCREENS="$HOME/dotfiles/qtile/modules/screens.py"
 
 usage() {
@@ -41,6 +43,12 @@ check_deps() {
             exit 1
         fi
     done
+
+    # feh solo sirve en X11, en Wayland ignora
+    if [ "$XDG_SESSION_TYPE" != "wayland" ] && ! command -v feh &>/dev/null; then
+        echo "⚠️  feh no está instalado. El cambio de wallpaper será más lento."
+        echo "   Instalalo con: sudo pacman -S feh"
+    fi
 }
 
 load_theme() {
@@ -105,12 +113,212 @@ EOF
 foreground $foreground
 background $background
 cursor $primary
+cursor_text_color $background
 selection_background $secondary
 selection_foreground #ffffff
+
+# {{{ Tab bar
 active_tab_foreground #ffffff
-active_tab_background $primary
+active_tab_background $secondary
 inactive_tab_foreground #888888
 inactive_tab_background #1a1a1a
+tab_bar_background $background
+tab_bar_margin_color $background
+# }}}
+
+# {{{ URL & visual feedback
+url_color $primary
+url_style curly
+active_border_color $primary
+inactive_border_color #444444
+bell_border_color $secondary
+# }}}
+
+# {{{ Status bar (kitty)
+statusbar_fg $foreground
+statusbar_bg $background
+# }}}
+EOF
+
+    # Extraer colores en formato rgb
+    local primary_hex="${primary#\#}"
+    local primary_r=$((16#${primary_hex:0:2}))
+    local primary_g=$((16#${primary_hex:2:2}))
+    local primary_b=$((16#${primary_hex:4:2}))
+
+    local secondary_hex="${secondary#\#}"
+    local secondary_r=$((16#${secondary_hex:0:2}))
+    local secondary_g=$((16#${secondary_hex:2:2}))
+    local secondary_b=$((16#${secondary_hex:4:2}))
+
+    cat > "$GTK_CSS" << EOF
+/* ==========================================
+   Temas dinámicos - Generado por theme-switch.sh
+   Aplica a Thunar y aplicaciones GTK3
+   ========================================== */
+
+@define-color theme_bg $background;
+@define-color theme_fg $foreground;
+@define-color theme_primary $primary;
+@define-color theme_secondary $secondary;
+@define-color theme_selected_bg $primary;
+@define-color theme_selected_fg #ffffff;
+
+/* ── Thunar ──────────────────────────────── */
+.thunar {
+  background-color: @theme_bg;
+  color: @theme_fg;
+}
+
+.thunar .sidebar {
+  background-color: shade(@theme_bg, 0.95);
+  border-right: 1px solid shade(@theme_bg, 1.3);
+}
+
+.thunar .sidebar .view {
+  background-color: shade(@theme_bg, 0.95);
+  color: @theme_fg;
+}
+
+.thunar .sidebar .view:selected {
+  background-color: @theme_primary;
+  color: @theme_selected_fg;
+}
+
+.thunar .sidebar .view:selected:backdrop {
+  background-color: shade(@theme_primary, 1.3);
+}
+
+.thunar .standard-view {
+  background-color: @theme_bg;
+}
+
+.thunar .standard-view .view {
+  background-color: @theme_bg;
+  color: @theme_fg;
+}
+
+.thunar .standard-view .view:selected {
+  background-color: @theme_primary;
+  color: @theme_selected_fg;
+}
+
+.thunar .standard-view .view:selected:backdrop {
+  background-color: shade(@theme_primary, 1.3);
+}
+
+.thunar .standard-view .view:active {
+  background-color: shade(@theme_primary, 1.2);
+}
+
+.thunar .location-bar {
+  background-color: shade(@theme_bg, 1.1);
+  border-bottom: 1px solid shade(@theme_bg, 1.3);
+}
+
+.thunar .path-bar button {
+  background-color: shade(@theme_bg, 1.2);
+  color: @theme_fg;
+  border: 1px solid shade(@theme_bg, 1.5);
+}
+
+.thunar .path-bar button:hover {
+  background-color: shade(@theme_primary, 2.0);
+}
+
+.thunar .path-bar button:checked {
+  background-color: @theme_primary;
+  color: @theme_selected_fg;
+}
+
+/* ── Columnas de detalles ───────────────── */
+treeview {
+  background-color: @theme_bg;
+  color: @theme_fg;
+}
+
+treeview:selected {
+  background-color: @theme_primary;
+  color: @theme_selected_fg;
+}
+
+treeview:selected:backdrop {
+  background-color: shade(@theme_primary, 1.3);
+}
+
+treeview header button {
+  background-color: shade(@theme_bg, 1.1);
+  color: @theme_fg;
+  border: 1px solid shade(@theme_bg, 1.3);
+}
+
+treeview header button:hover {
+  background-color: shade(@theme_bg, 1.3);
+}
+
+/* ── Toolbar ─────────────────────────────── */
+.thunar toolbar {
+  background-color: shade(@theme_bg, 1.1);
+  border-bottom: 1px solid shade(@theme_bg, 1.3);
+}
+
+.thunar toolbar button {
+  background-color: transparent;
+  color: @theme_fg;
+}
+
+.thunar toolbar button:hover {
+  background-color: shade(@theme_bg, 1.5);
+}
+
+/* ── Scrollbars ──────────────────────────── */
+scrollbar {
+  background-color: shade(@theme_bg, 1.1);
+}
+
+scrollbar slider {
+  background-color: @theme_primary;
+  border-radius: 6px;
+  min-width: 8px;
+  min-height: 8px;
+}
+
+scrollbar slider:hover {
+  background-color: @theme_secondary;
+}
+
+scrollbar slider:active {
+  background-color: @theme_secondary;
+}
+
+/* ── Entries (búsqueda, location) ────────── */
+entry {
+  background-color: shade(@theme_bg, 1.3);
+  color: @theme_fg;
+  border: 1px solid shade(@theme_bg, 1.5);
+}
+
+entry:focus {
+  border-color: @theme_primary;
+}
+
+/* ── Menús ───────────────────────────────── */
+menu {
+  background-color: shade(@theme_bg, 1.1);
+  color: @theme_fg;
+}
+
+menu menuitem:hover {
+  background-color: @theme_primary;
+  color: @theme_selected_fg;
+}
+
+/* ── Notificaciones ──────────────────────── */
+tooltip {
+  background-color: shade(@theme_bg, 1.3);
+  color: @theme_fg;
+  border: 1px solid @theme_primary;
+}
 EOF
 
     cat > "$ZSH_COLORS" << EOF
@@ -151,7 +359,36 @@ EOF
 
     sed -i "s|wallpaper = \".*\"|wallpaper = \"$wallpaper\"|" "$QTILE_SCREENS"
 
+    # Actualizar colores de agentes en opencode.jsonc
+    if [[ -f "$OPENCODE_CONFIG" ]]; then
+        sed -i '/"build": { "color": /s/"color": "[^"]*"/"color": "'"$primary"'"/' "$OPENCODE_CONFIG"
+        sed -i '/"plan": { "color": /s/"color": "[^"]*"/"color": "'"$secondary"'"/' "$OPENCODE_CONFIG"
+        sed -i '/"general": { "color": /s/"color": "[^"]*"/"color": "'"$foreground"'"/' "$OPENCODE_CONFIG"
+        sed -i '/"explore": { "color": /s/"color": "[^"]*"/"color": "'"$primary"'"/' "$OPENCODE_CONFIG"
+        echo "  → opencode agent colors updated"
+    fi
+
     cp "$theme_dir/theme.json" "$CURRENT_THEME_FILE"
+}
+
+_set_wallpaper_direct() {
+    local wallpaper="$1"
+    if [[ ! -f "$wallpaper" ]]; then
+        return 1
+    fi
+
+    # En X11: feh usa _XROOTPMAP_ID, es directo al server X11 (~50ms)
+    # En Wayland: feh no funciona, así que lo saltamos
+    if [ "$XDG_SESSION_TYPE" != "wayland" ] && command -v feh &>/dev/null; then
+        feh --bg-fill "$wallpaper" 2>/dev/null && return 0
+    fi
+
+    # Wayland o sin feh: Qtile set_wallpaper directo sin reload_config
+    # Qtile Wayland usa Cairo + wlr-layer-shell para pintar el wallpaper
+    if pgrep -x qtile &>/dev/null; then
+        qtile cmd-obj -o screen 0 -f set_wallpaper -a "$wallpaper" -a "fill" 2>/dev/null
+        qtile cmd-obj -o screen 1 -f set_wallpaper -a "$wallpaper" -a "fill" 2>/dev/null
+    fi
 }
 
 reload_components() {
@@ -161,12 +398,13 @@ reload_components() {
         fi
     fi
 
-    if pgrep -x qtile &>/dev/null; then
-        qtile cmd-obj -o cmd -f reload_config 2>/dev/null || true
-    fi
-
     if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
         bash "$HOME/.config/waybar/launch.sh" 2>/dev/null || true
+    fi
+
+    # Forzar refresh de Thunar si está abierto
+    if pgrep -x thunar &>/dev/null; then
+        thunar -q 2>/dev/null || true
     fi
 }
 
@@ -178,14 +416,16 @@ apply_theme() {
     echo "Aplicando tema: $display_name"
 
     apply_theme_config "$theme_name" "$theme_dir"
+
+    # Wallpaper directo (feh si está instalado, fallback a Qtile set_wallpaper)
+    local wallpaper=$(jq -r '.wallpaper' "$theme_dir/theme.json")
+    if [[ -n "$wallpaper" && -f "$wallpaper" ]]; then
+        _set_wallpaper_direct "$wallpaper"
+    fi
+
     reload_components
 
     if [ "$XDG_SESSION_TYPE" != "wayland" ]; then
-        local wallpaper=$(jq -r '.wallpaper' "$theme_dir/theme.json")
-        # betterlockscreen está roto, no se ejecuta
-        # if [[ -n "$wallpaper" && -f "$wallpaper" ]]; then
-        #     betterlockscreen -u "$wallpaper" >> /tmp/betterlockscreen.log 2>&1 || true
-        # fi
         bash ~/.config/polybar/launch.sh 2>/dev/null || true
     fi
     notify-send "Tema aplicado" "$display_name" -i dialog-information 2>/dev/null || true

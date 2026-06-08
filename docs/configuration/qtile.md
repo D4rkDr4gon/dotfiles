@@ -117,7 +117,7 @@ Configuracion de pantallas en `screens.py`:
 Al ejecutar `theme <nombre>`, el wallpaper se aplica de forma optimizada sin recargar todo Qtile:
 
 1. **X11**: `theme-switch.sh` ejecuta `feh --bg-fill` — método directo que escribe en `_XROOTMAP_ID`, independiente de Qtile (~50ms). Si `feh` no está instalado, usa `qtile cmd-obj -o screen N -f set_wallpaper` que aplica solo el wallpaper sin recargar la config completa.
-2. **Wayland**: No hay atajo vía `feh`. El wallpaper se escribe en `screens.py` via `sed`, y Qtile lo pickea en el próximo reload o en el próximo inicio de sesión.
+2. **Wayland**: `theme-switch.sh` ejecuta `qtile cmd-obj -o screen N -f set_wallpaper` directamente. Qtile Wayland implementa `set_wallpaper` usando Cairo + wlr-layer-shell, pintando el wallpaper en vivo sin necesidad de recargar la configuración completa (~200ms). No requiere reload ni logout.
 
 **Ver**: `scripts/theme-switch.sh` → `_set_wallpaper_direct()`
 
