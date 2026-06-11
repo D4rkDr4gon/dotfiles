@@ -24,6 +24,7 @@ alias logo="sh /home/lcampassi/dotfiles/automat/launch-logo.sh"
 alias threatdeck="~/.cargo/bin/ThreatDeck"
 
 # Repo lazygit
+alias portfolio="cd /files/my-web/ && lazygit"
 alias vault="cd /files/Personal-Vault/ && lazygit"
 alias dotfiles="cd /home/lcampassi/dotfiles/ && lazygit"
 alias airepo="cd /home/lcampassi/MY-AGENT-SKILLS/ && lazygit"
@@ -58,3 +59,6 @@ alias la='/usr/bin/lsd -a --group-dirs=first'
 alias l='/usr/bin/lsd --group-dirs=first'
 alias lla='/usr/bin/lsd -lha --group-dirs=first'
 alias ls='/usr/bin/lsd --group-dirs=first'
+
+# ====== OBSIDIAN ID REGISTRY ======
+alias next-id='python3 /files/Personal-Vault/Manuales/05-PRACTICAL-RESOURCES/01-SCRIPTS/PYTHON/next-id.py'

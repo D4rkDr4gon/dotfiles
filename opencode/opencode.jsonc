@@ -9,49 +9,62 @@
     "general": { "color": "#c5c8c6" },
     "explore": { "color": "#c62828" }
   },
-  "mcp": {
-    // ── Ollama (modelos locales de IA) ───────────────────────
-    // Expone tools: ollama_generate, ollama_chat, ollama_list_models,
-    // ollama_ps, ollama_embed, ollama_pull
-    // Server: ~/MY-AGENT-SKILLS/MCP/ollama-server/server.py
+
+  // ── Modelo principal ─────────────────────────────────────
+  // "model": "ollama/qwen2.5:7b",
+  // "small_model": "ollama/qwen3:1.7b",
+
+  // ── Ollama como provider (modelos locales) ──────────────
+  // Los modelos deben declararse explícitamente en "models".
+  "provider": {
     "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "qwen2.5:7b": {
+          "name": "Qwen 2.5 7B (local)",
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+        "qwen3:1.7b": {
+          "name": "Qwen 3 1.7B (local)",
+          "limit": {
+            "context": 32768,
+            "output": 4096
+          }
+        },
+        "jimscard/whiterabbit-neo:latest": {
+          "name": "WhiteRabbit-Neo 13B (local)",
+          "limit": {
+            "context": 8192,
+            "output": 4096
+          }
+        }
+      }
+    }
+  },
+
+  "mcp": {
+    // ── Obsidian (MCP nativo vía obsidian-local-rest-api) ────
+    // Requiere plugin "obsidian-local-rest-api" (coddingtonbear) instalado.
+    // API key disponible como $OBSIDIAN_API_KEY en ~/.zshenv.
+    "obsidian": {
       "type": "local",
       "command": [
-        "python3",
-        "/home/lcampassi/MY-AGENT-SKILLS/MCP/ollama-server/server.py"
+        "npx", "-y", "mcp-remote@latest",
+        "https://127.0.0.1:27124/mcp/",
+        "--header", "Authorization: Bearer ***TOKEN_REVOCADO***"
       ],
+      "env": {
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      },
+      "timeout": 10000,
       "enabled": true
     }
-
-    // ── Docker ──────────────────────────────────────────────
-    // Instalar: npm install -g @anthropic/docker-mcp-server
-    // o:       docker pull mcp/docker
-    // "docker": {
-    //   "command": "npx",
-    //   "args": ["-y", "@anthropic/docker-mcp-server"]
-    // },
-    //
-    // ── GitHub ──────────────────────────────────────────────
-    // Instalar: npm install -g @modelcontextprotocol/server-github
-    // "github": {
-    //   "command": "npx",
-    //   "args": ["-y", "@modelcontextprotocol/server-github"],
-    //   "env": {
-    //     "GITHUB_TOKEN": "<personal-access-token>"
-    //   }
-    // },
-    //
-    // ── Filesystem (acceso controlado a directorios) ─────────
-    // Instalar: npm install -g @modelcontextprotocol/server-filesystem
-    // "filesystem": {
-    //   "command": "npx",
-    //   "args": [
-    //     "-y",
-    //     "@modelcontextprotocol/server-filesystem",
-    //     "/home/lcampassi",
-    //     "/files/Personal-Vault",
-    //     "/home/lcampassi/MY-AGENT-SKILLS"
-    //   ]
-    // }
   }
 }
