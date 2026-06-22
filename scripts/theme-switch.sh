@@ -377,6 +377,16 @@ _set_wallpaper_direct() {
         return 1
     fi
 
+    # Hyprland: wallpaper via hyprpaper IPC
+    if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+        if ! pgrep -x hyprpaper &>/dev/null; then
+            hyprpaper &
+            sleep 0.3
+        fi
+        hyprctl hyprpaper wallpaper ",$wallpaper" 2>/dev/null || true
+        return 0
+    fi
+
     # En X11: feh usa _XROOTPMAP_ID, es directo al server X11 (~50ms)
     # En Wayland: feh no funciona, así que lo saltamos
     if [ "$XDG_SESSION_TYPE" != "wayland" ] && command -v feh &>/dev/null; then
@@ -405,6 +415,22 @@ reload_components() {
     # Forzar refresh de Thunar si está abierto
     if pgrep -x thunar &>/dev/null; then
         thunar -q 2>/dev/null || true
+    fi
+
+    # Recargar Hyprland wallpaper si es necesario
+    if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+        # Releer hyprpaper.conf y recargar
+        if pgrep -x hyprpaper &>/dev/null; then
+            pkill hyprpaper 2>/dev/null || true
+            sleep 0.1
+        fi
+        hyprpaper &
+        sleep 0.2
+        local wallpaper
+        wallpaper=$(jq -r '.wallpaper // empty' "$CURRENT_THEME_FILE" 2>/dev/null)
+        if [[ -n "$wallpaper" && -f "$wallpaper" ]]; then
+            hyprctl hyprpaper wallpaper ",$wallpaper" 2>/dev/null || true
+        fi
     fi
 }
 

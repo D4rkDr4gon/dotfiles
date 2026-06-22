@@ -7,7 +7,11 @@ query=$(rofi -dmenu -p "🌐 Search" -theme /home/lcampassi/.config/rofi/theme.r
 
 encoded=$(echo "$query" | sed 's/ /+/g')
 
-qtile cmd-obj -o group " 󰈹 " -f toscreen
+if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    hyprctl dispatch workspace 5
+else
+    qtile cmd-obj -o group " 󰈹 " -f toscreen
+fi
 firefox "https://www.google.com/search?q=$encoded" &
 
 if [ "$XDG_SESSION_TYPE" != "wayland" ]; then

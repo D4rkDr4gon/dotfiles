@@ -83,7 +83,7 @@ graph TB
 | `display-monitors.sh` | Configura monitores (xrandr en X11, wlr-randr en Wayland) | `display-monitors` |
 | `launch-logo.sh` | Muestra banner ASCII del dragon D4rkDr4g0n | `logo` |
 | `launchgemma.sh` | Lanza Ollama + Gemma 3 en Kitty | `launchgemma` |
-| `lock-screen.sh` | Lock screen (swaylock en Wayland, betterlockscreen en X11) | `Mod+L → Lock` |
+| `lock-screen.sh` | Lock screen (gtklock en Wayland, betterlockscreen en X11) | `Mod+L → Lock` |
 | `barupdate.sh` | Reinicia la barra según el backend (Polybar/Waybar) | `barupdate` |
 | `screenshot.sh` | Screenshot (grim+slurp en Wayland, Flameshot en X11) | `Print` / `Mod+Shift+S` |
 

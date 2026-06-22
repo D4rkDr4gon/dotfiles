@@ -82,7 +82,7 @@ keys = [
 
     # Actions for qtile
     Key([mod, "control"], "r", lazy.reload_config(), lazy.spawn("/home/lcampassi/dotfiles/scripts/barupdate.sh"),  desc="reloads qtiles's configuration"),
-    Key([mod], "l", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/qtile-action-menu.sh"), desc="blocks PC"),
+    Key([mod], "l", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/action-menu.sh"), desc="blocks PC"),
 
     # =========== qtile stacks ================
     # Moving between stacks 

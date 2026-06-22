@@ -1,7 +1,7 @@
 # System Requirements — D4rkDr4g0n Dotfiles
 
 > **Distro:** Arch Linux  
-> **WM:** Qtile  
+> **WM:** Qtile / Hyprland (dual)  
 > **Shell:** Zsh + Powerlevel10k  
 > **Last updated:** 2026-05-24
 
@@ -68,12 +68,18 @@ Dual boot with Windows 11 on separate partition.
 | `wlr-randr` | Monitor config (Wayland) |
 | `grim` `slurp` | Screenshots (Wayland) |
 | `wl-clipboard` | Clipboard CLI (Wayland) |
+| `hyprland` | Wayland compositor alternativo (Hyprland) |
+| `hyprpaper` | Wallpaper daemon para Hyprland |
+| `hyprlock` | Screen locker para Hyprland |
+| `hypridle` | Idle management para Hyprland |
+| `xdg-desktop-portal-hyprland` | Portal backend para Hyprland |
 
 ### 2.3 WM & UI Components
 
 | Package | Purpose |
 |---|---|
 | `qtile` | Tiling window manager (Python, X11 + Wayland) |
+| `hyprland` | Tiling window manager alternativo (Wayland nativo) |
 | `polybar` | Status bar (X11) |
 | `rofi` | App launcher + menus (X11 + Wayland nativo 2.0+) |
 | `dunst` | Notification daemon (X11 + Wayland) |
@@ -248,6 +254,7 @@ dotfiles/
 ├── onedrive/             → ~/.config/onedrive/
 ├── opencode/             → ~/.config/opencode/
 ├── picom/                → ~/.config/picom/  (X11)
+├── hypr/                 → ~/.config/hypr/  (Hyprland WM)
 ├── polybar/              → ~/.config/polybar/  (X11)
 ├── qtile/                → ~/.config/qtile/
 ├── recursos/             # Wallpapers, logos, scripts
@@ -267,6 +274,7 @@ dotfiles/
 |---|---|
 | `~/.zshrc` | `~/dotfiles/zsh/zshrc` |
 | `~/.config/qtile` | `~/dotfiles/qtile/` |
+| `~/.config/hypr` | `~/dotfiles/hypr/` |
 | `~/.config/polybar` | `~/dotfiles/polybar/` |
 | `~/.config/waybar` | `~/dotfiles/waybar/` |
 | `~/.config/swaylock` | `~/dotfiles/swaylock/` |
@@ -285,7 +293,9 @@ dotfiles/
 
 ---
 
-## 5. Qtile Workspaces
+## 5. Workspaces (Qtile / Hyprland)
+
+Los mismos 5 workspaces con idéntica semántica en ambos WMs:
 
 | # | Name | Icon | Usage |
 |---|---|---|---|
@@ -295,11 +305,16 @@ dotfiles/
 | 4 | SYS |  | System, terminals |
 | 5 | WEB | 󰈹 | Browser, web |
 
-### Layouts (in order)
+### Layouts (Qtile)
 
 1. **Columns** — default/master layout
 2. **MonadTall** — master-stack vertical
 3. **Stack** — 2-stack horizontal
+
+### Layouts (Hyprland)
+
+- **Dwindle** — default, pseudotile + preserve_split
+- **Master** — new window as master (opcional)
 
 ### Autostart (on login) — Dual-backend
 
@@ -310,10 +325,17 @@ dotfiles/
 4. `dunst` (notifications)
 5. Welcome notification
 
-**Wayland:**
+**Qtile Wayland:**
 1. `waybar launch.sh` (status bar)
 2. `dunst` (notifications)
 3. Welcome notification
+
+**Hyprland:**
+1. `waybar` (status bar, via `exec-once`)
+2. `start-hyprpaper.sh` (wallpaper dinámico, via `exec-once`)
+3. `dunst` (notifications, via `exec-once`)
+4. `hyprland-session-init.service` (activa `graphical-session.target` via `exec-once`)
+5. Welcome notification
 
 ---
 
@@ -515,6 +537,9 @@ systemctl enable vault-pull.service vault-push.service --now
 - [ ] Set up online accounts (Firefox, Bitwarden, Proton, etc.)
 - [ ] Apply theme
 - [ ] Install Wayland packages (`waybar wlr-randr swaybg grim slurp swaylock swayidle wl-clipboard`)
+- [ ] Install Hyprland + hyprpaper (`sudo pacman -S hyprland hyprpaper hyprlock hypridle xdg-desktop-portal-hyprland`)
+- [ ] Stow Hyprland config: `cd ~/dotfiles && stow -t ~/.config hypr`
+- [ ] Enable hyprland-session-init: `systemctl --user enable hyprland-session-init.service`
 - [ ] Configure dual monitors (xrandr/wlr-randr)
 - [ ] Configure VPN connections
 - [ ] Set up fingerprint reader (`fprintd-enroll`)
@@ -547,6 +572,7 @@ User (managed via dotfiles):
   ~/.gitconfig
   ~/.p10k.zsh
   ~/.config/qtile/
+  ~/.config/hypr/                   (Hyprland)
   ~/.config/polybar/                (X11)
   ~/.config/waybar/                 (Wayland)
   ~/.config/swaylock/               (Wayland)

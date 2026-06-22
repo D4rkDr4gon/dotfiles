@@ -32,6 +32,8 @@ graph LR
     TL --> OL[install-ollama.sh<br/>Ollama + modelos AI]
     TL --> N8[install-n8n.sh<br/>n8n systemd service]
     PC --> BA[setup-blackarch.sh<br/>BlackArch repos<br/>(opcional)]
+    WL[install-wayland.sh<br/>Paquetes Wayland] --> HY[install-hyprland.sh<br/>Hyprland + hyprpaper<br/>(opcional)]
+    TL -.-> WL
 ```
 
 **Sources:** `install.sh`, `automat/install/lib/common.sh`
@@ -44,7 +46,7 @@ graph LR
 | `--no-ollama` | Salta descarga de modelos AI (~15GB) |
 | `--no-blackarch` | Salta configuracion de BlackArch |
 | `--no-aur` | Salta paquetes AUR |
-| `--no-wayland` | Salta paquetes Wayland (solo X11) |
+| `--no-wayland` | Salta paquetes Wayland + Hyprland (solo X11) |
 
 Ejemplo:
 
@@ -56,7 +58,7 @@ bash install.sh --no-ollama --no-blackarch
 
 | Categoria | Paquetes |
 |-----------|----------|
-| **WM + UI** | Ctile, Polybar, Picom, Waybar, Rofi, Dunst, Nitrogen, swaylock |
+| **WM + UI** | Qtile, Hyprland, Polybar, Picom, Waybar, Rofi, Dunst, Nitrogen, swaylock |
 | **Terminal** | Kitty, Zsh + powerlevel10k |
 | **Shell Tools** | zoxide, fzf, fd, ripgrep, bat, lsd, yazi, fastfetch, btop |
 | **Drivers** | AMDGPU, Vulkan, Xorg, Wayland |
@@ -85,6 +87,7 @@ bash install.sh --no-ollama --no-blackarch
 | `install-neovim.sh` | Editor (LazyVim) | — | `~/.config/nvim/` |
 | `install-tools.sh` | Apps de productividad | yay | — |
 | `install-wayland.sh` | Paquetes Wayland (waybar, grim, slurp, swaylock, etc.) | — | `~/.config/waybar/`, `~/.config/swaylock/` |
+| `install-hyprland.sh` | Hyprland WM, hyprpaper, hyprlock, hypridle | wayland | `~/.config/hypr/` |
 | `install-ollama.sh` | AI models | — | Systemd service |
 | `install-n8n.sh` | Workflow automation | — | Systemd user service |
 | `setup-blackarch.sh` | BlackArch repos | — | `/etc/pacman.conf` |
@@ -106,6 +109,7 @@ bash automat/install/install-rofi.sh
 bash automat/install/install-neovim.sh
 bash automat/install/install-tools.sh
 bash automat/install/install-wayland.sh  # opcional, para sesion Wayland
+bash automat/install/install-hyprland.sh # opcional, para Hyprland
 bash automat/install/install-ollama.sh
 bash automat/install/install-n8n.sh
 bash automat/install/setup-blackarch.sh  # opcional
@@ -114,12 +118,19 @@ bash automat/install/setup-blackarch.sh  # opcional
 ## Post-Instalacion
 
 1. **Reinicia sesion** para usar Zsh como shell default
-2. **Selecciona Ctile** en lightdm (o "Ctile (Wayland)" para Wayland)
+2. **Selecciona sesión** en LightDM: "Qtile" (X11), "Qtile (Wayland)" o "Hyprland"
 3. **Aplica un tema**: `theme city-sci-fi`
 4. **Abre Neovim** para instalar plugins: `nvim` + `Lazy!`
 5. **Configura monitores**: `bash ~/dotfiles/automat/display-monitors.sh`
 6. **Configura OneDrive**: Editar `onedrive/config` con tu tenant
 7. **Verifica**: `fastfetch`
+
+> 💡 Si vas a usar **Hyprland**, ejecutá también:
+> ```bash
+> bash automat/install/install-hyprland.sh          # Instalar Hyprland + hyprpaper + stow config
+> systemctl --user enable hyprland-session-init.service  # Activar graphical-session.target
+> ```
+> Ver [Hyprland](configuration/hyprland.md) para más detalles.
 
 ### Paquetes Wayland (opcional, para sesión Wayland)
 
@@ -137,10 +148,15 @@ Rofi 2.0+ ya tiene soporte Wayland nativo. No requiere paquete extra.
 
 ### Sesión Wayland
 
-Desde LightDM seleccionar "Qtile (Wayland)". También se puede iniciar desde TTY:
+Desde LightDM hay dos opciones:
+- **"Qtile (Wayland)"** — Qtile con backend Wayland
+- **"Hyprland"** — Hyprland (Wayland nativo)
+
+También se puede iniciar desde TTY:
 
 ```bash
-qtile start -b wayland
+qtile start -b wayland          # Qtile Wayland
+Hyprland                         # Hyprland
 ```
 
 ## Symlinks Manuales
@@ -149,7 +165,7 @@ Los symlinks se crean automaticamente con `install.sh`, pero podes hacerlo manua
 
 ```bash
 ln -sf ~/dotfiles/zsh/zshrc ~/.zshrc
-for dir in qtile polybar waybar swaylock picom rofi kitty Thunar zsh automat dunst opencode; do
+for dir in qtile hypr polybar waybar swaylock picom rofi kitty Thunar zsh automat dunst opencode; do
     ln -sf ~/dotfiles/$dir ~/.config/$dir
 done
 ln -sf ~/dotfiles/lazy-nvim ~/.config/nvim

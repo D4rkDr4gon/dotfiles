@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Hyprland
+Comment=Hyprland Wayland compositor (con wrapper)
+Exec=/home/lcampassi/dotfiles/hypr/scripts/start-hyprland.sh
+Type=Application
+DesktopNames=Hyprland
+Keywords=tiling;wayland;compositor;

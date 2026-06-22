@@ -89,15 +89,18 @@ graph TB
 Una vez escritos los archivos, los cambios se aplican sin logout:
 
 1. **Wallpaper** (X11): `_set_wallpaper_direct()` intenta `feh --bg-fill` primero (~50ms). Si `feh` no está instalado, usa `qtile cmd-obj -o screen N -f set_wallpaper` como fallback (solo aplica wallpaper, sin recargar todo el config de Qtile)
-2. **Wallpaper** (Wayland): `_set_wallpaper_direct()` usa `qtile cmd-obj -o screen N -f set_wallpaper` directamente. Qtile Wayland lo implementa con Cairo + wlr-layer-shell — pinta el wallpaper en vivo, no requiere `reload_config` (~200ms)
-3. **Kitty**: Usa `kitty @ set-colors` para actualizar todas las terminales activas al instante
-4. **Polybar** (X11): Ejecuta `launch.sh` para matar y reiniciar la barra con el nuevo `colors.ini`
-5. **Waybar** (Wayland): Detecta `XDG_SESSION_TYPE=wayland` y ejecuta `launch.sh` con el nuevo `theme.css`
+2. **Wallpaper** (Qtile Wayland): `_set_wallpaper_direct()` usa `qtile cmd-obj -o screen N -f set_wallpaper` directamente. Qtile Wayland lo implementa con Cairo + wlr-layer-shell — pinta el wallpaper en vivo, no requiere `reload_config` (~200ms)
+3. **Wallpaper** (Hyprland): `_set_wallpaper_direct()` usa `hyprctl hyprpaper wallpaper` via hyprpaper IPC. `reload_components()` reinicia hyprpaper si es necesario. Ambas rutas leen el wallpaper desde `current_theme.json` (fuente única)
+4. **Kitty**: Usa `kitty @ set-colors` para actualizar todas las terminales activas al instante
+5. **Polybar** (X11): Ejecuta `launch.sh` para matar y reiniciar la barra con el nuevo `colors.ini`
+6. **Waybar** (Wayland): Detecta `XDG_SESSION_TYPE=wayland` y ejecuta `launch.sh` con el nuevo `theme.css`
 6. **Zsh**: Las sesiones futuras hacen source de `~/.zsh_colors` via `zsh/modules/theme.zsh`
 7. **Thunar**: Si está abierto, se cierra con `thunar -q` para que al re-abrirlo tome los nuevos estilos GTK CSS
 8. **opencode**: Los colores de agentes en `opencode.jsonc` se actualizan via `sed` (no requiere recarga)
 
 **Nota:** GTK CSS (`gtk-3.0/gtk.css`) no se recarga en caliente — Thunar debe cerrarse y re-abrirse. `theme-switch.sh` lo maneja automáticamente si el proceso está activo.
+
+**Nota Hyprland:** El wallpaper en Hyprland se maneja via `hyprpaper` (daemon separado). `theme-switch.sh` detecta automáticamente la presencia de `$HYPRLAND_INSTANCE_SIGNATURE` y aplica el wallpaper via `hyprctl hyprpaper wallpaper` en lugar de `qtile cmd-obj`. Ver [`theme-switch.sh`](../scripts/theme-switch.sh) líneas 374-402.
 
 ## Optimización de Wallpaper
 
@@ -121,10 +124,13 @@ Estrategia de dos niveles:
 
 | Nivel | Método | Tiempo | Requisito |
 |-------|--------|--------|-----------|
-| 1 (rápido) | `feh --bg-fill` | ~50ms | `feh` instalado |
-| 2 (fallback) | `qtile cmd-obj -o screen N -f set_wallpaper` | ~200ms | Qtile en ejecución |
+| 1 (rápido X11) | `feh --bg-fill` | ~50ms | `feh` instalado |
+| 2 (Qtile Wayland) | `qtile cmd-obj -o screen N -f set_wallpaper` | ~200ms | Qtile en ejecución |
+| 3 (Hyprland) | `hyprctl hyprpaper wallpaper` | ~100ms | Hyprland + hyprpaper |
 
 **`feh`** es un visor de imágenes mínimo que puede establecer el wallpaper de X11 directamente a través del protocolo `_XROOTMAP_ID`. No depende de Qtile ni de ningún entorno de escritorio, y es significativamente más rápido que pasar por Cairo (que Qtile usa internamente).
+
+**Hyprland** usa `hyprctl hyprpaper wallpaper` que se comunica con el daemon hyprpaper via IPC. El wrapper `start-hyprpaper.sh` (v2 dinámico) genera el config desde `current_theme.json` y reintenta hasta 5 veces si el socket de Hyprland no está listo.
 
 ### Recomendación
 
@@ -134,7 +140,7 @@ sudo pacman -S feh
 
 Si `feh` no está instalado, `theme-switch.sh` muestra una advertencia y usa el método fallback de Qtile. La experiencia sigue siendo funcional, pero el cambio de wallpaper será ~4x más lento.
 
-**Nota:** En Wayland este método usa `qtile cmd-obj -o screen N -f set_wallpaper` directamente — Qtile Wayland lo implementa con Cairo + wlr-layer-shell y aplica el wallpaper en vivo sin recargar la configuración. `feh` solo funciona en X11.
+**Nota:** En Qtile Wayland este método usa `qtile cmd-obj -o screen N -f set_wallpaper` directamente — Qtile Wayland lo implementa con Cairo + wlr-layer-shell y aplica el wallpaper en vivo sin recargar la configuración. En Hyprland usa `hyprctl hyprpaper wallpaper` via el daemon hyprpaper. `feh` solo funciona en X11.
 
 ## Uso
 

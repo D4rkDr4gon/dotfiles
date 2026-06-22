@@ -4,7 +4,11 @@
 
 ---
 
-## Qtile -- Window Manager
+## Qtile / Hyprland -- Window Manager
+
+> Los atajos son **idénticos** en ambos WMs. Si usás Hyprland, los mismos keybindings funcionan igual. Ver [Hyprland](configuration/hyprland.md) para más detalle.
+
+---
 
 ### Lanzar Aplicaciones
 
@@ -195,7 +199,7 @@
 
 ### Action Menu (`Mod + L`)
 - **Grid**: 4 iconos en fila con nombre abajo
-- **Lock**: En X11 usa betterlockscreen (bloqueo visual sin password). En Wayland usa swaylock (blur + clock + indicator). Muestra notificacion de bienvenida al desbloquear
+- **Lock**: En X11 usa betterlockscreen (bloqueo visual sin password). En Wayland usa gtklock (blur + clock + banner). Muestra notificacion de bienvenida al desbloquear
 - **Reboot**: Reiniciar
 - **Poweroff**: Apagar
 - **Logout**: Cerrar sesion de Qtile

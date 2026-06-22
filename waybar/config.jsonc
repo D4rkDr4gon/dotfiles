@@ -12,14 +12,14 @@
     },
 
     "custom/workspaces": {
-        "exec": "python3 /home/lcampassi/.config/waybar/scripts/qtile-workspaces.py",
+        "exec": "python3 /home/lcampassi/.config/waybar/scripts/workspaces.py",
         "exec-on-event": false,
         "interval": 1,
         "return-type": "json",
         "format": "{}",
-        "on-click": "bash /home/lcampassi/.config/rofi/scripts/qtile-workspace-switcher.sh",
-        "on-scroll-up": "bash /home/lcampassi/.config/waybar/scripts/qtile-workspace-switch.sh prev",
-        "on-scroll-down": "bash /home/lcampassi/.config/waybar/scripts/qtile-workspace-switch.sh next"
+        "on-click": "bash /home/lcampassi/.config/rofi/scripts/workspace-switcher.sh",
+        "on-scroll-up": "bash /home/lcampassi/.config/waybar/scripts/workspace-switch.sh prev",
+        "on-scroll-down": "bash /home/lcampassi/.config/waybar/scripts/workspace-switch.sh next"
     },
 
     "clock": {

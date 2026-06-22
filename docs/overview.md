@@ -10,20 +10,28 @@ El entorno se sostiene sobre tres pilares fundamentales:
 
 ## Component Architecture
 
-### Dual-Backend
+### Triple-Backend
 
-Qtile 0.36+ soporta Wayland nativamente. El autostart detecta automáticamente el backend y arranca los componentes correspondientes:
+El entorno soporta 3 modos de sesión, seleccionables desde LightDM:
 
-| Componente | X11 | Wayland |
-|---|---|---|
-| **Barra** | Polybar | Waybar (misma estética) |
-| **Compositor** | Picom (GLX + blur) | No necesario (wlroots) |
-| **Wallpaper** | Nitrogen | Qtile `Screen(wallpaper=...)` |
-| **Lock** | betterlockscreen | gtklock (CSS custom + grim + ImageMagick) |
-| **Screenshot** | Flameshot | grim + slurp |
-| **Monitores** | xrandr | wlr-randr |
+| Backend | Sesión | WM | Barra | 
+|---------|--------|----|-------|
+| **X11** | Qtile | Qtile (X11) | Polybar |
+| **Qtile Wayland** | Qtile (Wayland) | Qtile (Wayland) | Waybar |
+| **Hyprland** | Hyprland | Hyprland | Waybar |
 
-Ver [Wayland Architecture](configuration/wayland.md) para el detalle completo.
+Componentes por sesión:
+
+| Componente | X11 (Qtile) | Qtile Wayland | Hyprland |
+|---|---|---|---|
+| **Barra** | Polybar | Waybar | Waybar |
+| **Compositor** | Picom (GLX + blur) | No necesario (wlroots) | No necesario (nativo) |
+| **Wallpaper** | Nitrogen | Qtile `Screen(wallpaper=...)` | hyprpaper |
+| **Lock** | betterlockscreen | gtklock | gtklock |
+| **Screenshot** | Flameshot | grim + slurp | grim + slurp |
+| **Monitores** | xrandr | wlr-randr | wlr-randr / hyprctl |
+
+Ver [Wayland Architecture](configuration/wayland.md) y [Hyprland](configuration/hyprland.md) para más detalle.
 
 ```mermaid
 graph TB
@@ -33,13 +41,14 @@ graph TB
     end
 
     subgraph WM["Window Manager"]
-        Q[Ctile config.py]
-        QM[Ctile Modules<br/>groups.py, keys.py<br/>layouts.py, hooks.py]
+        Q[Qtile config.py]
+        QM[Qtile Modules<br/>groups.py, keys.py<br/>layouts.py, hooks.py]
+        H[Hyprland hyprland.conf]
     end
 
     subgraph Bar["Status Bar"]
         PB[Polybar<br/>X11]
-        WB[Waybar<br/>Wayland]
+        WB[Waybar<br/>Wayland + Hyprland]
     end
 
     subgraph Shell["Terminal & Shell"]
@@ -49,7 +58,7 @@ graph TB
 
     subgraph Launcher["Application Launcher"]
         RF[Rofi<br/>config.rasi + themes]
-        RF_S[Rofi Scripts<br/>launcher, settings, actions]
+        RF_S[Rofi Scripts<br/>launcher, settings, actions<br/>(dual-WM)]
     end
 
     subgraph Theme["Theme Engine"]
@@ -58,12 +67,15 @@ graph TB
     end
 
     KB --> Q
+    KB --> H
     M --> Q
     Q --> QM
     Q --> DN
     Q --> KT
+    H --> KT
     KT --> ZH
     Q --> RF
+    H --> RF
 
     TS --> TJ
     TS --> PB
@@ -71,20 +83,22 @@ graph TB
     TS --> KT
     TS --> ZH
     TS --> Q
+    TS --> H
 ```
 
-**Sources:** `qtile/config.py`, `polybar/config.ini`, `waybar/config.jsonc`, `kitty/kitty.conf`, `zsh/zshrc`, `scripts/theme-switch.sh`, `scripts/barupdate.sh`
+**Sources:** `qtile/config.py`, `hypr/hyprland.conf`, `polybar/config.ini`, `waybar/config.jsonc`, `kitty/kitty.conf`, `zsh/zshrc`, `scripts/theme-switch.sh`, `scripts/barupdate.sh`
 
 ## Component Table
 
 | Componente | Proposito | Configuracion | Docs |
 |------------|-----------|---------------|------|
-| **Ctile** | Window Manager (tiling, dual-backend) | `qtile/` | [docs](configuration/qtile.md) |
+| **Qtile** | Window Manager (tiling, X11 + Wayland) | `qtile/` | [docs](configuration/qtile.md) |
+| **Hyprland** | Window Manager alternativo (Wayland nativo) | `hypr/` | [docs](configuration/hyprland.md) |
 | **Polybar** | Barra de estado (X11) | `polybar/` | [docs](configuration/polybar.md) |
-| **Waybar** | Barra de estado (Wayland) | `waybar/` | [docs](configuration/wayland.md) |
+| **Waybar** | Barra de estado (Qtile Wayland + Hyprland) | `waybar/` | [docs](configuration/wayland.md) |
 | **Kitty** | Terminal emulator (X11 + Wayland) | `kitty/` | [docs](configuration/kitty.md) |
 | **Zsh** | Shell + prompt (powerlevel10k) | `zsh/` | [docs](configuration/zsh.md) |
-| **Rofi** | Application launcher & menus | `rofi/` | [docs](configuration/rofi.md) |
+| **Rofi** | Application launcher & menus (dual-WM) | `rofi/` | [docs](configuration/rofi.md) |
 | **Picom** | Compositor (X11 only) | `picom/` | [docs](configuration/picom.md) |
 | **Dunst** | Notification daemon | `dunst/` | [docs](configuration/dunst.md) |
 | **Neovim** | Editor (LazyVim) | `lazy-nvim/` | [docs](configuration/editors.md) |
@@ -105,6 +119,7 @@ Los archivos de configuracion se vinculan desde el repo a sus ubicaciones del si
 |-------------|-------------------|
 | `~/.zshrc` | `~/dotfiles/zsh/zshrc` |
 | `~/.config/qtile` | `~/dotfiles/qtile/` |
+| `~/.config/hypr` | `~/dotfiles/hypr/` |
 | `~/.config/polybar` | `~/dotfiles/polybar/` |
 | `~/.config/waybar` | `~/dotfiles/waybar/` |
 | `~/.config/gtklock` | `~/dotfiles/gtklock/` |
@@ -142,6 +157,7 @@ graph LR
     ZC --> ZR[Zsh source]
     QT --> QS[Qtile set_wallpaper directo]
     SC --> QS
+    QT --> HP[Hyprland hyprpaper<br/>hyprctl hyprpaper ...]
 ```
 
 **Sources:** `scripts/theme-switch.sh:62-141`, `polybar/colors.ini`, `waybar/theme.css`, `kitty/colors.conf`, `zsh/modules/theme.zsh`, `gtk-3.0/`, `opencode/opencode.jsonc`, `qtile/current_theme.json`
@@ -158,11 +174,18 @@ dotfiles/
 │   ├── themes.md
 │   ├── automations.md
 │   └── configuration/
-│       ├── qtile.md, polybar.md, wayland.md, kitty.md, zsh.md, rofi.md
-│       ├── picom.md, dunst.md, editors.md, fastfetch.md
-│       ├── thunar.md, gtk.md, opencode.md, extras.md, lock-screen.md
+│       ├── qtile.md, hyprland.md, polybar.md, wayland.md, kitty.md
+│       ├── zsh.md, rofi.md, picom.md, dunst.md, editors.md
+│       ├── fastfetch.md, thunar.md, gtk.md, opencode.md
+│       ├── extras.md, lock-screen.md
 │
 ├── qtile/
+├── hypr/                       # Hyprland config (WM alternativo)
+│   ├── hyprland.conf
+│   ├── hyprpaper.conf
+│   └── scripts/
+│       ├── hypr-workspaces.py
+│       └── hypr-workspace-switch.sh
 ├── polybar/
 ├── waybar/                    # Wayland bar (reemplaza Polybar en Wayland)
 │   ├── config.jsonc
@@ -199,8 +222,9 @@ dotfiles/
 - [Temas](themes.md) — Sistema de temas dinamicos, creacion y personalizacion
 - [Automatizaciones](automations.md) — Scripts de instalacion, vault, AI, utilities
 - [Configuracion Ctile](configuration/qtile.md) — Window manager, grupos, layouts, hooks, dual-backend
+- [Configuracion Hyprland](configuration/hyprland.md) — WM alternativo, keybindings, workspaces, window rules
 - [Configuracion Polybar](configuration/polybar.md) — Barra de estado X11, modulos, colores
-- [Wayland Architecture](configuration/wayland.md) — Migracion, dual-backend, Waybar, gtklock, grim+slurp
+- [Wayland Architecture](configuration/wayland.md) — Migracion, triple-backend, Waybar, gtklock, grim+slurp
 - [Configuracion Kitty](configuration/kitty.md) — Terminal, colores, keybindings, Wayland
 - [Configuracion Zsh](configuration/zsh.md) — Shell, aliases, plugins, prompt
 - [Configuracion Rofi](configuration/rofi.md) — Launcher, temas, scripts

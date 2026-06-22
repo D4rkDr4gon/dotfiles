@@ -80,7 +80,7 @@ list_themes() {
 }
 
 list_workspaces() {
-    bash "$SETTINGS_DIR/qtile-workspace-switcher.sh"
+    bash "$SETTINGS_DIR/workspace-switcher.sh"
 }
 
 web_search() {
@@ -135,20 +135,31 @@ list_backgrounds() {
         rm -rf "$tmpdir"
 
         if [[ "$action" == "✓  Apply" ]]; then
-            sed -i "s|wallpaper = \".*\"|wallpaper = \"$selected_path\"|" \
-                "$HOME/dotfiles/qtile/modules/screens.py"
-
             CURRENT_THEME="$HOME/.config/qtile/current_theme.json"
             if command -v jq &>/dev/null && [[ -f "$CURRENT_THEME" ]]; then
                 jq --arg wp "$selected_path" '.wallpaper = $wp' "$CURRENT_THEME" > /tmp/current_theme.json && \
                     mv /tmp/current_theme.json "$CURRENT_THEME"
             fi
 
-            if command -v betterlockscreen &>/dev/null; then
-                betterlockscreen -u "$selected_path" >> /tmp/betterlockscreen.log 2>&1 || true
+            if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+                # Hyprland: aplicar wallpaper via hyprpaper
+                killall hyprpaper 2>/dev/null || true
+                sleep 0.1
+                hyprpaper &
+                sleep 0.2
+                hyprctl hyprpaper wallpaper ",$selected_path"
+            else
+                # Qtile: modificar screens.py
+                sed -i "s|wallpaper = \".*\"|wallpaper = \"$selected_path\"|" \
+                    "$HOME/dotfiles/qtile/modules/screens.py"
+
+                if command -v betterlockscreen &>/dev/null; then
+                    betterlockscreen -u "$selected_path" >> /tmp/betterlockscreen.log 2>&1 || true
+                fi
+
+                qtile cmd-obj -o cmd -f reload_config 2>/dev/null || true
             fi
 
-            qtile cmd-obj -o cmd -f reload_config 2>/dev/null || true
             bash /home/lcampassi/dotfiles/scripts/barupdate.sh 2>/dev/null || true
             notify-send "Fondo de pantalla" "Cambiado a $selection" -t 2000
             exit 0
