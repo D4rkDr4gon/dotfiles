@@ -87,6 +87,14 @@ graph TB
 | `barupdate.sh` | Reinicia la barra según el backend (Polybar/Waybar) | `barupdate` |
 | `screenshot.sh` | Screenshot (grim+slurp en Wayland, Flameshot en X11) | `Print` / `Mod+Shift+S` |
 
+### Lab SOC (Wazuh + TheHive)
+
+| Script | Descripcion | Atajo |
+|--------|-------------|-------|
+| `labo.sh` | Gestiona el stack Wazuh + TheHive (start/stop/status/logs/top) | `labo` |
+
+Uso: `labo start|stop|restart|status|logs|top`
+
 ### Vault (Obsidian)
 
 | Script | Descripcion | Frecuencia |

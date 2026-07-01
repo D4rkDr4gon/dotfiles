@@ -49,6 +49,9 @@ alias vpnup="nmcli connection up ARCH-CH-US-3"
 alias vpndown="nmcli connection down ARCH-CH-US-3"
 alias vpnreplace="sh /home/lcampassi/dotfiles/scripts/vpn-replace.sh"
 
+# Lab manager (Wazuh + TheHive)
+alias labo='/home/lcampassi/dotfiles/automat/labo.sh'
+
 # Navigation
 alias ..="cd .."
 alias ...="cd ../.."
