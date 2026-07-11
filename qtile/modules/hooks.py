@@ -13,6 +13,7 @@ OPACITY_RULES = {
     "rofi": 0.75,
     "dunst": 0.85,
     "kitty": 0.85,
+    "electron": 0.85,
 }
 
 
@@ -46,6 +47,7 @@ def autostart():
         processes = [
             ['bash', home + '/.config/waybar/launch.sh'],
             ['dunst'],
+            ['copyq'],
         ]
     else:
         subprocess.Popen(['xset', 's', 'off'])

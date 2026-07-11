@@ -131,8 +131,10 @@ Los archivos de configuracion se vinculan desde el repo a sus ubicaciones del si
 | `~/.config/automat` | `~/dotfiles/automat/` |
 | `~/.config/dunst` | `~/dotfiles/dunst/` |
 | `~/.config/opencode` | `~/dotfiles/opencode/` |
+| `~/.config/hypr` | `~/dotfiles/hypr/` |
 | `~/.config/nvim` | `~/dotfiles/lazy-nvim/` |
 | `~/.config/gtk-3.0/settings.ini` | `~/dotfiles/gtk-3.0/settings.ini` |
+| `~/.config/gtklock` | `~/dotfiles/gtklock/` |
 
 ## Theme Data Flow
 
@@ -221,7 +223,7 @@ dotfiles/
 - [Atajos de Teclado](keybindings.md) — Todos los shortcuts Qtile, Kitty, Thunar, Zsh
 - [Temas](themes.md) — Sistema de temas dinamicos, creacion y personalizacion
 - [Automatizaciones](automations.md) — Scripts de instalacion, vault, AI, utilities
-- [Configuracion Ctile](configuration/qtile.md) — Window manager, grupos, layouts, hooks, dual-backend
+- [Configuracion Qtile](configuration/qtile.md) — Window manager, grupos, layouts, hooks, dual-backend
 - [Configuracion Hyprland](configuration/hyprland.md) — WM alternativo, keybindings, workspaces, window rules
 - [Configuracion Polybar](configuration/polybar.md) — Barra de estado X11, modulos, colores
 - [Wayland Architecture](configuration/wayland.md) — Migracion, triple-backend, Waybar, gtklock, grim+slurp

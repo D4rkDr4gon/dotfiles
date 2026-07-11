@@ -23,7 +23,7 @@ keys = [
     Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
     Key([mod], "Return", lazy.spawn(terminal), desc="opens terminal"),
     Key([mod], "s", lazy.spawn("subl"), desc = "Launch Sublime Text"),
-    # Key([mod], "a", lazy.spawn("opencode"), desc = "Launch Opencode"),
+    Key([mod], "a", lazy.spawn("kitty --title opencode -e opencode"), desc = "Launch Opencode"),
 
     # ============= Utilities =============
     
@@ -42,7 +42,7 @@ keys = [
     Key([], "print", lazy.spawn("/home/lcampassi/dotfiles/scripts/screenshot.sh"), desc="take screenshot"),
   
     #Clipboard control
-    Key([mod], "v", lazy.spawn("copyq"), desc = "cliboard History"),
+    Key([mod], "v", lazy.spawn("copyq toggle"), desc = "clipboard History"),
 
     # ============= Navigating Shortcuts =============
 

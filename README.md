@@ -1,13 +1,13 @@
 # D4rkDr4g0n Dotfiles
 
 ![Distro](https://img.shields.io/badge/Distro-Arch%20%7C%20Kali-red?style=for-the-badge&logo=linux)
-![WM](https://img.shields.io/badge/WM-Qtile-blue?style=for-the-badge&logo=python)
-![Display Server](https://img.shields.io/badge/X11%20%7C%20Wayland-dual-brightgreen?style=for-the-badge)
+![WM](https://img.shields.io/badge/WM-Hyprland%20%7C%20Qtile-blue?style=for-the-badge&logo=python)
+![Display Server](https://img.shields.io/badge/Wayland%20%7C%20X11-dual-brightgreen?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-orange?style=for-the-badge)
 
 **Lucciano Campassi** — *Ciberseguridad & Desarrollo*
 
-Entorno de trabajo personalizado con estetica cyberpunk, optimizado para pentesting y desarrollo. Basado en Qtile (X11 + Wayland) + Polybar/Waybar + Kitty + Zsh, con sistema de temas dinamicos y flujo de trabajo 100% controlado por teclado.
+Entorno de trabajo personalizado con estetica cyberpunk, optimizado para pentesting y desarrollo. Basado en Hyprland/Qtile (Wayland + X11) + Waybar/Polybar + Kitty + Zsh, con sistema de temas dinamicos y flujo de trabajo 100% controlado por teclado.
 
 ---
 
@@ -33,9 +33,10 @@ bash <(curl -fsSL https://raw.githubusercontent.com/D4rkDr4g0n/dotfiles/main/ins
 
 | Componente | Descripcion |
 |------------|-------------|
-| [Qtile](docs/configuration/qtile.md) | Window manager, grupos, layouts, hooks, dual-backend |
+| [Qtile](docs/configuration/qtile.md) | Window manager X11/Wayland, grupos, layouts, hooks |
+| [Hyprland](docs/configuration/hyprland.md) | WM alternativo Wayland, keybindings, window rules |
 | [Polybar](docs/configuration/polybar.md) | Barra de estado X11, modulos, colores |
-| [Wayland](docs/configuration/wayland.md) | Migración Wayland, Waybar, swaylock, grim+slurp |
+| [Wayland](docs/configuration/wayland.md) | Migración Wayland, triple-backend, Waybar, grim+slurp |
 | [Kitty](docs/configuration/kitty.md) | Terminal, colores, keybindings, Wayland |
 | [Zsh](docs/configuration/zsh.md) | Shell, aliases, plugins, prompt |
 | [Rofi](docs/configuration/rofi.md) | Launcher, temas, scripts |
@@ -53,14 +54,14 @@ bash <(curl -fsSL https://raw.githubusercontent.com/D4rkDr4g0n/dotfiles/main/ins
 ## Stack Tecnologico
 
 ```
-WM:          Qtile (Python) — X11 + Wayland
+WM:          Hyprland (Wayland) / Qtile (X11 + Wayland)
 Barra:       Polybar (X11) / Waybar (Wayland)
 Terminal:    Kitty (X11 + Wayland nativo)
 Shell:       Zsh + powerlevel10k
 Launcher:    Rofi (X11 + Wayland nativo)
 Compositor:  Picom (X11) / wlroots (Wayland)
 Notifications: Dunst + Rofi notification center
-Lock Screen: betterlockscreen (X11) / swaylock (Wayland)
+Lock Screen: gtklock (Wayland) / betterlockscreen (X11)
 Screenshots: Flameshot (X11) / grim+slurp (Wayland)
 Editores:    Neovim (LazyVim) / Sublime Text
 File Mgr:    Thunar

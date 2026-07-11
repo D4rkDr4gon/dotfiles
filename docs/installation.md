@@ -118,12 +118,14 @@ bash automat/install/setup-blackarch.sh  # opcional
 ## Post-Instalacion
 
 1. **Reinicia sesion** para usar Zsh como shell default
-2. **Selecciona sesión** en LightDM: "Qtile" (X11), "Qtile (Wayland)" o "Hyprland"
+2. **Selecciona sesión** en LightDM: "Hyprland" (recomendado), "Qtile (Wayland)" o "Qtile" (X11)
 3. **Aplica un tema**: `theme city-sci-fi`
 4. **Abre Neovim** para instalar plugins: `nvim` + `Lazy!`
 5. **Configura monitores**: `bash ~/dotfiles/automat/display-monitors.sh`
 6. **Configura OneDrive**: Editar `onedrive/config` con tu tenant
 7. **Verifica**: `fastfetch`
+
+> 💡 **Hyprland es el WM recomendado.** Ver [Hyprland](configuration/hyprland.md) para keybindings, window rules y troubleshooting.
 
 > 💡 Si vas a usar **Hyprland**, ejecutá también:
 > ```bash

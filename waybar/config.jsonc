@@ -46,7 +46,7 @@
         "format-wifi": "󰤨",
         "format-ethernet": "󰛳",
         "format-disconnected": "󰤭",
-        "on-click": "nmtui"
+        "on-click": "kitty --title nmtui -e nmtui"
     },
 
     "custom/vpn": {

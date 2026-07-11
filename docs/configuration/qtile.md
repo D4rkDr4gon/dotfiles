@@ -142,7 +142,7 @@ En `config.py`:
 
 ```python
 wl_input_rules = [
-    ("type:keyboard", {"xkb_layout": "es"}),
+    ("type:keyboard", {"xkb_layout": "latam"}),
 ]
 wl_xcursor_theme = "Adwaita"
 wl_xcursor_size = 24

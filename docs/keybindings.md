@@ -53,7 +53,7 @@
 
 | Atajo | Accion |
 |-------|--------|
-| `Mod + Ctrl + R` | Recargar Qtile + barra (Polybar en X11, Waybar en Wayland) |
+| `Mod + Ctrl + R` | Recargar WM + barra (Polybar en X11, Waybar en Wayland) |
 | `Mod + L` | Menu de accion (Suspend/Reboot/Poweroff/Logout) |
 | `Mod + Shift + Space` | Settings menu (Rofi) |
 
@@ -78,8 +78,8 @@
 | `XF86AudioMicMute` | Silenciar microfono |
 | `XF86MonBrightnessUp` | Brillo +10% |
 | `XF86MonBrightnessDown` | Brillo -10% |
-| `Print` | Screenshot (Flameshot en X11, grim+slurp en Wayland) |
-| `Mod + Shift + S` | Screenshot (Flameshot en X11, grim+slurp en Wayland) |
+| `Print` | Screenshot (grim+slurp en Wayland, Flameshot en X11) |
+| `Mod + Shift + S` | Screenshot (grim+slurp en Wayland, Flameshot en X11) |
 
 ### Mouse
 
@@ -175,9 +175,9 @@
 
 | Alias | Comando |
 |-------|---------|
-| `vpnup` | `nmcli connection up ARCH_LINUX-CH-US-3` |
+| `vpnup` | `nmcli connection up ARCH-CH-US-3` |
 
-| `vpndown` | `nmcli connection down ARCH_LINUX-CH-US-3` |
+| `vpndown` | `nmcli connection down ARCH-CH-US-3` |
 
 | `vpnreplace` | `sh ~/dotfiles/scripts/vpn-replace.sh <archivo.conf>` |
 ### AI / Tools
