@@ -64,4 +64,4 @@ alias lla='/usr/bin/lsd -lha --group-dirs=first'
 alias ls='/usr/bin/lsd --group-dirs=first'
 
 # ====== OBSIDIAN ID REGISTRY ======
-alias next-id='python3 /files/Personal-Vault/Manuales/05-PRACTICAL-RESOURCES/01-SCRIPTS/PYTHON/next-id.py'
+alias next-id='python3 /files/Personal-Vault/BIBLIOTECA-DE-BABEL/05-PRACTICAL-RESOURCES/01-SCRIPTS/PYTHON/next-id.py'
