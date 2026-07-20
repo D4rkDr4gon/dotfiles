@@ -110,6 +110,7 @@ graph TB
 | **Lock Screen** | gtklock (Wayland) / betterlockscreen (X11) | `gtklock/` + `scripts/` | [docs](configuration/lock-screen.md) |
 | **opencode** | AI assistant config + skills | `opencode/` | [docs](configuration/opencode.md) |
 | **Screenshots** | grim+slurp (Wayland) / Flameshot (X11) | `scripts/screenshot.sh` | [docs](configuration/wayland.md) |
+| **Battery Watch** | Notificaciones al 15/10/5% de bateria via systemd timer | `scripts/battery-watch.sh` + `systemd/user/` | [docs](automations.md) |
 
 ## Symlink Structure
 
@@ -135,6 +136,9 @@ Los archivos de configuracion se vinculan desde el repo a sus ubicaciones del si
 | `~/.config/nvim` | `~/dotfiles/lazy-nvim/` |
 | `~/.config/gtk-3.0/settings.ini` | `~/dotfiles/gtk-3.0/settings.ini` |
 | `~/.config/gtklock` | `~/dotfiles/gtklock/` |
+| `~/.config/systemd/user/battery-watch.service` | `~/dotfiles/systemd/user/battery-watch.service` |
+| `~/.config/systemd/user/battery-watch.timer` | `~/dotfiles/systemd/user/battery-watch.timer` |
+| `~/scripts/battery-watch.sh` | `~/dotfiles/scripts/battery-watch.sh` |
 
 ## Theme Data Flow
 
@@ -212,7 +216,8 @@ dotfiles/
 ├── onedrive/
 ├── opencode/
 ├── themes/                    # 8 temas dinamicos
-├── scripts/                   # theme-switch.sh, lock-screen.sh, barupdate.sh, screenshot.sh, vpn-replace.sh
+├── scripts/                   # theme-switch.sh, lock-screen.sh, barupdate.sh, screenshot.sh, vpn-replace.sh, battery-watch.sh
+├── systemd/user/              # systemd user units: battery-watch.service, battery-watch.timer
 ├── automat/                   # Automatizacion + install scripts
 └── recursos/                  # Wallpapers, ASCII, herramientas
 ```

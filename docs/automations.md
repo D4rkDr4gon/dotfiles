@@ -86,6 +86,13 @@ graph TB
 | `lock-screen.sh` | Lock screen (gtklock en Wayland, betterlockscreen en X11) | `Mod+L → Lock` |
 | `barupdate.sh` | Reinicia la barra según el backend (Polybar/Waybar) | `barupdate` |
 | `screenshot.sh` | Screenshot (grim+slurp en Wayland, Flameshot en X11) | `Print` / `Mod+Shift+S` |
+| `battery-watch.sh` | Monitoreo de bateria con notificaciones al 15/10/5% | systemd timer cada 2min |
+
+### Systemd User Timers
+
+| Timer | Servicio | Descripcion | Intervalo |
+|-------|----------|-------------|-----------|
+| `battery-watch.timer` | `battery-watch.service` | Notifica cuando la bateria llega a 15/10/5% en descarga | Cada 2 min |
 
 ### Lab SOC (Wazuh + TheHive)
 
@@ -170,6 +177,7 @@ bash automat/install/setup-blackarch.sh  # opcional
 
 ## Cambios Recientes
 
+- **Battery Watch**: Nuevo sistema de monitoreo de bateria — script + systemd user timer. Notifica al 15/10/5% en descarga. Script en `scripts/battery-watch.sh`, unidades en `systemd/user/`.
 - **Unificacion**: Nuevo `install.sh` que instala todo con un solo comando
 - **yay**: Ahora compila automaticamente (ya no requiere `makepkg -si` manual)
 - **BlackArch**: Ahora ejecuta `strap.sh` automaticamente (con confirmacion)
