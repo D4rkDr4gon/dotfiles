@@ -19,7 +19,7 @@ graph TB
 
     subgraph Modules["Módulos Qtile"]
         KY[keys.py<br/>Keybindings mod4]
-        GR[groups.py<br/>5 Workspaces]
+        GR[groups.py<br/>6 Workspaces]
         LY[layouts.py<br/>Columns, MonadTall, Stack]
         SC[screens.py<br/>Dual monitor + wallpaper]
         MO[mouse.py<br/>Mouse bindings]
@@ -60,7 +60,7 @@ graph TB
 | Archivo | Rol | Características Clave |
 |---------|-----|----------------------|
 | `config.py` | Entry point | Punto de entrada, importa todos los módulos, config Wayland (`wl_input_rules`, `wl_xcursor_*`) |
-| `groups.py` | Workspaces | 5 workspaces (NOTES, FILES, DEV, SYS, WEB) |
+| `groups.py` | Workspaces | 6 workspaces (1-6, ícono en barra via label) |
 | `keys.py` | Keybindings | Atajos de teclado con mod4, scripts con detección de backend |
 | `layouts.py` | Layouts | Columns, MonadTall, Stack + reglas flotación |
 | `screens.py` | Pantallas | Dual monitor, wallpaper desde tema (funciona en X11 y Wayland) |
@@ -86,15 +86,16 @@ qtile/
 
 ## Workspaces (Groups)
 
-5 workspaces definidos en `groups.py`:
+6 workspaces definidos en `groups.py`:
 
-| # | Nombre | Icono | Proposito |
-|---|--------|-------|-----------|
-| 1 | NOTES | 󰠮 | Notas, documentacion |
-| 2 | FILES | 󰉋 | Gestion de archivos |
-| 3 | DEV | 󰘦 | Desarrollo / coding |
-| 4 | SYS | 󰣇 | Sistema, terminales |
-| 5 | WEB | 󰖟 | Navegador, web |
+| # | Icono | Nombre |
+|---|-------|--------|
+| 1 |  | Workspace 1 |
+| 2 |  | Workspace 2 |
+| 3 |  | Workspace 3 |
+| 4 |  | Workspace 4 |
+| 5 |  | Workspace 5 |
+| 6 |  | Workspace 6 |
 
 ## Layouts
 

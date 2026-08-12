@@ -2,27 +2,28 @@ from libqtile.config import Group, Key
 from libqtile.lazy import lazy
 from .keys import keys, mod
 
-# Mapeo OFICIAL (una sola verdad)
+# Mapeo OFICIAL (una sola verdad): (nombre de grupo, ícono de barra)
 WORKSPACE_MAP = [
-    ("1", "  "),
-    ("2", " 󱍙 "),
-    ("3", "  "),
-    ("4", "  "),
-    ("5", " 󰈹 ")
+    ("1", "  "),
+    ("2", "  "),
+    ("3", "  "),
+    ("4", "  "),
+    ("5", "  "),
+    ("6", "  ")
 ]
 
-# Grupos: name = lo que Polybar va a mostrar
-groups = [Group(name) for _, name in WORKSPACE_MAP]
+# Grupos: name = clave interna, label = ícono que muestra la barra
+groups = [Group(name, label=label) for name, label in WORKSPACE_MAP]
 
-# Keybindings: números → nombres
+# Keybindings: números → grupos
 for key, name in WORKSPACE_MAP:
     keys.extend([
         Key([mod], key,
             lazy.group[name].toscreen(),
-            desc=f"Go to {name}"
+            desc=f"Go to workspace {name}"
         ),
         Key([mod, "shift"], key,
             lazy.window.togroup(name),
-            desc=f"Move window to {name}"
+            desc=f"Move window to workspace {name}"
         ),
     ])

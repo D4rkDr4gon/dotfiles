@@ -15,11 +15,12 @@ import sys
 THEME_CSS = os.path.expanduser("~/.config/waybar/theme.css")
 
 WORKSPACE_NAMES = {
-    1: "  ",
-    2: " 󱍙 ",
-    3: "  ",
-    4: "  ",
-    5: " 󰈹 "
+    1: "  ",
+    2: "  ",
+    3: "  ",
+    4: "  ",
+    5: "  ",
+    6: "  "
 }
 
 
@@ -72,7 +73,7 @@ def get_workspaces():
     workspaces = []
     names = []
 
-    for i in range(1, 6):  # Workspaces 1-5
+    for i in range(1, 7):  # Workspaces 1-6
         label = WORKSPACE_NAMES.get(i, str(i))
 
         # Buscar info del workspace i
@@ -92,7 +93,7 @@ def get_workspaces():
             "occupied": has_windows,
             "urgent": False,
         })
-        names.append(str(i))
+        names.append(f"Workspace {i}")
 
     return workspaces, names
 

@@ -1,22 +1,14 @@
 #!/usr/bin/env bash
-# Workspace Switcher — Dual-WM (Qtile + Hyprland)
-# Reemplaza a qtile-workspace-switcher.sh con soporte para ambos WMs
+# Dual-WM workspace switcher (Qtile / Hyprland)
 
-CHOICE=$(printf "NOTES    \nFILES    󱍙\nDEV      \nSYS      \nWEB      󰈹\n" | rofi -dmenu -p "Go to workspace")
+CHOICE=$(printf " Workspace 1\n Workspace 2\n Workspace 3\n Workspace 4\n Workspace 5\n Workspace 6\n" | rofi -dmenu -p "Go to workspace")
 
 [ -z "$CHOICE" ] && exit 0
 
-WS_NAME=$(echo "$CHOICE" | awk '{print $NF}' | xargs)
+WS=$(echo "$CHOICE" | awk '{print $NF}')
 
 if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
-  # Mapa nombre → número de workspace
-  case "$WS_NAME" in
-    "")  hyprctl dispatch workspace 1 ;;
-    "󱍙") hyprctl dispatch workspace 2 ;;
-    "") hyprctl dispatch workspace 3 ;;
-    "") hyprctl dispatch workspace 4 ;;
-    "󰈹") hyprctl dispatch workspace 5 ;;
-  esac
+    hyprctl dispatch workspace "$WS"
 else
-  qtile cmd-obj -o group " $WS_NAME " -f toscreen
+    qtile cmd-obj -o group "$WS" -f toscreen
 fi

@@ -41,12 +41,13 @@
 
 | Atajo | Accion |
 |-------|--------|
-| `Mod + 1` | Ir a NOTES |
-| `Mod + 2` | Ir a FILES |
-| `Mod + 3` | Ir a DEV |
-| `Mod + 4` | Ir a SYS |
-| `Mod + 5` | Ir a WEB |
-| `Mod + Shift + 1-5` | Mover ventana al workspace N |
+| `Mod + 1` | Ir a workspace 1 |
+| `Mod + 2` | Ir a workspace 2 |
+| `Mod + 3` | Ir a workspace 3 |
+| `Mod + 4` | Ir a workspace 4 |
+| `Mod + 5` | Ir a workspace 5 |
+| `Mod + 6` | Ir a workspace 6 |
+| `Mod + Shift + 1-6` | Mover ventana al workspace N |
 | `Mod + Tab` | Siguiente layout / pantalla |
 
 ### Sistema
@@ -206,9 +207,9 @@
 
 ### Settings Menu (`Mod + Shift + Space`)
 - **Themes**: Lista los 8 temas para cambio instantaneo
-- **Workspaces**: Selector de workspaces
+- **Workspaces**: Selector de workspaces (ícono + Workspace N, 1-6)
 - **Apps**: App launcher (rofi drun)
-- **Search**: Busqueda en Google (abre Firefox en WEB workspace)
+- **Search**: Busqueda en Google (abre Firefox en workspace 5)
 - **Backgrounds**: Seleccionar wallpaper de `recursos/wallpapers/`
 - **Notifications**: Notification center (historial de notificaciones de Dunst en Rofi)
 

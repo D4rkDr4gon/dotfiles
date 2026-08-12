@@ -18,3 +18,4 @@ echo -e " $BANNER_COLOR
     ----------- $reset_color >>> Lucciano Campassi - Cybersecurity Specialist <<< $BANNER_COLOR -----------------
     ====================================================================================
 "
+# echo "Agus mamo casate conmigo porfa"

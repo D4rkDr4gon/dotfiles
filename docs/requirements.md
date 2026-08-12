@@ -295,15 +295,16 @@ dotfiles/
 
 ## 5. Workspaces (Qtile / Hyprland)
 
-Los mismos 5 workspaces con idéntica semántica en ambos WMs:
+Los mismos 6 workspaces con idéntica semántica en ambos WMs:
 
-| # | Name | Icon | Usage |
-|---|---|---|---|
-| 1 | NOTES |  | Notes & documentation |
-| 2 | FILES | 󱍙 | File management |
-| 3 | DEV |  | Development / coding |
-| 4 | SYS |  | System, terminals |
-| 5 | WEB | 󰈹 | Browser, web |
+| # | Icon | Name |
+|---|---|---|
+| 1 |  | Workspace 1 |
+| 2 |  | Workspace 2 |
+| 3 |  | Workspace 3 |
+| 4 |  | Workspace 4 |
+| 5 |  | Workspace 5 |
+| 6 |  | Workspace 6 |
 
 ### Layouts (Qtile)
 
@@ -431,8 +432,8 @@ Switch: `theme <name>` or via Rofi Settings Menu.
 | `Mod + Ctrl + R` | Reload Qtile |
 | `Mod + L` | Action menu |
 | `Mod + Shift + Space` | Settings menu |
-| `Mod + 1-5` | Switch workspace |
-| `Mod + Shift + 1-5` | Move to workspace |
+| `Mod + 1-6` | Switch workspace |
+| `Mod + Shift + 1-6` | Move to workspace |
 | `Print` / `Mod + Shift + S` | Screenshot |
 
 ### Multimedia keys

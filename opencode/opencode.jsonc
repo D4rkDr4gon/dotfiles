@@ -65,6 +65,17 @@
       },
       "timeout": 10000,
       "enabled": true
+    },
+
+    // ── HACKER-MCP-COMMANDER (Kali Linux en Docker) ─────────
+    // Pentesting tools via contenedor Kali aislado.
+    // Proyecto: /files/VMs/DOCKER/kali-mcp
+    "hacker-mcp-commander": {
+      "type": "local",
+      "command": [
+        "/files/VMs/DOCKER/kali-mcp/bin/kali-mcp.sh"
+      ],
+      "enabled": true
     }
   }
 }

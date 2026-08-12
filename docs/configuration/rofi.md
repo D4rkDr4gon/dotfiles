@@ -97,9 +97,9 @@ graph TB
 | `launcher.sh` | App launcher custom con soporte para "g <query>" (Google search) |
 | `emoji.sh` | Emoji picker (800+ emojis), copia al portapapeles |
 | `qtile-action-menu.sh` | Acciones del sistema: Suspend, Reboot, Poweroff, Logout |
-| `qtile-workspace-switcher.sh` | Selector de workspaces (NOTES/FILES/DEV/SYS/WEB) |
+| `qtile-workspace-switcher.sh` | Selector de workspaces (ícono + Workspace N) |
 | `settings-menu.sh` | Menu central: Themes, Workspaces, Apps, Web search, Backgrounds |
-| `web-search.sh` | Busqueda en Google, abre Firefox en WEB workspace |
+| `web-search.sh` | Busqueda en Google, abre Firefox en workspace 5 |
 
 ## Acceso
 

@@ -10,7 +10,7 @@ encoded=$(echo "$query" | sed 's/ /+/g')
 if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
     hyprctl dispatch workspace 5
 else
-    qtile cmd-obj -o group " 󰈹 " -f toscreen
+    qtile cmd-obj -o group "5" -f toscreen
 fi
 firefox "https://www.google.com/search?q=$encoded" &
 

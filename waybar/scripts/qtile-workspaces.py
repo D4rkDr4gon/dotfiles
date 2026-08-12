@@ -56,7 +56,7 @@ def get_workspaces():
             "occupied": screen is not None or has_windows,
             "urgent": False,
         })
-        names.append(name)
+        names.append(f"Workspace {name}")
 
     return workspaces, names
 

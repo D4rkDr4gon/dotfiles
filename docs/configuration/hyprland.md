@@ -70,12 +70,13 @@ fi
 
 | Atajo | Acción |
 |-------|--------|
-| `Mod + 1` | Ir a NOTES |
-| `Mod + 2` | Ir a FILES |
-| `Mod + 3` | Ir a DEV |
-| `Mod + 4` | Ir a SYS |
-| `Mod + 5` | Ir a WEB |
-| `Mod + Shift + 1-5` | Mover ventana al workspace N |
+| `Mod + 1` | Ir a workspace 1 |
+| `Mod + 2` | Ir a workspace 2 |
+| `Mod + 3` | Ir a workspace 3 |
+| `Mod + 4` | Ir a workspace 4 |
+| `Mod + 5` | Ir a workspace 5 |
+| `Mod + 6` | Ir a workspace 6 |
+| `Mod + Shift + 1-6` | Mover ventana al workspace N |
 | `Ctrl + Tab` | Siguiente workspace |
 | `Ctrl + Shift + Tab` | Workspace anterior |
 
@@ -105,15 +106,16 @@ fi
 
 ## Workspaces
 
-Misma semántica que Qtile (5 workspaces):
+Misma semántica que Qtile (6 workspaces):
 
-| # | Nombre | Icono | Uso |
-|---|--------|-------|-----|
-| 1 | NOTES | 󰠮 | Notas, documentación |
-| 2 | FILES | 󰉋 | Gestión de archivos |
-| 3 | DEV | 󰘦 | Desarrollo / coding |
-| 4 | SYS | 󰣇 | Sistema, terminales |
-| 5 | WEB | 󰖟 | Navegador, web |
+| # | Icono | Nombre |
+|---|-------|--------|
+| 1 |  | Workspace 1 |
+| 2 |  | Workspace 2 |
+| 3 |  | Workspace 3 |
+| 4 |  | Workspace 4 |
+| 5 |  | Workspace 5 |
+| 6 |  | Workspace 6 |
 
 ## Autostart (exec-once)
 

@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-CHOICE=$(printf "NOTES    \nFILES    󱍙\nDEV      \nSYS      \nWEB      󰈹\n" | rofi -dmenu -p "Go to workspace")
+CHOICE=$(printf " Workspace 1\n Workspace 2\n Workspace 3\n Workspace 4\n Workspace 5\n Workspace 6\n" | rofi -dmenu -p "Go to workspace")
 
 [ -z "$CHOICE" ] && exit 0
 
-qtile cmd-obj -o group "$(echo "$CHOICE" | awk '{print " " $NF " "}')" -f toscreen
+WS=$(echo "$CHOICE" | awk '{print $NF}')
+
+qtile cmd-obj -o group "$WS" -f toscreen
