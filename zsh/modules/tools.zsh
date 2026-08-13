@@ -72,6 +72,23 @@ function ollama-test() {
     | python3 -c "import sys,json; print(json.load(sys.stdin).get('response',''))" 2>/dev/null
 }
 
+function autopsy-fix() {
+    # 1. Limpiamos variables globales de Java
+    unset JAVA_HOME
+    unset CLASSPATH
+    unset JAVACMD
+    
+    # 2. Forzamos variables para el entorno de Java
+    export JAVA_HOME="/usr/lib/jvm/java-21-openjdk"
+    export PATH="$JAVA_HOME/bin:$PATH"
+    
+    # 3. Lanzamos de forma inmune al cierre de la terminal y redirigimos logs al vacío
+    nohup /usr/bin/autopsy --jdkhome /usr/lib/jvm/java-21-openjdk > /dev/null 2>&1 &
+    
+    # 4. Desvinculamos el proceso inmediatamente de esta shell
+    disown
+}
+
 # Show which model is loaded
 alias ollama-ps='curl -s http://localhost:11434/api/ps | python3 -m json.tool 2>/dev/null'
 

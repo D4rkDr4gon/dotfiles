@@ -54,14 +54,10 @@
     // Requiere plugin "obsidian-local-rest-api" (coddingtonbear) instalado.
     // API key disponible como $OBSIDIAN_API_KEY en ~/.zshenv.
     "obsidian": {
-      "type": "local",
-      "command": [
-        "npx", "-y", "mcp-remote@latest",
-        "https://127.0.0.1:27124/mcp/",
-        "--header", "Authorization: Bearer ***TOKEN_REVOCADO***"
-      ],
-      "env": {
-        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      "type": "http",
+      "url": "https://127.0.0.1:27124/mcp/",
+      "headers": {
+        "Authorization": "Bearer ***TOKEN_REVOCADO***"
       },
       "timeout": 10000,
       "enabled": true
