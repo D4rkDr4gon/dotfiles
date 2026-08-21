@@ -38,6 +38,8 @@ alias n8nstop="sudo systemctl stop n8n"
 alias top='btop'
 alias venv='uv venv'
 alias ischarging="cat /sys/class/power_supply/BAT0/status"
+alias usbup="sudo mount /dev/sda1 /mnt/usb"
+alias usbdown="sudo umount /dev/sda1"
 
 # Terminal
 alias c="clear"
