@@ -37,6 +37,9 @@ layouts = [
 ]
 
 floating_layout = layout.Floating(
+    border_focus=accent,
+    border_normal="#1a1a1a",
+    border_width=1,
     float_rules=[
         *layout.Floating.default_float_rules,
         Match(wm_class="confirmreset"),
@@ -45,5 +48,6 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),
         Match(title="branchdialog"),
         Match(title="pinentry"),
+        Match(wm_class="claude-agents"),
     ]
 )

@@ -111,6 +111,7 @@ graph TB
 | **opencode** | AI assistant config + skills | `opencode/` | [docs](configuration/opencode.md) |
 | **Screenshots** | grim+slurp (Wayland) / Flameshot (X11) | `scripts/screenshot.sh` | [docs](configuration/wayland.md) |
 | **Battery Watch** | Notificaciones al 15/10/5% de bateria via systemd timer | `scripts/battery-watch.sh` + `systemd/user/` | [docs](automations.md) |
+| **Fingerprint (fprintd)** | Auth por huella (sudo, LightDM, lock screen) | `/etc/pam.d/*` (sistema, no dotfiles) | [docs](configuration/fprint.md) |
 
 ## Symlink Structure
 
@@ -244,3 +245,4 @@ dotfiles/
 - [opencode](configuration/opencode.md) — AI assistant, skills personalizadas
 - [Lock Screen](configuration/lock-screen.md) — gtklock / betterlockscreen, CSS custom, clock + banner
 - [Extras](configuration/extras.md) — OneDrive, wallpapers, herramientas
+- [Fingerprint Auth (fprintd)](configuration/fprint.md) — Config PAM, hardware Goodix, troubleshooting e incidentes

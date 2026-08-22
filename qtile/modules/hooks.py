@@ -38,6 +38,37 @@ def float_and_opacity(client):
             break
 
 
+# Ventanas que deben aparecer flotando en una posicion/tamaño fijo,
+# ancladas a una esquina de la pantalla (widgets tipo popup).
+# (ancho, alto, margen desde el borde derecho, margen desde el borde superior)
+FLOAT_GEOMETRY = {
+    "claude-agents": (620, 400, 16, 40),
+}
+
+
+def _apply_floating_geometry(client, width, height, margin_right, margin_top):
+    try:
+        if not client.floating:
+            client.enable_floating()
+        screen = client.qtile.current_screen
+        client.set_size_floating(width, height)
+        x = screen.x + screen.width - width - margin_right
+        y = screen.y + margin_top
+        client.set_position_floating(x, y)
+        client.bring_to_front()
+    except Exception:
+        pass
+
+
+@hook.subscribe.client_new
+def float_widgets(client):
+    wm_class = " ".join(client.get_wm_class() or [])
+    for key, geometry in FLOAT_GEOMETRY.items():
+        if key in wm_class:
+            threading.Timer(0.15, _apply_floating_geometry, args=[client, *geometry]).start()
+            break
+
+
 @hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser('~')

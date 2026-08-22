@@ -124,7 +124,7 @@ exec-once = hyprpaper
 ## Waybar
 
 Waybar reemplaza a Polybar en Wayland. Configurado para verse idéntico:
-- `config.jsonc`: Mismos módulos (logo, workspaces, clock, brillo, pulseaudio, network, vpn, bluetooth, battery)
+- `config.jsonc`: Mismos módulos (logo, workspaces, clock, brillo, claude-agents, pulseaudio, network, vpn, bluetooth, battery)
 - `style.css`: Misma apariencia (98% width, 28px height, radius 10px, colores del tema activo)
 - `theme.css`: Generado por `theme-switch.sh` con `@define-color` (importado por style.css)
 
@@ -142,6 +142,27 @@ El módulo `custom/logo` (primer módulo a la izquierda) muestra una imagen pers
 - La imagen se carga desde la ruta relativa al directorio de configuración de Waybar (`~/.config/waybar/`).
 
 Los scripts de VPN y Bluetooth son compartidos con Polybar (no usan X11).
+
+### Widgets TUI flotantes (popup arriba a la derecha)
+
+Cuatro módulos de Waybar abren una TUI como ventana flotante "popup", anclada arriba a la derecha del monitor con foco, en vez de una ventana completa: **Agentes IA** (`custom/claude-agents`, junto a `custom/brillo`), **cliamp** (reproductor de música, en `pulseaudio`), **bluetui** (en `custom/bluetooth`) y **impala** (gestión de Wi-Fi, en `network` — reemplaza a `nmtui`, que no calzaba visualmente con el resto). El backend Wayland en uso día a día es **Hyprland** (no Qtile-Wayland), así que la posición/flotación real se resuelve ahí; las reglas de Qtile se mantienen por las dudas de volver a ese backend.
+
+**Archivos involucrados:**
+- `scripts/float-tui-launch.sh` — Lanzador **genérico**, lo usan los cuatro widgets. Uso: `float-tui-launch.sh <class> <titulo> <cols> <rows> <comando...>`. Comportamiento *toggle*: si la ventana de esa clase no existe la abre; si existe y está enfocada la cierra; si existe pero no tiene foco, la trae al frente. Lanza Kitty pidiéndole el tamaño **en celdas** (`-o initial_window_width=<cols>c -o initial_window_height=<rows>c` — calzar en celdas, no en píxeles fijos, evita que el contenido se recorte si cambia la fuente/DPI) y después usa `hyprctl` para reposicionarla en la esquina superior derecha del **monitor donde está el foco** (multi-monitor safe: calcula `monitor.x + monitor.width - ancho_real_ventana - 16px`, con 44px de margen superior para no tapar la barra). Reintenta el posicionamiento 3 veces con pequeños delays porque Hyprland centra las ventanas nuevas de forma asíncrona al mapearlas y puede pisar el primer movimiento. Se calcula por script porque el `move` de `windowrule` de Hyprland no resuelve bien expresiones tipo `100%-N`.
+- `scripts/claude-agents-launch.sh` — Wrapper de una línea: llama a `float-tui-launch.sh claude-agents 'Agentes IA' 64 13 bash claude-agents-tui.sh` (64×13 calza exacto con el panel que dibuja `claude-agents-tui.sh`).
+- `scripts/claude-agents-status.sh` — Se ejecuta cada 30s (`return-type: json`). Lee `~/.claude/usage-cache.json` y muestra un ícono Nerd Font (`󰚩`) + el % de uso de la ventana de 5h de la suscripción. Clase CSS `warning`/`critical` según el %, igual que el criterio de colores del statusline (`~/.claude/statusline-command.sh`).
+- `scripts/claude-agents-tui.sh` — Dashboard estilo btop (panel con bordes finos, medidores de barras de bloques) con el uso de la suscripción de **Claude Code** (5h/7d) y el **contexto de la última sesión** (con el nombre de carpeta/proyecto, tomado de `session_dir` en el cache, para que quede claro a qué sesión corresponde). Atajos: `c` Claude Code, `o` opencode, `r` refrescar, `q`/`Esc` cerrar. Sin dependencias externas (solo bash + `jq` + `sed`). Toma el color primario desde `qtile/current_theme.json` (`.primary`) para integrarse con el tema activo. La última línea del panel (`bottom_border`) se imprime **sin** salto de línea final a propósito: en una terminal de exactamente 13 filas, ese `\n` sobrante fuerza un scroll de 1 y el borde superior desaparece de la vista.
+- `~/.claude/statusline-command.sh` — Además de renderizar el statusline de Claude Code, escribe `~/.claude/usage-cache.json` (`five_hour_pct`, `seven_day_pct`, resets, `context_pct`, `session_dir`, `updated_at`) en cada invocación, que es lo que consume `claude-agents-tui.sh`/`claude-agents-status.sh`. El % se actualiza solo mientras se usa Claude Code (no hay polling activo por fuera de una sesión).
+- `hypr/hyprland.conf` — Un `windowrule` por clase (`claude-agents`, `cliamp`, `bluetui`, `impala`): `float on`, `pin on` (visible en todos los workspaces) y `opacity 0.97 override`. El tamaño y la posición NO se fijan acá (ver por qué arriba) — los resuelve `float-tui-launch.sh`.
+- `qtile/modules/layouts.py` / `qtile/modules/hooks.py` — Equivalente para el backend Qtile-Wayland (no usado actualmente, se mantiene por paridad), solo para `claude-agents`: `Match(wm_class="claude-agents")` en `floating_layout` + hook `float_widgets` con `FLOAT_GEOMETRY`.
+
+**Tamaños usados** (columnas × filas): Agentes IA 64×13 (fijo, calza con la TUI propia), cliamp 100×32, bluetui 90×28, impala 90×28.
+
+**Comportamiento:** click abre la TUI correspondiente como ventana flotante en la esquina superior derecha del monitor activo (no ventana completa); un segundo click la cierra; si perdió el foco, la trae al frente.
+
+**Pendiente:** `impala` (TUI de Wi-Fi, mismo autor que `bluetui` → mismo estilo visual) todavía no está instalado. Instalar con `sudo pacman -S impala`.
+
+**Para agregar otro widget TUI flotante:** alcanza con (1) sumar un `windowrule` de 3 líneas en `hyprland.conf` para la clase elegida, y (2) apuntar el `on-click` del módulo a `bash float-tui-launch.sh <clase> <título> <cols> <rows> <comando>` — no hace falta tocar el lanzador genérico.
 
 ## Paquetes Wayland
 

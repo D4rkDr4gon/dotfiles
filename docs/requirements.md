@@ -170,6 +170,8 @@ Dual boot with Windows 11 on separate partition.
 | `libfprint-2-tod1-goodix` | AUR | Goodix driver |
 | `libfprint-tod` | AUR | Base TOD driver |
 
+> Ver [Fingerprint Auth (fprintd)](configuration/fprint.md) para la config PAM (sudo/lightdm/system-auth), troubleshooting e incidentes conocidos.
+
 ### 2.12 Fonts
 
 | Package | Purpose |
