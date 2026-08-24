@@ -103,8 +103,19 @@ def forti_list() -> list[str]:
 
 
 def forti_status() -> bool:
+    """True si FortiClient está efectivamente conectado.
+
+    `fortivpn status` nunca imprime "Status: Running" — ese string no
+    existe en el binario (confirmado con `strings /opt/forticlient/fortivpn`).
+    Los estados reales son: "Status: Not Running" (desconectado),
+    "Status: Connecting" / "Status: Connecting..." / "Status: Re-Connecting"
+    (en curso), "Status: Connected" (conectado) y "Status: Disconnected"
+    (se desconectó). Chequear "Status: Running" hacía que esta función
+    devolviera False siempre, conectado o no — rompía tanto el tab
+    Estado de la TUI como el chip de waybar (ambos dependen de esta
+    función vía get_forti_state() / waybar_status_json())."""
     r = _run(["fortivpn", "status"])
-    return "Status: Running" in r.stdout
+    return "Status: Connected" in r.stdout
 
 
 def get_forti_state() -> FortiState:
@@ -853,9 +864,19 @@ def run_tui() -> None:
                     return
                 user, pw = result
                 r = forti_connect(profile, user=user, password=pw)
-                ok = r.returncode == 0 or "Status: Running" in (r.stdout or "")
-                self.notify(f"conectando a {profile}…" if ok else f"error: {r.stderr.strip() or r.stdout.strip()}",
-                            severity="information" if ok else "error")
+                # `fortivpn connect` devuelve returncode 0 en varios casos
+                # de FALLO (login cancelado por el prompt de certificado,
+                # credenciales incorrectas, etc — confirmado a mano), así
+                # que el returncode NO sirve para distinguir éxito. Lo
+                # único confiable es buscar "Status: Connected" en la
+                # salida (ver forti_status()).
+                out = r.stdout or ""
+                ok = "Status: Connected" in out
+                if ok:
+                    msg = f"conectado a {profile}"
+                else:
+                    msg = f"error: {r.stderr.strip() or out.strip() or 'conexión no establecida'}"
+                self.notify(msg, severity="information" if ok else "error")
                 self.refresh_all()
 
             default_user = forti_saved_username(profile) or ""
