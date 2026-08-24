@@ -24,8 +24,10 @@ Modo interactivo (TUI completa):
 
     vpn_tui.py
 
-Atajos: 1/2/3 tabs (Estado/FortiClient/ProtonVPN), c conectar, d
-desconectar, n nuevo perfil, r refrescar, ? ayuda, q salir.
+Atajos: 1/2/3 tabs (Estado/FortiClient/ProtonVPN), Enter en la tabla
+conecta/desconecta (toggle según el estado de la fila seleccionada),
+r refrescar, ? ayuda, q salir. "Nuevo perfil" / "importar .conf" es
+solo por botón (sin atajo de teclado).
 """
 
 from __future__ import annotations
@@ -249,8 +251,8 @@ def run_tui() -> None:
             with Container(id="confirm-box"):
                 yield Static(self._msg, id="confirm-msg")
                 with Horizontal(id="confirm-btns"):
-                    yield Button("[ sí ]", id="btn-yes", variant="error")
-                    yield Button("[ cancelar ]", id="btn-no")
+                    yield Button("Sí", id="btn-yes", variant="error")
+                    yield Button("Cancelar", id="btn-no")
 
         @on(Button.Pressed, "#btn-yes")
         def _yes(self, _):
@@ -272,11 +274,14 @@ def run_tui() -> None:
   [#c62828]1[/#c62828]  estado           [#c62828]2[/#c62828]  forticlient
   [#c62828]3[/#c62828]  protonvpn
 
-[dim]acciones (según tab activo)[/dim]
-  [#c62828]c[/#c62828]  conectar perfil seleccionado
-  [#c62828]d[/#c62828]  desconectar
-  [#c62828]n[/#c62828]  nuevo perfil / importar .conf
+[dim]en las tablas (forticlient / protonvpn)[/dim]
+  [#c62828]↑ ↓[/#c62828]  mover selección
+  [#c62828]Enter[/#c62828]  conectar / desconectar (toggle según estado)
   [#c62828]r[/#c62828]  refrescar
+
+[dim]nuevo perfil[/dim]
+  Solo con el botón "+ Nuevo perfil" / "+ Importar .conf"
+  de cada tab (no tiene atajo de teclado).
 
 [dim]otros[/dim]
   [#c62828]?[/#c62828]  esta ayuda        [#c62828]q[/#c62828]  salir
@@ -290,7 +295,7 @@ def run_tui() -> None:
         def compose(self) -> ComposeResult:
             with Container(id="help-box"):
                 yield Static(self.HELP)
-                yield Button("[ cerrar ]", id="btn-close")
+                yield Button("Cerrar", id="btn-close")
 
         @on(Button.Pressed, "#btn-close")
         def _close(self, _):
@@ -302,7 +307,7 @@ def run_tui() -> None:
 
         def compose(self) -> ComposeResult:
             with Container(id="modal-box"):
-                yield Static("[ nuevo perfil FortiClient ]", id="modal-ttl")
+                yield Static("Nuevo perfil FortiClient", id="modal-ttl")
                 yield Static(
                     "fortivpn edit es un flujo interactivo (prompts de host,\n"
                     "puerto, certificados, etc). La TUI se suspende y te deja\n"
@@ -312,8 +317,8 @@ def run_tui() -> None:
                 yield Label("nombre del perfil  *")
                 yield Input(placeholder="ej: MI-VPN", id="f-name")
                 with Horizontal(id="modal-btns"):
-                    yield Button("[ continuar ]", id="btn-go", variant="success")
-                    yield Button("[ cancelar ]", id="btn-cancel")
+                    yield Button("Continuar", id="btn-go", variant="success")
+                    yield Button("Cancelar", id="btn-cancel")
 
         @on(Button.Pressed, "#btn-go")
         def _go(self, _):
@@ -338,7 +343,7 @@ def run_tui() -> None:
 
         def compose(self) -> ComposeResult:
             with Container(id="modal-box"):
-                yield Static(f"[ conectar: {self._profile} ]", id="modal-ttl")
+                yield Static(f"Conectar: {self._profile}", id="modal-ttl")
                 yield Label("usuario (opcional, si no está guardado)")
                 yield Input(value=self._default_user, placeholder="usuario", id="f-user")
                 yield Label("contraseña (opcional)")
@@ -349,8 +354,8 @@ def run_tui() -> None:
                     id="modal-hint",
                 )
                 with Horizontal(id="modal-btns"):
-                    yield Button("[ conectar ]", id="btn-go", variant="success")
-                    yield Button("[ cancelar ]", id="btn-cancel")
+                    yield Button("Conectar", id="btn-go", variant="success")
+                    yield Button("Cancelar", id="btn-cancel")
 
         def on_mount(self) -> None:
             # Si ya hay usuario (guardado en el perfil o pasado por parámetro)
@@ -394,7 +399,7 @@ def run_tui() -> None:
 
         def compose(self) -> ComposeResult:
             with Container(id="modal-box"):
-                yield Static("[ importar perfil ProtonVPN ]", id="modal-ttl")
+                yield Static("Importar perfil ProtonVPN", id="modal-ttl")
                 yield Static(
                     f"Path de un archivo .conf de WireGuard.\n"
                     f"Por convención se guardan en:\n{PROTON_DIR}/",
@@ -403,8 +408,8 @@ def run_tui() -> None:
                 yield Label("path del .conf  *")
                 yield Input(value=self._suggestion, placeholder=str(PROTON_DIR / "nuevo.conf"), id="f-path")
                 with Horizontal(id="modal-btns"):
-                    yield Button("[ importar ]", id="btn-go", variant="success")
-                    yield Button("[ cancelar ]", id="btn-cancel")
+                    yield Button("Importar", id="btn-go", variant="success")
+                    yield Button("Cancelar", id="btn-cancel")
 
         @on(Button.Pressed, "#btn-go")
         def _go(self, _):
@@ -505,9 +510,7 @@ def run_tui() -> None:
             Binding("1", "switch_tab('tab-estado')", "estado", show=True),
             Binding("2", "switch_tab('tab-forti')", "forticlient", show=True),
             Binding("3", "switch_tab('tab-proton')", "protonvpn", show=True),
-            Binding("c", "connect_selected", "conectar", show=True),
-            Binding("d", "disconnect_selected", "desconectar", show=True),
-            Binding("n", "new_profile", "nuevo perfil", show=True),
+            Binding("enter", "toggle_row", "conectar/desconectar", show=True),
             Binding("r", "refresh", "refrescar", show=True),
             Binding("question_mark", "help", "ayuda", show=True),
             Binding("q", "quit", "salir", show=True),
@@ -516,23 +519,23 @@ def run_tui() -> None:
         def compose(self) -> ComposeResult:
             yield Header()
             with TabbedContent(id="tabs"):
-                with TabPane("◈ estado", id="tab-estado"):
+                with TabPane("estado", id="tab-estado"):
                     yield DataTable(id="estado-table", show_cursor=False)
 
-                with TabPane("◈ forticlient", id="tab-forti"):
+                with TabPane("forticlient", id="tab-forti"):
                     with Horizontal(classes="action-bar"):
-                        yield Button("[ conectar ]", id="btn-forti-connect", variant="success")
-                        yield Button("[ desconectar ]", id="btn-forti-disconnect")
-                        yield Button("[ + nuevo ]", id="btn-forti-new")
-                    yield Static("perfiles descubiertos vía `fortivpn list`", classes="hint")
+                        yield Button("Conectar", id="btn-forti-connect", variant="success")
+                        yield Button("Desconectar", id="btn-forti-disconnect")
+                        yield Button("+ Nuevo perfil", id="btn-forti-new")
+                    yield Static("perfiles descubiertos vía `fortivpn list` — Enter en la tabla conecta/desconecta", classes="hint")
                     yield DataTable(id="forti-table", cursor_type="row")
 
-                with TabPane("◈ protonvpn", id="tab-proton"):
+                with TabPane("protonvpn", id="tab-proton"):
                     with Horizontal(classes="action-bar"):
-                        yield Button("[ conectar ]", id="btn-proton-connect", variant="success")
-                        yield Button("[ desconectar ]", id="btn-proton-disconnect")
-                        yield Button("[ + importar .conf ]", id="btn-proton-new")
-                    yield Static(f"conexiones NM wireguard + .conf en {PROTON_DIR}", classes="hint")
+                        yield Button("Conectar", id="btn-proton-connect", variant="success")
+                        yield Button("Desconectar", id="btn-proton-disconnect")
+                        yield Button("+ Importar .conf", id="btn-proton-new")
+                    yield Static(f"conexiones NM wireguard + .conf en {PROTON_DIR} — Enter en la tabla conecta/desconecta", classes="hint")
                     yield DataTable(id="proton-table", cursor_type="row")
             yield Footer()
 
@@ -558,12 +561,12 @@ def run_tui() -> None:
 
             t.add_row(
                 "FortiClient",
-                "🟢 activa" if forti.running else "⚪ inactiva",
+                "activa" if forti.running else "inactiva",
                 forti.active_profile or (", ".join(forti.profiles) or "sin perfiles"),
             )
             t.add_row(
                 "ProtonVPN",
-                "🟢 activa" if proton_active else "⚪ inactiva",
+                "activa" if proton_active else "inactiva",
                 ", ".join(p.name for p in proton_active) or f"{len(proton)} perfil(es) conocido(s)",
             )
 
@@ -573,7 +576,7 @@ def run_tui() -> None:
             self._forti_state = get_forti_state()
             for p in self._forti_state.profiles:
                 active = self._forti_state.running and self._forti_state.active_profile == p
-                t.add_row(p, "🟢 conectado" if active else "⚪ desconectado", key=p)
+                t.add_row(p, "conectado" if active else "desconectado", key=p)
 
         def _refresh_proton(self) -> None:
             t = self.query_one("#proton-table", DataTable)
@@ -583,7 +586,7 @@ def run_tui() -> None:
                 t.add_row(
                     p.name,
                     "sí" if p.imported else "no (solo .conf)",
-                    "🟢 activa" if p.active else "⚪ inactiva",
+                    "activa" if p.active else "inactiva",
                     str(p.conf_path) if p.conf_path else "—",
                     key=p.name,
                 )
@@ -610,42 +613,78 @@ def run_tui() -> None:
             except Exception:
                 return None
 
-        # ── acciones: conectar / desconectar ────────────────────
-        def action_connect_selected(self) -> None:
+        # ── acciones: conectar / desconectar (toggle con Enter) ──
+        def action_toggle_row(self) -> None:
+            """Fallback a nivel App para el binding 'enter' — en la
+            práctica, cuando el foco está en una DataTable, es esta la que
+            captura Enter primero y emite RowSelected (ver handlers de
+            abajo); este método cubre los casos donde no hay tabla
+            enfocada (p.ej. tab Estado, que no tiene selección)."""
             tab = self._active_tab()
             if tab == "tab-forti":
-                self._forti_connect_flow()
+                key = self._sel_key(self.query_one("#forti-table", DataTable))
+                if key:
+                    self._toggle_forti(key)
+                else:
+                    self.notify("no hay perfiles FortiClient", severity="warning")
             elif tab == "tab-proton":
-                self._proton_connect_flow()
+                key = self._sel_key(self.query_one("#proton-table", DataTable))
+                if key:
+                    self._toggle_proton(key)
+                else:
+                    self.notify("no hay conexiones ProtonVPN", severity="warning")
             else:
-                self.notify("elegí un perfil en la tab forticlient o protonvpn", severity="warning")
+                self.notify("cambiá a la tab forticlient o protonvpn", severity="warning")
 
-        def action_disconnect_selected(self) -> None:
-            tab = self._active_tab()
-            if tab == "tab-forti":
+        @on(DataTable.RowSelected, "#forti-table")
+        def _forti_row_selected(self, event: DataTable.RowSelected) -> None:
+            key = event.row_key.value
+            if key:
+                self._toggle_forti(str(key))
+
+        @on(DataTable.RowSelected, "#proton-table")
+        def _proton_row_selected(self, event: DataTable.RowSelected) -> None:
+            key = event.row_key.value
+            if key:
+                self._toggle_proton(str(key))
+
+        def _toggle_forti(self, profile: str) -> None:
+            state = get_forti_state()
+            connected = state.running and state.active_profile == profile
+            if connected:
                 r = forti_disconnect()
                 self.notify("FortiClient desconectado" if r.returncode == 0 else f"error: {r.stderr.strip()}",
                             severity="information" if r.returncode == 0 else "error")
                 self.refresh_all()
-            elif tab == "tab-proton":
-                key = self._sel_key(self.query_one("#proton-table", DataTable))
-                if not key:
-                    self.notify("seleccioná una conexión", severity="warning")
-                    return
-                r = proton_disconnect(key)
-                self.notify(f"{key} desconectada" if r.returncode == 0 else f"error: {r.stderr.strip()}",
+            else:
+                self._forti_connect_flow(profile)
+
+        def _toggle_proton(self, name: str) -> None:
+            profiles = proton_profiles()
+            target = next((p for p in profiles if p.name == name), None)
+            if target is None:
+                return
+            if target.active:
+                r = proton_disconnect(name)
+                self.notify(f"{name} desconectada" if r.returncode == 0 else f"error: {r.stderr.strip()}",
                             severity="information" if r.returncode == 0 else "error")
                 self.refresh_all()
+            elif not target.imported:
+                self.notify(f"{name} no está importada — usá el botón '+ Importar .conf'", severity="warning")
             else:
-                self.notify("elegí un perfil en la tab forticlient o protonvpn", severity="warning")
+                r = proton_connect(name)
+                self.notify(f"{name} conectada" if r.returncode == 0 else f"error: {r.stderr.strip()}",
+                            severity="information" if r.returncode == 0 else "error")
+                self.refresh_all()
 
-        def _forti_connect_flow(self) -> None:
+        def _forti_connect_flow(self, profile: Optional[str] = None) -> None:
             state = get_forti_state()
             if not state.profiles:
-                self.notify("no hay perfiles FortiClient — creá uno con 'n'", severity="warning")
+                self.notify("no hay perfiles FortiClient — creá uno con el botón '+ Nuevo perfil'", severity="warning")
                 return
-            key = self._sel_key(self.query_one("#forti-table", DataTable))
-            profile = key or state.profiles[0]
+            if profile is None:
+                key = self._sel_key(self.query_one("#forti-table", DataTable))
+                profile = key or state.profiles[0]
 
             def _after(result):
                 if result is None:
@@ -663,13 +702,13 @@ def run_tui() -> None:
         def _proton_connect_flow(self) -> None:
             profiles = proton_profiles()
             if not profiles:
-                self.notify("no hay conexiones ProtonVPN — importá una con 'n'", severity="warning")
+                self.notify("no hay conexiones ProtonVPN — importá una con el botón '+ Importar .conf'", severity="warning")
                 return
             key = self._sel_key(self.query_one("#proton-table", DataTable))
             target = next((p for p in profiles if p.name == key), None) or profiles[0]
 
             if not target.imported:
-                self.notify(f"{target.name} no está importada a NetworkManager — usá 'n' para importarla", severity="warning")
+                self.notify(f"{target.name} no está importada a NetworkManager — usá el botón '+ Importar .conf'", severity="warning")
                 return
 
             r = proton_connect(target.name)
@@ -677,16 +716,7 @@ def run_tui() -> None:
                         severity="information" if r.returncode == 0 else "error")
             self.refresh_all()
 
-        # ── acciones: nuevo perfil ───────────────────────────────
-        def action_new_profile(self) -> None:
-            tab = self._active_tab()
-            if tab == "tab-forti":
-                self._forti_new_flow()
-            elif tab == "tab-proton":
-                self._proton_new_flow()
-            else:
-                self.notify("cambiá a la tab forticlient o protonvpn para crear un perfil", severity="warning")
-
+        # ── acciones: nuevo perfil (solo botón, sin atajo de teclado) ─
         def _forti_new_flow(self) -> None:
             def _after(name: Optional[str]):
                 if not name:
