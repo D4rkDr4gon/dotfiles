@@ -103,6 +103,20 @@ def get_forti_state() -> FortiState:
     return FortiState(running=forti_status(), profiles=forti_list())
 
 
+def forti_saved_username(name: str) -> Optional[str]:
+    """Lee el usuario ya guardado para un perfil (`fortivpn view "<name>"`),
+    para no obligar a re-tipearlo cada vez que se conecta."""
+    r = _run(["fortivpn", "view", name])
+    if r.returncode != 0:
+        return None
+    for line in r.stdout.splitlines():
+        s = line.strip()
+        if s.startswith("Username:"):
+            user = s.split(":", 1)[1].strip()
+            return user or None
+    return None
+
+
 def forti_connect(name: str, user: Optional[str] = None, password: Optional[str] = None) -> subprocess.CompletedProcess:
     cmd = ["fortivpn", "connect", name]
     input_text = None
@@ -329,12 +343,39 @@ def run_tui() -> None:
                 yield Input(value=self._default_user, placeholder="usuario", id="f-user")
                 yield Label("contraseña (opcional)")
                 yield Input(password=True, placeholder="••••••••", id="f-pass")
+                yield Static(
+                    "[dim]pegar: Ctrl+V / Ctrl+Shift+V / click derecho — "
+                    "Enter avanza de campo, Enter en contraseña conecta[/dim]",
+                    id="modal-hint",
+                )
                 with Horizontal(id="modal-btns"):
                     yield Button("[ conectar ]", id="btn-go", variant="success")
                     yield Button("[ cancelar ]", id="btn-cancel")
 
+        def on_mount(self) -> None:
+            # Si ya hay usuario (guardado en el perfil o pasado por parámetro)
+            # el campo útil para completar es la contraseña — evita que el
+            # foco por defecto de Textual (primer widget enfocable) quede en
+            # "usuario" mientras el usuario mira/tipea en "contraseña" y esa
+            # ve vacío.
+            if self._default_user:
+                self.query_one("#f-pass", Input).focus()
+            else:
+                self.query_one("#f-user", Input).focus()
+
+        @on(Input.Submitted, "#f-user")
+        def _user_submitted(self, _):
+            self.query_one("#f-pass", Input).focus()
+
+        @on(Input.Submitted, "#f-pass")
+        def _pass_submitted(self, _):
+            self._submit()
+
         @on(Button.Pressed, "#btn-go")
         def _go(self, _):
+            self._submit()
+
+        def _submit(self) -> None:
             user = self.query_one("#f-user", Input).value.strip() or None
             pw = self.query_one("#f-pass", Input).value or None
             self.dismiss((user, pw))
@@ -406,7 +447,7 @@ def run_tui() -> None:
         DataTable > .datatable--hover   { background: #0f0f0f; }
 
         Input   { background: #111111; border: tall #2a2a2a; color: #efefef; margin-bottom: 1; }
-        Input:focus { border: tall #c62828; }
+        Input:focus { background: #1a0d0d; border: tall #c62828; color: #ffffff; }
 
         Button {
             background: #141414;
@@ -435,6 +476,7 @@ def run_tui() -> None:
         }
         #modal-ttl    { color: #c62828; text-style: bold; margin-bottom: 1; }
         #modal-info   { color: #8a8a8a; margin-bottom: 1; }
+        #modal-hint   { color: #666666; margin-bottom: 1; }
         #modal-btns   { margin-top: 1; }
 
         #confirm-box {
@@ -615,7 +657,8 @@ def run_tui() -> None:
                             severity="information" if ok else "error")
                 self.refresh_all()
 
-            self.push_screen(FortiConnectModal(profile), _after)
+            default_user = forti_saved_username(profile) or ""
+            self.push_screen(FortiConnectModal(profile, default_user=default_user), _after)
 
         def _proton_connect_flow(self) -> None:
             profiles = proton_profiles()
