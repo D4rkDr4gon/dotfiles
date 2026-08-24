@@ -33,8 +33,14 @@ solo por botón (sin atajo de teclado).
 from __future__ import annotations
 
 import json
+import os
+import pty
+import re
+import select
 import subprocess
 import sys
+import tempfile
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -119,15 +125,106 @@ def forti_saved_username(name: str) -> Optional[str]:
     return None
 
 
-def forti_connect(name: str, user: Optional[str] = None, password: Optional[str] = None) -> subprocess.CompletedProcess:
+def forti_connect(name: str, user: Optional[str] = None, password: Optional[str] = None,
+                   timeout: float = 60.0) -> subprocess.CompletedProcess:
+    """Conecta un perfil FortiClient.
+
+    IMPORTANTE — por qué esto usa un pty y no subprocess.run(input=...):
+    `fortivpn connect --password` pide la contraseña con un prompt
+    interactivo estilo getpass() (requiere terminal real, isatty()==True).
+    Si se le da la contraseña por un pipe común (stdin no es tty, que es
+    lo que hace subprocess.run(input=...)) el binario NUNCA llega a leerla:
+    falla al toque con "Please input password." (rc=255), sin siquiera
+    intentar la conexión de red. Confirmado corriendo el comando a mano
+    con y sin pty — con pipe plano falla en <100ms; con un pty real,
+    fortivpn efectivamente pide "Password:" y, si el gateway tiene un
+    certificado no confiable (como plug-zone.fortiddns.com, certificado
+    self-signed de Fortinet), un segundo prompt interactivo "Confirm
+    (y/n)" antes de intentar el login. Sin ese "y" explícito, el login
+    se cancela solo (rc=0, "Notification: Login canceled") — de nuevo,
+    sin llegar a autenticar. Ninguno de estos casos es un problema de
+    red/VPN lento: en pruebas manuales, el handshake real (login
+    correcto o incorrecto) tarda bien por debajo de 1 segundo una vez
+    que el pty entrega la contraseña. El timeout de 60s de acá es sólo
+    un colchón de seguridad para conexiones legítimamente más lentas
+    (red mala, 2FA, etc.), no el mecanismo real por el que se resuelve
+    la conexión.
+    """
     cmd = ["fortivpn", "connect", name]
-    input_text = None
     if user:
         cmd += [f"--user={user}"]
     if password is not None:
         cmd += ["--password"]
-        input_text = password + "\n"
-    return _run(cmd, timeout=30, input_text=input_text)
+
+    master, slave = pty.openpty()
+    try:
+        proc = subprocess.Popen(cmd, stdin=slave, stdout=slave, stderr=slave, close_fds=True)
+        os.close(slave)
+        slave = -1
+
+        out = b""
+        pw_sent = password is None  # si no hay password, no hay nada que mandar
+        confirm_sent = False
+        t0 = time.monotonic()
+        while time.monotonic() - t0 < timeout:
+            r, _, _ = select.select([master], [], [], 1.0)
+            if master in r:
+                try:
+                    chunk = os.read(master, 4096)
+                except OSError:
+                    break  # el otro extremo del pty se cerró
+                if not chunk:
+                    break
+                out += chunk
+                if not pw_sent and b"Password:" in chunk:
+                    os.write(master, (password or "") .encode() + b"\n")
+                    pw_sent = True
+                if not confirm_sent and b"Confirm" in chunk and b"y/n" in chunk:
+                    # certificado del gateway no confiable (self-signed) —
+                    # ya lo acepta el usuario al usar este perfil desde
+                    # FortiClient GUI/CLI manualmente; lo confirmamos acá
+                    # para que el flujo no quede colgado en un prompt que
+                    # esta TUI no muestra.
+                    os.write(master, b"y\n")
+                    confirm_sent = True
+            if proc.poll() is not None:
+                # drenar lo que quede en el buffer del pty tras el exit
+                try:
+                    while True:
+                        r, _, _ = select.select([master], [], [], 0.2)
+                        if master not in r:
+                            break
+                        chunk = os.read(master, 4096)
+                        if not chunk:
+                            break
+                        out += chunk
+                except OSError:
+                    pass
+                break
+        else:
+            # timeout real: el proceso nunca terminó ni pidió nada más
+            proc.kill()
+            proc.wait(timeout=5)
+            # best-effort: liberar el daemon de FortiClient para que el
+            # próximo intento no quede bloqueado con "Another instance of
+            # this program is running" por culpa de este intento matado.
+            _run(["fortivpn", "disconnect"], timeout=10)
+            return subprocess.CompletedProcess(
+                cmd, 1, out.decode(errors="replace"),
+                f"timeout de {timeout:.0f}s esperando a fortivpn (no es un límite de red real, "
+                "ver comentario en forti_connect)",
+            )
+
+        returncode = proc.wait(timeout=5)
+        text = out.decode(errors="replace")
+        return subprocess.CompletedProcess(cmd, returncode, text, "")
+    finally:
+        if slave != -1:
+            try:
+                os.close(slave)
+            except OSError:
+                pass
+        os.close(master)
 
 
 def forti_disconnect() -> subprocess.CompletedProcess:
@@ -184,8 +281,68 @@ def proton_disconnect(name: str) -> subprocess.CompletedProcess:
     return _run(["nmcli", "connection", "down", name], timeout=15)
 
 
-def proton_import(conf_path: Path) -> subprocess.CompletedProcess:
-    return _run(["nmcli", "connection", "import", "type", "wireguard", "file", str(conf_path)], timeout=15)
+_VALID_IFNAME_RE = re.compile(r"^[A-Za-z0-9_-]+$")
+
+
+def _valid_wg_ifname(name: str) -> bool:
+    """NetworkManager exige que el nombre de archivo (sin '.conf') de un
+    .conf de WireGuard sea, tal cual, un nombre de interfaz de red válido:
+    <=15 caracteres (IFNAMSIZ del kernel) y sin espacios/puntos/etc. Es
+    una limitación de NetworkManager/kernel, no de esta TUI."""
+    return bool(name) and len(name) <= 15 and _VALID_IFNAME_RE.match(name) is not None
+
+
+def proton_import(conf_path: Path, connection_name: Optional[str] = None) -> subprocess.CompletedProcess:
+    """Importa un .conf de WireGuard a NetworkManager.
+
+    `nmcli connection import type wireguard file <path>` usa el nombre
+    del archivo (sin extensión) como nombre de interfaz de red Y como
+    nombre de la conexión. Si ese nombre no es un ifname válido — algo
+    común acá, porque los .conf de ProtonVPN en este repo tienen nombres
+    descriptivos largos tipo "ARCH_LINUX_EUROPA-ES-73.conf" (23
+    caracteres) — nmcli falla con: "The name of the WireGuard config must
+    be a valid interface name followed by '.conf'". No es un bug de esta
+    TUI ni un problema de permisos: es una restricción real de
+    NetworkManager/el kernel (IFNAMSIZ=16, incluyendo el nul).
+
+    Para no perder la posibilidad de usar nombres descriptivos (que es
+    justamente cómo esta TUI matchea perfiles — por el stem del archivo),
+    cuando el nombre no es válido como ifname se importa desde una copia
+    temporal con un nombre corto autogenerado, y después se renombra la
+    conexión resultante (nmcli connection modify ... connection.id) al
+    nombre original — connection.id sí admite cualquier longitud/formato,
+    a diferencia del nombre de interfaz."""
+    name = connection_name or conf_path.stem
+
+    if _valid_wg_ifname(name):
+        return _run(["nmcli", "connection", "import", "type", "wireguard", "file", str(conf_path)], timeout=15)
+
+    try:
+        data = conf_path.read_bytes()
+    except OSError as e:
+        return subprocess.CompletedProcess(["nmcli"], 1, "", f"no se pudo leer {conf_path}: {e}")
+
+    fd, tmp_name = tempfile.mkstemp(prefix="wgimp", suffix=".conf", dir="/tmp")
+    tmp_path = Path(tmp_name)
+    tmp_ifname = tmp_path.stem  # p.ej. "wgimpAB12cd" — siempre válido por construcción
+    try:
+        with os.fdopen(fd, "wb") as f:
+            f.write(data)
+
+        r = _run(["nmcli", "connection", "import", "type", "wireguard", "file", str(tmp_path)], timeout=15)
+        if r.returncode != 0:
+            return r
+
+        rn = _run(["nmcli", "connection", "modify", tmp_ifname, "connection.id", name], timeout=10)
+        if rn.returncode != 0:
+            # la conexión quedó importada (como tmp_ifname) aunque no se
+            # pudo renombrar — devolvemos el error del rename, que es el
+            # que hay que resolver, sin perder la conexión ya creada.
+            rn.stdout = (r.stdout + "\n" + rn.stdout).strip()
+            return rn
+        return r
+    finally:
+        tmp_path.unlink(missing_ok=True)
 
 
 def waybar_status_json() -> str:
@@ -427,6 +584,11 @@ def run_tui() -> None:
     class VpnApp(App):
         TITLE = "vpn_tui.py"
         SUB_TITLE = "FortiClient + ProtonVPN"
+        # Textual habilita ctrl+p (selector de temas, command palette) por
+        # defecto en toda App. No lo pedimos ni lo queremos acá: lo
+        # desactivamos explícitamente para que no aparezca ni en el
+        # footer ni al presionar ctrl+p.
+        ENABLE_COMMAND_PALETTE = False
 
         CSS = r"""
         Screen { background: #0a0a0a; }
