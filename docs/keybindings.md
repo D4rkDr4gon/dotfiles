@@ -174,13 +174,39 @@
 
 ### Red / VPN
 
+Flujo recomendado: **TUI de VPN** (`~/dotfiles/recursos/vpn/vpn_tui.py`), gestiona
+FortiClient y ProtonVPN/WireGuard sin nombres hardcodeados — todo se
+descubre en runtime vía `fortivpn list`/`nmcli`. Se abre con click en el
+chip VPN de waybar, o a mano:
+
+```sh
+python3 ~/dotfiles/recursos/vpn/vpn_tui.py
+```
+
+Atajos dentro de la TUI: `1`/`2`/`3` tabs (Estado/FortiClient/ProtonVPN),
+`c` conectar, `d` desconectar, `n` nuevo perfil / importar `.conf`, `r`
+refrescar, `?` ayuda, `q` salir. Detalle completo en Babilonia (nota
+"VPN TUI — FortiClient + ProtonVPN").
+
+Los alias de zsh siguen funcionando en paralelo, apuntan a la conexión
+ProtonVPN activa al momento de escribirlos:
+
 | Alias | Comando |
 |-------|---------|
 | `vpnup` | `nmcli connection up ARCH-CH-US-3` |
-
 | `vpndown` | `nmcli connection down ARCH-CH-US-3` |
+| `vpnreplace` | `sh ~/dotfiles/scripts/vpn-replace.sh <archivo.conf>` (legacy, ver nota abajo) |
 
-| `vpnreplace` | `sh ~/dotfiles/scripts/vpn-replace.sh <archivo.conf>` |
+`vpnreplace` es el flujo viejo de rotación de servidor Proton: importa el
+`.conf` nuevo a NetworkManager, borra la conexión `ARCH-CH-US-3` y hace
+`sed` sobre este archivo y sobre `zsh.md`/`aliases.zsh` para dejarlos
+apuntando al nuevo nombre. Con la TUI ese `sed` ya no hace falta —
+"importar `.conf`" en la tab ProtonVPN simplemente agrega la conexión a
+NetworkManager sin tocar ningún doc ni alias. Si cambiás de servidor
+Proton y querés que `vpnup`/`vpndown` sigan apuntando al nuevo, actualizá
+a mano el nombre en `aliases.zsh` (o seguí usando la TUI, que no necesita
+que los alias estén al día).
+
 ### AI / Tools
 
 | Alias | Comando |

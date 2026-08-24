@@ -61,10 +61,12 @@
     },
 
     "custom/vpn": {
-        "exec": "/usr/bin/bash /home/lcampassi/.config/polybar/modules/vpn_status.sh",
+        "exec": "bash /home/lcampassi/.config/waybar/scripts/vpn-status.sh",
         "interval": 5,
-        "on-click": "/usr/bin/bash /home/lcampassi/.config/polybar/modules/vpn_toggle.sh",
-        "on-click-right": "/usr/bin/bash /home/lcampassi/.config/polybar/modules/vpn_ip.sh"
+        "return-type": "json",
+        "format": "{}",
+        "tooltip": true,
+        "on-click": "bash /home/lcampassi/.config/waybar/scripts/float-tui-launch.sh vpn-tui 'VPN' 90 28 python3 /home/lcampassi/dotfiles/recursos/vpn/vpn_tui.py"
     },
 
     "custom/bluetooth": {

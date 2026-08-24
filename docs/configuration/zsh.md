@@ -78,9 +78,12 @@ Aliases principales:
 - `q` -- `exit`
 - `..`/`...`/`....`/`.....` -- Navegacion rapida
 - `top` -- `btop`
-- `vpnup` -- `nmcli connection up ARCH_LINUX-CH-US-3` (conectar Wireguard VPN)
-- `vpndown` -- `nmcli connection down ARCH_LINUX-CH-US-3` (desconectar Wireguard VPN)
-- `vpnreplace` -- `sh ~/dotfiles/scripts/vpn-replace.sh <archivo.conf>` (reemplazar config de VPN)
+- `vpnup` -- `nmcli connection up ARCH-CH-US-3` (conectar Wireguard VPN)
+- `vpndown` -- `nmcli connection down ARCH-CH-US-3` (desconectar Wireguard VPN)
+- `vpnreplace` -- `sh ~/dotfiles/scripts/vpn-replace.sh <archivo.conf>` (legacy: rotar
+  servidor Proton con `sed` sobre docs/aliases; reemplazado por la tab
+  ProtonVPN de `vpn_tui.py`, que importa `.conf` a NetworkManager sin tocar
+  archivos. Ver [Keybindings](../keybindings.md#red--vpn))
 
 Lista completa en [Keybindings](../keybindings.md).
 

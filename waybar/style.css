@@ -49,6 +49,16 @@ window#waybar {
     font-weight: bold;
 }
 
+#custom-vpn.connected {
+    color: @alert;
+    font-weight: bold;
+}
+
+#custom-vpn.disabled,
+#custom-vpn.disconnected {
+    color: @disabled;
+}
+
 #clock {
     color: @primary;
 }
