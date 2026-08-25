@@ -9,14 +9,19 @@ main() {
 
     install_pacman_pkg "zsh"
 
-    local p10k_dir="$HOME/.local/share/zsh/powerlevel10k"
-    mkdir -p "$HOME/.local/share/zsh"
+    # NOTA: zsh/modules/theme.zsh espera powerlevel10k en $HOME/powerlevel10k
+    local p10k_dir="$HOME/powerlevel10k"
     if [ -d "$p10k_dir" ]; then
         cd "$p10k_dir" && git pull origin master && log "powerlevel10k actualizado"
     else
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
         log "powerlevel10k instalado"
     fi
+
+    # zsh/modules/plugins.zsh espera estos dos plugins clonados en ~/.zsh/
+    mkdir -p "$HOME/.zsh"
+    [ -d "$HOME/.zsh/zsh-autosuggestions" ] || git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.zsh/zsh-autosuggestions"
+    [ -d "$HOME/.zsh/zsh-syntax-highlighting" ] || git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh/zsh-syntax-highlighting"
 
     # Stow zsh config directory
     local dotfiles_dir

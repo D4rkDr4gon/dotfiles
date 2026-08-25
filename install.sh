@@ -79,7 +79,6 @@ PACKAGES_OFFICIAL=(
     polybar picom rofi dunst nitrogen
     # Terminal y shell
     kitty zsh zoxide fzf fd ripgrep bat lsd jq yazi fastfetch btop
-    zsh-autosuggestions zsh-syntax-highlighting
     # Xorg y drivers
     xorg-server xorg-xinit xf86-video-amdgpu xf86-video-ati vulkan-radeon
     # Display manager
@@ -232,14 +231,30 @@ create_symlinks() {
 setup_zsh() {
     header "CONFIGURANDO ZSH + POWERLEVEL10K"
 
-    local p10k_dir="$HOME/.local/share/zsh/powerlevel10k"
+    # NOTA: zsh/modules/theme.zsh espera powerlevel10k en $HOME/powerlevel10k
+    # (no en .local/share/zsh) -- mantener esta ruta en sync con ese archivo.
+    local p10k_dir="$HOME/powerlevel10k"
     if [ -d "$p10k_dir" ]; then
         log "powerlevel10k ya instalado"
     else
         info "Clonando powerlevel10k..."
-        mkdir -p "$HOME/.local/share/zsh"
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
         log "powerlevel10k instalado"
+    fi
+
+    # zsh/modules/plugins.zsh espera estos dos plugins clonados en ~/.zsh/
+    mkdir -p "$HOME/.zsh"
+    if [ -d "$HOME/.zsh/zsh-autosuggestions" ]; then
+        log "zsh-autosuggestions ya instalado"
+    else
+        info "Clonando zsh-autosuggestions..."
+        git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.zsh/zsh-autosuggestions"
+    fi
+    if [ -d "$HOME/.zsh/zsh-syntax-highlighting" ]; then
+        log "zsh-syntax-highlighting ya instalado"
+    else
+        info "Clonando zsh-syntax-highlighting..."
+        git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh/zsh-syntax-highlighting"
     fi
 
     if [ "$SHELL" != "/bin/zsh" ] && [ "$SHELL" != "/usr/bin/zsh" ]; then

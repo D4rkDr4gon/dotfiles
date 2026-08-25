@@ -6,7 +6,7 @@ from libqtile.config import Screen
 # dobles en una sola linea) o el cambio de tema deja de funcionar.
 # El valor de aca abajo es solo el default hasta la primera vez que corras `theme`;
 # install.sh lo reemplaza por la ruta real de $HOME al instalar.
-wallpaper = "__HOME__/dotfiles/recursos/wallpapers/japan-wallpaper.jpg"
+wallpaper = "/home/lcampassi/dotfiles/recursos/wallpapers/japan-wallpaper.jpg"
 
 screens = [
     Screen(

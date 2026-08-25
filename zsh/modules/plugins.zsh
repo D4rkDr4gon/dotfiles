@@ -1,4 +1,4 @@
 # ====== plugins ======
-# Instalados via pacman: paquetes zsh-autosuggestions / zsh-syntax-highlighting
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Clonados a mano en ~/.zsh/ (ver install-zsh.sh)
+source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
