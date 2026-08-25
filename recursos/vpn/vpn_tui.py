@@ -76,12 +76,21 @@ def _run(cmd: list[str], timeout: float = 6.0, input_text: Optional[str] = None)
 class FortiState:
     running: bool
     profiles: list[str]
+    connected_name: Optional[str] = None  # parseado directo de `fortivpn status`
 
     @property
     def active_profile(self) -> Optional[str]:
-        # fortivpn no expone en `status` qué perfil está activo; si hay
-        # exactamente un perfil configurado y está corriendo, es ese.
-        if self.running and len(self.profiles) == 1:
+        if not self.running:
+            return None
+        # fuente de verdad: el nombre que `fortivpn status` reporta en la
+        # línea "VPN name: <nombre>". Cubre perfiles SAML creados por GUI
+        # que ni siquiera aparecen en `fortivpn list` (ver forti_status_detail).
+        if self.connected_name:
+            return self.connected_name
+        # fallback defensivo, solo si por algún motivo `status` no trajo
+        # la línea "VPN name:" — heurístico viejo: si hay exactamente un
+        # perfil configurado y está corriendo, asumimos que es ese.
+        if len(self.profiles) == 1:
             return self.profiles[0]
         return None
 
@@ -110,24 +119,57 @@ def forti_list() -> list[str]:
     return profiles
 
 
-def forti_status() -> bool:
-    """True si FortiClient está efectivamente conectado.
+def forti_status_detail() -> tuple[bool, Optional[str]]:
+    """Devuelve (conectado, nombre_del_perfil_conectado) parseando
+    `fortivpn status` una sola vez.
 
     `fortivpn status` nunca imprime "Status: Running" — ese string no
     existe en el binario (confirmado con `strings /opt/forticlient/fortivpn`).
     Los estados reales son: "Status: Not Running" (desconectado),
     "Status: Connecting" / "Status: Connecting..." / "Status: Re-Connecting"
     (en curso), "Status: Connected" (conectado) y "Status: Disconnected"
-    (se desconectó). Chequear "Status: Running" hacía que esta función
-    devolviera False siempre, conectado o no — rompía tanto el tab
-    Estado de la TUI como el chip de waybar (ambos dependen de esta
-    función vía get_forti_state() / waybar_status_json())."""
+    (se desconectó).
+
+    Además, contra lo que decía un comentario viejo acá, `fortivpn status`
+    SÍ expone el perfil conectado directamente en una línea "VPN name:
+    <nombre>" cuando está conectado — confirmado a mano:
+
+        $ fortivpn status
+        Status: Connected
+          VPN name: LA CAJA
+          ...
+
+    Esto es clave para perfiles SAML/SSO creados vía GUI (no vía `fortivpn
+    edit`), que por algún motivo no siempre aparecen en `fortivpn list` —
+    ahí el viejo heurístico "si hay 1 solo perfil listado, ese es el
+    activo" fallaba silenciosamente. Parseo genérico por contenido (split
+    por el primer ':', sin asumir cantidad exacta de espacios), nada
+    hardcodeado a un nombre de perfil en particular."""
     r = _run(["fortivpn", "status"])
-    return "Status: Connected" in r.stdout
+    running = "Status: Connected" in r.stdout
+    connected_name: Optional[str] = None
+    for line in r.stdout.splitlines():
+        s = line.strip()
+        if not s or ":" not in s:
+            continue
+        label, _, value = s.partition(":")
+        if label.strip().lower() == "vpn name":
+            value = value.strip()
+            if value:
+                connected_name = value
+            break
+    return running, connected_name
+
+
+def forti_status() -> bool:
+    """True si FortiClient está efectivamente conectado. Ver
+    forti_status_detail() para el detalle de por qué se parsea así."""
+    return forti_status_detail()[0]
 
 
 def get_forti_state() -> FortiState:
-    return FortiState(running=forti_status(), profiles=forti_list())
+    running, connected_name = forti_status_detail()
+    return FortiState(running=running, profiles=forti_list(), connected_name=connected_name)
 
 
 def forti_saved_username(name: str) -> Optional[str]:
@@ -827,10 +869,25 @@ def run_tui() -> None:
             # cachear SAML por perfil (evita re-consultarlo en cada acción;
             # se recalcula en cada refresh, sin hardcodear nombres)
             self._forti_saml = {p: forti_is_saml(p) for p in self._forti_state.profiles}
-            for p in self._forti_state.profiles:
-                active = self._forti_state.running and self._forti_state.active_profile == p
-                auth = "SAML/SSO" if self._forti_saml.get(p) else "usuario/clave"
-                t.add_row(p, "conectado" if active else "desconectado", auth, key=p)
+
+            active = self._forti_state.active_profile
+            rows = list(self._forti_state.profiles)
+            # el perfil conectado puede no estar en `fortivpn list` (perfiles
+            # SAML creados vía GUI, ej. no listados por algún motivo del
+            # binario) — igual lo agregamos a la vista, marcado, para que el
+            # usuario lo vea reflejado como conectado. 100% autodetectado,
+            # sin hardcodear ningún nombre.
+            ghost = self._forti_state.running and active is not None and active not in rows
+            if ghost:
+                rows.append(active)
+
+            for p in rows:
+                is_active = self._forti_state.running and active == p
+                if ghost and p == active:
+                    auth = "SAML/SSO (no listado en `fortivpn list`)"
+                else:
+                    auth = "SAML/SSO" if self._forti_saml.get(p) else "usuario/clave"
+                t.add_row(p, "conectado" if is_active else "desconectado", auth, key=p)
 
         def _refresh_proton(self) -> None:
             t = self.query_one("#proton-table", DataTable)
