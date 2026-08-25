@@ -3,4 +3,4 @@
 # Delega toda la logica a vpn_tui.py --waybar-status (modo liviano, sin
 # Textual, pensado para no colgar el polling de waybar).
 
-python3 /home/lcampassi/dotfiles/recursos/vpn/vpn_tui.py --waybar-status
+python3 $HOME/dotfiles/recursos/vpn/vpn_tui.py --waybar-status

@@ -12,5 +12,5 @@ if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
     esac
 else
     # Qtile
-    python3 /home/lcampassi/.config/waybar/scripts/qtile-workspace-switch.sh "$ACTION"
+    python3 $HOME/.config/waybar/scripts/qtile-workspace-switch.sh "$ACTION"
 fi

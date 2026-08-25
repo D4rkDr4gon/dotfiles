@@ -79,6 +79,7 @@ PACKAGES_OFFICIAL=(
     polybar picom rofi dunst nitrogen
     # Terminal y shell
     kitty zsh zoxide fzf fd ripgrep bat lsd jq yazi fastfetch btop
+    zsh-autosuggestions zsh-syntax-highlighting
     # Xorg y drivers
     xorg-server xorg-xinit xf86-video-amdgpu xf86-video-ati vulkan-radeon
     # Display manager
@@ -160,6 +161,31 @@ install_aur_packages() {
     info "Instalando ${#missing[@]} paquetes AUR faltantes..."
     yay -S --noconfirm --needed "${missing[@]}"
     log "Paquetes AUR instalados"
+}
+
+#===============================================================================
+# PERSONALIZACION
+#===============================================================================
+# Algunos archivos de configuracion (formatos que no soportan expansion de
+# variables de entorno: .desktop, algunos .conf/.ini consumidos directo por
+# binarios) usan el placeholder __HOME__ en vez de una ruta hardcodeada.
+# Lo resolvemos una sola vez, acá, contra el $HOME real de quien instala.
+personalize_configs() {
+    header "PERSONALIZANDO CONFIGURACION"
+    local files
+    files=$(grep -rlF "__HOME__" "$DOTFILES_DIR" \
+        --exclude-dir=.git --exclude-dir=node_modules 2>/dev/null || true)
+
+    if [ -z "$files" ]; then
+        log "Nada que personalizar (sin placeholders __HOME__)"
+        return 0
+    fi
+
+    while IFS= read -r f; do
+        sed -i "s#__HOME__#${HOME}#g" "$f"
+        info "Personalizado: ${f#"$DOTFILES_DIR/"}"
+    done <<< "$files"
+    log "Configuracion personalizada para $HOME"
 }
 
 #===============================================================================
@@ -473,6 +499,7 @@ main() {
         install_aur_packages
     fi
 
+    personalize_configs
     create_symlinks
     setup_zsh
     setup_neovim

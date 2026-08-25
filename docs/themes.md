@@ -172,10 +172,17 @@ Mod + Shift + Space  ->  Themes
 
 Cada tema vive en `themes/<nombre>/theme.json`:
 
+> **Nota**: `theme.json` es JSON plano y se lee con `jq`, que no expande `$HOME`.
+> El campo `wallpaper` necesita una ruta absoluta real. Si preferis un wallpaper
+> del sistema, usa una ruta bajo `/usr/share/backgrounds/` (como hacen la mayoria
+> de los temas incluidos); si preferis uno dentro del repo, usa el placeholder
+> `__HOME__` (p. ej. `__HOME__/dotfiles/recursos/wallpapers/...`), que `install.sh`
+> reemplaza por tu `$HOME` real durante la instalacion.
+
 ```json
 {
   "name": "AT-AT",
-  "wallpaper": "/home/lcampassi/dotfiles/recursos/wallpapers/at-at.png",
+  "wallpaper": "__HOME__/dotfiles/recursos/wallpapers/at-at.png",
   "colors": {
     "primary": "#a0522d",
     "secondary": "#8b4513",

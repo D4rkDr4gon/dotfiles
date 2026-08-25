@@ -8,4 +8,4 @@ configuration {
     disable-history: false;
 }
 
-@theme "/home/lcampassi/.config/rofi/theme.rasi"
+@theme "${HOME}/.config/rofi/theme.rasi"

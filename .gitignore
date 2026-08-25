@@ -3,3 +3,7 @@ __pycache__/
 *.pyo
 
 PROTON/
+
+# Estado de sesion de Sublime Text (rutas de archivos recientes,
+# ventanas abiertas, etc. -- especifico de cada maquina, no debe versionarse)
+sublime-text/Local/

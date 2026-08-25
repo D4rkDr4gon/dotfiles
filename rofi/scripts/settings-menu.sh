@@ -160,7 +160,7 @@ list_backgrounds() {
                 qtile cmd-obj -o cmd -f reload_config 2>/dev/null || true
             fi
 
-            bash /home/lcampassi/dotfiles/scripts/barupdate.sh 2>/dev/null || true
+            bash $HOME/dotfiles/scripts/barupdate.sh 2>/dev/null || true
             notify-send "Fondo de pantalla" "Cambiado a $selection" -t 2000
             exit 0
         fi

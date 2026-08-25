@@ -56,6 +56,8 @@ Contiene paletas de temas, incluyendo `Fiery-Red-Sunset.theme` como referencia p
 
 ## Personal Vault
 
-**Ubicacion**: `/files/Personal-Vault/`
+**Ubicacion**: `/files/Personal-Vault/` (default de referencia). Configurable via la
+variable `VAULT_DIR` en `~/.zshenv` — apuntala a la carpeta raiz de tu propio
+vault de Obsidian.
 
 El vault de Obsidian es un repo de Git que se sincroniza via `automat/vault-pull.sh` y `automat/vault-push.sh`. Ya no reside en OneDrive.

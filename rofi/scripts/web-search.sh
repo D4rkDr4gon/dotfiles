@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-query=$(rofi -dmenu -p "🌐 Search" -theme /home/lcampassi/.config/rofi/theme.rasi \
+query=$(rofi -dmenu -p "🌐 Search" -theme $HOME/.config/rofi/theme.rasi \
     -theme-str 'entry { placeholder: "Google search..."; }')
 
 [ -z "$query" ] && exit 0

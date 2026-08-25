@@ -17,7 +17,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "skills": {
-    "paths": ["/home/lcampassi/MY-AGENT-SKILLS/SKILLS"]
+    "paths": ["{env:HOME}/MY-AGENT-SKILLS/SKILLS"]
   },
   "agent": {
     "build": { "color": "#00ff41" },
@@ -80,7 +80,7 @@ Los agentes se cargan desde `~/.config/opencode/agents/` (symlink a `opencode/ag
 
 ## Skills Personalizadas
 
-Las skills viven en `/home/lcampassi/MY-AGENT-SKILLS/SKILLS/` e incluyen:
+Las skills viven en `$HOME/MY-AGENT-SKILLS/SKILLS/` (ruta configurable en `opencode.jsonc`, ver arriba) e incluyen:
 
 | Skill | Descripcion |
 |-------|-------------|
@@ -124,5 +124,5 @@ npm install -g @modelcontextprotocol/server-filesystem
 
 # Windows
 # No hay symlink nativo, se usa copia directa en:
-# C:\Users\lcampassi\.config\opencode\
+# C:\Users\<tu-usuario>\.config\opencode\
 ```

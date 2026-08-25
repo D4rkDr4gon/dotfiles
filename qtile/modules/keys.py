@@ -1,9 +1,16 @@
+import os
+
 from libqtile.config import Key
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 # Variables
 # mod4 => Windows/super mod1=ALT mod5=ALTGR
+
+# lazy.spawn() no usa una shell, asi que "$HOME" no se expande solo:
+# resolvemos la ruta real del usuario que corre qtile en tiempo de carga.
+HOME = os.path.expanduser("~")
+DOTFILES = os.path.join(HOME, "dotfiles")
 
 mod = "mod4"
 terminal = "kitty"
@@ -18,7 +25,7 @@ keys = [
     # Open Apps
     Key([mod], "p", lazy.spawn("bitwarden-desktop"), desc="opens bitwarden password manager"),
     Key([mod], "f", lazy.spawn("thunar"), desc="opens file system"),
-    Key([mod], "space", lazy.spawn("rofi -show drun -theme /home/lcampassi/.config/rofi/theme-drun.rasi"), desc="opens app manager"),
+    Key([mod], "space", lazy.spawn(f"rofi -show drun -theme {HOME}/.config/rofi/theme-drun.rasi"), desc="opens app manager"),
     Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
     Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
     Key([mod], "Return", lazy.spawn(terminal), desc="opens terminal"),
@@ -38,8 +45,8 @@ keys = [
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-"), desc="Brightness down"),
     
     # Take screenshots
-    Key([mod, "shift"], "s", lazy.spawn("/home/lcampassi/dotfiles/scripts/screenshot.sh"), desc="take screenshot"),
-    Key([], "print", lazy.spawn("/home/lcampassi/dotfiles/scripts/screenshot.sh"), desc="take screenshot"),
+    Key([mod, "shift"], "s", lazy.spawn(f"{DOTFILES}/scripts/screenshot.sh"), desc="take screenshot"),
+    Key([], "print", lazy.spawn(f"{DOTFILES}/scripts/screenshot.sh"), desc="take screenshot"),
   
     #Clipboard control
     Key([mod], "v", lazy.spawn("copyq toggle"), desc = "clipboard History"),
@@ -47,7 +54,7 @@ keys = [
     # ============= Navigating Shortcuts =============
 
     # Moving between workspaces
-    Key([mod, "shift"], "space", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/settings-menu.sh"), desc="Open settings menu"),
+    Key([mod, "shift"], "space", lazy.spawn(f"sh {HOME}/.config/rofi/scripts/settings-menu.sh"), desc="Open settings menu"),
 
     # Move between tabs and workspaces in qtile
     Key(["mod1"], "Tab", lazy.layout.next(), desc="move between tabs"),
@@ -81,8 +88,8 @@ keys = [
     # ============= qtile internal =============
 
     # Actions for qtile
-    Key([mod, "control"], "r", lazy.reload_config(), lazy.spawn("/home/lcampassi/dotfiles/scripts/barupdate.sh"),  desc="reloads qtiles's configuration"),
-    Key([mod], "l", lazy.spawn("sh /home/lcampassi/.config/rofi/scripts/action-menu.sh"), desc="blocks PC"),
+    Key([mod, "control"], "r", lazy.reload_config(), lazy.spawn(f"{DOTFILES}/scripts/barupdate.sh"),  desc="reloads qtiles's configuration"),
+    Key([mod], "l", lazy.spawn(f"sh {HOME}/.config/rofi/scripts/action-menu.sh"), desc="blocks PC"),
 
     # =========== qtile stacks ================
     # Moving between stacks 

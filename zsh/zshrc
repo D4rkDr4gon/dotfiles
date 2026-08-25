@@ -5,4 +5,4 @@ for module in ~/dotfiles/zsh/modules/*.zsh; do
   [[ -r "$module" ]] && source "$module"
 done
 # opencode
-export PATH=/home/lcampassi/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"

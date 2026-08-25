@@ -57,13 +57,13 @@ De un día para el otro, **fprintd dejó de pedir la huella en absoluto** — ni
 3. La config PAM (sudo, system-auth, lightdm) estaba correcta — `pam_fprintd.so` como `sufficient` antes del resto del stack.
 4. El comando clave para el diagnóstico:
    ```bash
-   fprintd-list lcampassi
-   # → User lcampassi has no fingers enrolled for Goodix Fingerprint Sensor 550A.
+   fprintd-list $USER
+   # → User $USER has no fingers enrolled for Goodix Fingerprint Sensor 550A.
    ```
 
 ### Causa raíz
 
-El **archivo de datos de huellas registradas en `/var/lib/fprint/lcampassi/` estaba corrupto** (probablemente por una actualización de `libfprint-tod` / `fprintd` que cambió el formato interno de serialización de los templates). El daemon no podía parsear el archivo al arrancar (`Error deserializing data: Data could not be parsed`), lo descartaba, y como resultado el usuario aparecía **sin ninguna huella enrolada** desde la perspectiva de fprintd.
+El **archivo de datos de huellas registradas en `/var/lib/fprint/$USER/` estaba corrupto** (probablemente por una actualización de `libfprint-tod` / `fprintd` que cambió el formato interno de serialización de los templates). El daemon no podía parsear el archivo al arrancar (`Error deserializing data: Data could not be parsed`), lo descartaba, y como resultado el usuario aparecía **sin ninguna huella enrolada** desde la perspectiva de fprintd.
 
 Como `pam_fprintd.so` está configurado como `sufficient`, al no encontrar huellas registradas simplemente **no dispara ningún prompt de escaneo** y pasa de largo a `pam_unix.so` — de ahí que no apareciera ni error ni el prompt en ningún lado.
 
@@ -71,10 +71,10 @@ Como `pam_fprintd.so` está configurado como `sufficient`, al no encontrar huell
 
 ```bash
 sudo systemctl stop fprintd.service
-sudo rm -rf /var/lib/fprint/lcampassi/
+sudo rm -rf /var/lib/fprint/$USER/
 sudo systemctl start fprintd.service
-fprintd-enroll -f right-index-finger lcampassi
-fprintd-verify lcampassi   # confirmar que reconoce la huella
+fprintd-enroll -f right-index-finger $USER
+fprintd-verify $USER   # confirmar que reconoce la huella
 ```
 
 Después de re-enrolar, sudo, LightDM y el bloqueo de pantalla volvieron a pedir la huella con normalidad.

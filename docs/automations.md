@@ -106,7 +106,7 @@ Uso: `labo start|stop|restart|status|logs|top`
 
 | Script | Descripcion | Frecuencia |
 |--------|-------------|------------|
-| `vault-pull.sh` | `git pull` en `/files/Personal-Vault` | Al iniciar sesion |
+| `vault-pull.sh` | `git pull` en `$VAULT_DIR` (default `/files/Personal-Vault`, tu vault de Obsidian) | Al iniciar sesion |
 | `vault-push.sh` | `git add/commit/push "D4 - YYYY-MM-DD"` | Al cerrar sesion |
 
 ## Code Entity Mapping: Workflow Utilities
@@ -183,5 +183,5 @@ bash automat/install/setup-blackarch.sh  # opcional
 - **BlackArch**: Ahora ejecuta `strap.sh` automaticamente (con confirmacion)
 - **n8n**: Ahora crea servicio de systemd user
 - **Boilerplate eliminado**: Funciones comunes en `lib/common.sh`
-- **Paths relativos**: Ya no usa `/home/lcampassi/dotfiles` hardcodeado
+- **Paths relativos**: `lib/common.sh` resuelve `DOTFILES_DIR` dinamicamente (auto-deteccion o variable `DOTFILES_DIR`), ya no hardcodea una ruta personal
 - **Bugfix**: `install-zsh.sh` ahora usa `stow -t ~/.config zsh` en vez de `stow -t $HOME zshrc`

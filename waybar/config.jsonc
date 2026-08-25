@@ -8,18 +8,18 @@
 
     "custom/logo": {
         "format": "  ",
-        "on-click": "/usr/bin/bash /home/lcampassi/.config/rofi/scripts/settings-menu.sh"
+        "on-click": "/usr/bin/bash $HOME/.config/rofi/scripts/settings-menu.sh"
     },
 
     "custom/workspaces": {
-        "exec": "python3 /home/lcampassi/.config/waybar/scripts/workspaces.py",
+        "exec": "python3 $HOME/.config/waybar/scripts/workspaces.py",
         "exec-on-event": false,
         "interval": 1,
         "return-type": "json",
         "format": "{}",
-        "on-click": "bash /home/lcampassi/.config/rofi/scripts/workspace-switcher.sh",
-        "on-scroll-up": "bash /home/lcampassi/.config/waybar/scripts/workspace-switch.sh prev",
-        "on-scroll-down": "bash /home/lcampassi/.config/waybar/scripts/workspace-switch.sh next"
+        "on-click": "bash $HOME/.config/rofi/scripts/workspace-switcher.sh",
+        "on-scroll-up": "bash $HOME/.config/waybar/scripts/workspace-switch.sh prev",
+        "on-scroll-down": "bash $HOME/.config/waybar/scripts/workspace-switch.sh next"
     },
 
     "clock": {
@@ -37,12 +37,12 @@
     },
 
     "custom/claude-agents": {
-        "exec": "bash /home/lcampassi/.config/waybar/scripts/claude-agents-status.sh",
+        "exec": "bash $HOME/.config/waybar/scripts/claude-agents-status.sh",
         "interval": 30,
         "return-type": "json",
         "format": "{}",
         "tooltip": true,
-        "on-click": "bash /home/lcampassi/.config/waybar/scripts/claude-agents-launch.sh"
+        "on-click": "bash $HOME/.config/waybar/scripts/claude-agents-launch.sh"
     },
 
     "pulseaudio": {
@@ -50,29 +50,29 @@
         "format-muted": "  Muted",
         "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
         "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
-        "on-click": "bash /home/lcampassi/.config/waybar/scripts/float-tui-launch.sh cliamp cliamp 100 32 cliamp"
+        "on-click": "bash $HOME/.config/waybar/scripts/float-tui-launch.sh cliamp cliamp 100 32 cliamp"
     },
 
     "network": {
         "format-wifi": "󰤨",
         "format-ethernet": "󰛳",
         "format-disconnected": "󰤭",
-        "on-click": "bash /home/lcampassi/.config/waybar/scripts/float-tui-launch.sh impala 'Red Wi-Fi' 90 28 impala"
+        "on-click": "bash $HOME/.config/waybar/scripts/float-tui-launch.sh impala 'Red Wi-Fi' 90 28 impala"
     },
 
     "custom/vpn": {
-        "exec": "bash /home/lcampassi/.config/waybar/scripts/vpn-status.sh",
+        "exec": "bash $HOME/.config/waybar/scripts/vpn-status.sh",
         "interval": 5,
         "return-type": "json",
         "format": "{}",
         "tooltip": true,
-        "on-click": "bash /home/lcampassi/.config/waybar/scripts/float-tui-launch.sh vpn-tui 'VPN' 90 28 python3 /home/lcampassi/dotfiles/recursos/vpn/vpn_tui.py"
+        "on-click": "bash $HOME/.config/waybar/scripts/float-tui-launch.sh vpn-tui 'VPN' 90 28 python3 $HOME/dotfiles/recursos/vpn/vpn_tui.py"
     },
 
     "custom/bluetooth": {
-        "exec": "/usr/bin/bash /home/lcampassi/.config/polybar/modules/bluetooth_status.sh",
+        "exec": "/usr/bin/bash $HOME/.config/polybar/modules/bluetooth_status.sh",
         "interval": 2,
-        "on-click": "bash /home/lcampassi/.config/waybar/scripts/float-tui-launch.sh bluetui bluetui 90 28 bluetui"
+        "on-click": "bash $HOME/.config/waybar/scripts/float-tui-launch.sh bluetui bluetui 90 28 bluetui"
     },
 
     "battery": {
