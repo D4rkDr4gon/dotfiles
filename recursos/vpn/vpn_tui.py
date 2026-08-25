@@ -47,6 +47,14 @@ from typing import Optional
 
 PROTON_DIR = Path.home() / "dotfiles" / "recursos" / "PROTON"
 
+# Ruta de la GUI oficial de FortiClient — se usa únicamente como fallback
+# para perfiles SAML/SSO (Azure AD), que el CLI `fortivpn` no puede ni
+# crear ni conectar (no tiene wizard ni flag para eso; confirmado con
+# `fortivpn edit <perfil>` y la ayuda de `fortivpn connect`). Se verifica
+# su existencia en runtime antes de asumir que está ahí — no se asume
+# ciegamente esta ruta como válida en ningún flujo.
+FORTICLIENT_GUI_PATH = Path("/opt/forticlient/gui/FortiClient")
+
 
 # ════════════════════════════════════════════════════════════════
 #  BACKEND — nada de Textual acá, para que --waybar-status sea liviano
@@ -68,12 +76,21 @@ def _run(cmd: list[str], timeout: float = 6.0, input_text: Optional[str] = None)
 class FortiState:
     running: bool
     profiles: list[str]
+    connected_name: Optional[str] = None  # parseado directo de `fortivpn status`
 
     @property
     def active_profile(self) -> Optional[str]:
-        # fortivpn no expone en `status` qué perfil está activo; si hay
-        # exactamente un perfil configurado y está corriendo, es ese.
-        if self.running and len(self.profiles) == 1:
+        if not self.running:
+            return None
+        # fuente de verdad: el nombre que `fortivpn status` reporta en la
+        # línea "VPN name: <nombre>". Cubre perfiles SAML creados por GUI
+        # que ni siquiera aparecen en `fortivpn list` (ver forti_status_detail).
+        if self.connected_name:
+            return self.connected_name
+        # fallback defensivo, solo si por algún motivo `status` no trajo
+        # la línea "VPN name:" — heurístico viejo: si hay exactamente un
+        # perfil configurado y está corriendo, asumimos que es ese.
+        if len(self.profiles) == 1:
             return self.profiles[0]
         return None
 
@@ -102,24 +119,57 @@ def forti_list() -> list[str]:
     return profiles
 
 
-def forti_status() -> bool:
-    """True si FortiClient está efectivamente conectado.
+def forti_status_detail() -> tuple[bool, Optional[str]]:
+    """Devuelve (conectado, nombre_del_perfil_conectado) parseando
+    `fortivpn status` una sola vez.
 
     `fortivpn status` nunca imprime "Status: Running" — ese string no
     existe en el binario (confirmado con `strings /opt/forticlient/fortivpn`).
     Los estados reales son: "Status: Not Running" (desconectado),
     "Status: Connecting" / "Status: Connecting..." / "Status: Re-Connecting"
     (en curso), "Status: Connected" (conectado) y "Status: Disconnected"
-    (se desconectó). Chequear "Status: Running" hacía que esta función
-    devolviera False siempre, conectado o no — rompía tanto el tab
-    Estado de la TUI como el chip de waybar (ambos dependen de esta
-    función vía get_forti_state() / waybar_status_json())."""
+    (se desconectó).
+
+    Además, contra lo que decía un comentario viejo acá, `fortivpn status`
+    SÍ expone el perfil conectado directamente en una línea "VPN name:
+    <nombre>" cuando está conectado — confirmado a mano:
+
+        $ fortivpn status
+        Status: Connected
+          VPN name: LA CAJA
+          ...
+
+    Esto es clave para perfiles SAML/SSO creados vía GUI (no vía `fortivpn
+    edit`), que por algún motivo no siempre aparecen en `fortivpn list` —
+    ahí el viejo heurístico "si hay 1 solo perfil listado, ese es el
+    activo" fallaba silenciosamente. Parseo genérico por contenido (split
+    por el primer ':', sin asumir cantidad exacta de espacios), nada
+    hardcodeado a un nombre de perfil en particular."""
     r = _run(["fortivpn", "status"])
-    return "Status: Connected" in r.stdout
+    running = "Status: Connected" in r.stdout
+    connected_name: Optional[str] = None
+    for line in r.stdout.splitlines():
+        s = line.strip()
+        if not s or ":" not in s:
+            continue
+        label, _, value = s.partition(":")
+        if label.strip().lower() == "vpn name":
+            value = value.strip()
+            if value:
+                connected_name = value
+            break
+    return running, connected_name
+
+
+def forti_status() -> bool:
+    """True si FortiClient está efectivamente conectado. Ver
+    forti_status_detail() para el detalle de por qué se parsea así."""
+    return forti_status_detail()[0]
 
 
 def get_forti_state() -> FortiState:
-    return FortiState(running=forti_status(), profiles=forti_list())
+    running, connected_name = forti_status_detail()
+    return FortiState(running=running, profiles=forti_list(), connected_name=connected_name)
 
 
 def forti_saved_username(name: str) -> Optional[str]:
@@ -134,6 +184,56 @@ def forti_saved_username(name: str) -> Optional[str]:
             user = s.split(":", 1)[1].strip()
             return user or None
     return None
+
+
+def forti_is_saml(name: str) -> bool:
+    """True si el perfil usa Single Sign On (SAML/Azure AD) en vez de
+    usuario+contraseña local.
+
+    Parsea `fortivpn view <perfil>` buscando la línea "Single Sign On
+    (SSO) for VPN Tunnel: Enabled/Disabled" (confirmado con `fortivpn
+    view` a mano). El match es por contenido ("single sign on" en la
+    etiqueta + valor "enabled"), no por posición ni por nombre de
+    perfil — nada hardcodeado, funciona con cualquier perfil que el
+    usuario cree, presente o futuro."""
+    r = _run(["fortivpn", "view", name])
+    if r.returncode != 0:
+        return False
+    for line in r.stdout.splitlines():
+        s = line.strip()
+        if "single sign on" in s.lower() and ":" in s:
+            value = s.split(":", 1)[1].strip()
+            return value.lower() == "enabled"
+    return False
+
+
+def forticlient_gui_path() -> Optional[Path]:
+    """Devuelve el path a la GUI de FortiClient si existe y es ejecutable,
+    None si no. Nunca se asume su presencia sin chequear en runtime."""
+    if FORTICLIENT_GUI_PATH.is_file() and os.access(FORTICLIENT_GUI_PATH, os.X_OK):
+        return FORTICLIENT_GUI_PATH
+    return None
+
+
+def forti_launch_gui() -> bool:
+    """Lanza la GUI de FortiClient en background (sin bloquear la TUI, sin
+    ensuciar la terminal con su stdout/stderr). Usada solo como fallback
+    para perfiles SAML/SSO, que no se pueden conectar por CLI. Devuelve
+    False si el binario no está disponible en esta máquina."""
+    path = forticlient_gui_path()
+    if path is None:
+        return False
+    try:
+        subprocess.Popen(
+            [str(path)],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            start_new_session=True,
+        )
+    except OSError:
+        return False
+    return True
 
 
 def forti_connect(name: str, user: Optional[str] = None, password: Optional[str] = None,
@@ -469,6 +569,25 @@ def run_tui() -> None:
         def _close(self, _):
             self.dismiss(None)
 
+    # ── modal: info genérica (un mensaje + botón cerrar) ────────
+    class InfoModal(ModalScreen):
+        BINDINGS = [Binding("escape", "dismiss(None)", ""), Binding("q", "dismiss(None)", "")]
+
+        def __init__(self, msg: str, title: str = "Info", **kw):
+            super().__init__(**kw)
+            self._msg = msg
+            self._title = title
+
+        def compose(self) -> ComposeResult:
+            with Container(id="modal-box"):
+                yield Static(self._title, id="modal-ttl")
+                yield Static(self._msg, id="modal-info")
+                yield Button("Entendido", id="btn-close", variant="success")
+
+        @on(Button.Pressed, "#btn-close")
+        def _close(self, _):
+            self.dismiss(None)
+
     # ── modal: nuevo perfil FortiClient ────────────────────────
     class FortiNewModal(ModalScreen):
         BINDINGS = [Binding("escape", "dismiss(None)", "")]
@@ -714,7 +833,7 @@ def run_tui() -> None:
 
         def on_mount(self) -> None:
             self.query_one("#estado-table", DataTable).add_columns("servicio", "estado", "detalle")
-            self.query_one("#forti-table", DataTable).add_columns("perfil", "estado")
+            self.query_one("#forti-table", DataTable).add_columns("perfil", "estado", "auth")
             self.query_one("#proton-table", DataTable).add_columns("conexión", "importada", "estado", "fuente")
             self.refresh_all()
             self.set_interval(5.0, self.refresh_all)
@@ -747,9 +866,28 @@ def run_tui() -> None:
             t = self.query_one("#forti-table", DataTable)
             t.clear()
             self._forti_state = get_forti_state()
-            for p in self._forti_state.profiles:
-                active = self._forti_state.running and self._forti_state.active_profile == p
-                t.add_row(p, "conectado" if active else "desconectado", key=p)
+            # cachear SAML por perfil (evita re-consultarlo en cada acción;
+            # se recalcula en cada refresh, sin hardcodear nombres)
+            self._forti_saml = {p: forti_is_saml(p) for p in self._forti_state.profiles}
+
+            active = self._forti_state.active_profile
+            rows = list(self._forti_state.profiles)
+            # el perfil conectado puede no estar en `fortivpn list` (perfiles
+            # SAML creados vía GUI, ej. no listados por algún motivo del
+            # binario) — igual lo agregamos a la vista, marcado, para que el
+            # usuario lo vea reflejado como conectado. 100% autodetectado,
+            # sin hardcodear ningún nombre.
+            ghost = self._forti_state.running and active is not None and active not in rows
+            if ghost:
+                rows.append(active)
+
+            for p in rows:
+                is_active = self._forti_state.running and active == p
+                if ghost and p == active:
+                    auth = "SAML/SSO (no listado en `fortivpn list`)"
+                else:
+                    auth = "SAML/SSO" if self._forti_saml.get(p) else "usuario/clave"
+                t.add_row(p, "conectado" if is_active else "desconectado", auth, key=p)
 
         def _refresh_proton(self) -> None:
             t = self.query_one("#proton-table", DataTable)
@@ -859,6 +997,17 @@ def run_tui() -> None:
                 key = self._sel_key(self.query_one("#forti-table", DataTable))
                 profile = key or state.profiles[0]
 
+            # `fortivpn` no soporta login SAML/SSO por CLI (ni el wizard de
+            # `fortivpn edit` ni `fortivpn connect` lo manejan) — se
+            # consulta en runtime (sin hardcodear el nombre del perfil) y,
+            # si aplica, se deriva a la GUI oficial en vez de abrir el
+            # modal usuario/contraseña, que quedaría colgado esperando un
+            # prompt que `fortivpn` nunca va a mostrar para este tipo de
+            # perfil.
+            if forti_is_saml(profile):
+                self._forti_saml_connect_flow(profile)
+                return
+
             def _after(result):
                 if result is None:
                     return
@@ -881,6 +1030,33 @@ def run_tui() -> None:
 
             default_user = forti_saved_username(profile) or ""
             self.push_screen(FortiConnectModal(profile, default_user=default_user), _after)
+
+        def _forti_saml_connect_flow(self, profile: str) -> None:
+            """Perfil SAML/SSO: no hay forma de automatizar el login (es
+            interactivo en navegador/Azure AD), así que se abre la GUI
+            oficial de FortiClient y se le avisa al usuario. El estado
+            (status/disconnect) sigue funcionando igual por CLI una vez
+            que el túnel está levantado — no depende del método de auth."""
+            launched = forti_launch_gui()
+            if launched:
+                msg = (
+                    f"'{profile}' usa login SAML/Azure — no se puede automatizar\n"
+                    "por CLI (fortivpn no soporta SSO).\n\n"
+                    "Se abrió FortiClient GUI: completá el login SAML ahí\n"
+                    "(usuario/contraseña de Azure AD + 2FA si corresponde).\n\n"
+                    "Una vez conectado, esta TUI va a reflejar el estado\n"
+                    "automáticamente (el status es el mismo sin importar\n"
+                    "cómo se levantó el túnel)."
+                )
+            else:
+                msg = (
+                    f"'{profile}' usa login SAML/Azure — no se puede automatizar\n"
+                    "por CLI (fortivpn no soporta SSO).\n\n"
+                    f"No se encontró la GUI de FortiClient en\n{FORTICLIENT_GUI_PATH}\n"
+                    "para abrirla automáticamente.\n\n"
+                    "Abrí FortiClient GUI manualmente y conectá ese perfil ahí."
+                )
+            self.push_screen(InfoModal(msg, title=f"Perfil SAML: {profile}"))
 
         def _proton_connect_flow(self) -> None:
             profiles = proton_profiles()
