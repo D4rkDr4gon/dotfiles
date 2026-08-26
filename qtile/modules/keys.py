@@ -29,6 +29,7 @@ keys = [
     Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
     Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
     Key([mod], "Return", lazy.spawn(terminal), desc="opens terminal"),
+    Key([mod, "shift"], "Return", lazy.spawn(f"{DOTFILES}/herdr/launch.sh"), desc="opens herdr"),
     Key([mod], "s", lazy.spawn("subl"), desc = "Launch Sublime Text"),
     Key([mod], "a", lazy.spawn("kitty --title opencode -e opencode"), desc = "Launch Opencode"),
 

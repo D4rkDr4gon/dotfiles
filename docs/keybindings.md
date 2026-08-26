@@ -22,6 +22,7 @@
 | `Mod + P` | Password manager (Bitwarden) |
 | `Mod + S` | Sublime Text |
 | `Mod + V` | Clipboard history (CopyQ) |
+| `Mod + Shift + Enter` | Herdr (multiplexor de agentes de IA) — adjunta a la sesion activa o crea una nueva |
 
 ### Gestion de Ventanas
 
@@ -242,3 +243,22 @@ que los alias estén al día).
 ### Emoji Picker
 - Accesible desde Rofi con el script `emoji.sh`
 - 800+ emojis, copia al portapapeles al seleccionar
+
+---
+
+## Herdr -- Multiplexor de agentes (dentro de la sesion)
+
+Se abre con `Mod + Shift + Enter`. Prefix custom: `Ctrl + Space` (por defecto Herdr trae `ctrl+b`, se cambio para no chocar con Kitty/Qtile). Ver [Herdr](configuration/herdr.md).
+
+| Atajo | Accion |
+|-------|--------|
+| `Ctrl+Space c` | Nueva tab |
+| `Ctrl+Space n` / `Ctrl+Alt+]` | Tab siguiente |
+| `Ctrl+Space p` / `Ctrl+Alt+[` | Tab anterior |
+| `Ctrl+Space -` | Split horizontal (panel abajo) |
+| `Ctrl+Space 1..9` | Ir a tab N |
+| `Ctrl+Space Shift+1..9` | Ir a workspace N |
+| `Ctrl+Space Alt+1..9` | Foco al agente N |
+| `Ctrl+Space Alt+G` | Popup con `lazygit` |
+| `Ctrl+Space ?` | Ver todos los bindings activos |
+| `Ctrl+Space q` | Desconectar (el servidor sigue corriendo) |

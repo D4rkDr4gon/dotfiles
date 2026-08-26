@@ -112,6 +112,7 @@ graph TB
 | **Screenshots** | grim+slurp (Wayland) / Flameshot (X11) | `scripts/screenshot.sh` | [docs](configuration/wayland.md) |
 | **Battery Watch** | Notificaciones al 15/10/5% de bateria via systemd timer | `scripts/battery-watch.sh` + `systemd/user/` | [docs](automations.md) |
 | **Fingerprint (fprintd)** | Auth por huella (sudo, LightDM, lock screen) | `/etc/pam.d/*` (sistema, no dotfiles) | [docs](configuration/fprint.md) |
+| **Herdr** | Multiplexor de terminal para agentes de IA (tmux-like, mouse-first) | `herdr/` | [docs](configuration/herdr.md) |
 
 ## Symlink Structure
 
@@ -140,6 +141,7 @@ Los archivos de configuracion se vinculan desde el repo a sus ubicaciones del si
 | `~/.config/systemd/user/battery-watch.service` | `~/dotfiles/systemd/user/battery-watch.service` |
 | `~/.config/systemd/user/battery-watch.timer` | `~/dotfiles/systemd/user/battery-watch.timer` |
 | `~/scripts/battery-watch.sh` | `~/dotfiles/scripts/battery-watch.sh` |
+| `~/.config/herdr/config.toml` | `~/dotfiles/herdr/config.toml` (solo el archivo — el resto del directorio queda fuera del repo, es runtime: sockets, logs, `session.json`) |
 
 ## Theme Data Flow
 
@@ -167,7 +169,7 @@ graph LR
     QT --> HP[Hyprland hyprpaper<br/>hyprctl hyprpaper ...]
 ```
 
-**Sources:** `scripts/theme-switch.sh:62-141`, `polybar/colors.ini`, `waybar/theme.css`, `kitty/colors.conf`, `zsh/modules/theme.zsh`, `gtk-3.0/`, `opencode/opencode.jsonc`, `qtile/current_theme.json`
+**Sources:** `scripts/theme-switch.sh:62-141`, `polybar/colors.ini`, `waybar/theme.css`, `kitty/colors.conf`, `zsh/modules/theme.zsh`, `gtk-3.0/`, `opencode/opencode.jsonc`, `qtile/current_theme.json`, `herdr/config.toml`
 
 ## File Tree
 
@@ -184,7 +186,7 @@ dotfiles/
 │       ├── qtile.md, hyprland.md, polybar.md, wayland.md, kitty.md
 │       ├── zsh.md, rofi.md, picom.md, dunst.md, editors.md
 │       ├── fastfetch.md, thunar.md, gtk.md, opencode.md
-│       ├── extras.md, lock-screen.md
+│       ├── extras.md, lock-screen.md, herdr.md
 │
 ├── qtile/
 ├── hypr/                       # Hyprland config (WM alternativo)
@@ -216,6 +218,9 @@ dotfiles/
 │   └── settings.ini              # Tema GTK base (Matcha-dark-aliz, Papirus-Dark)
 ├── onedrive/
 ├── opencode/
+├── herdr/                     # Multiplexor de agentes IA (config.toml + launch.sh)
+│   ├── config.toml
+│   └── launch.sh
 ├── themes/                    # 8 temas dinamicos
 ├── scripts/                   # theme-switch.sh, lock-screen.sh, barupdate.sh, screenshot.sh, vpn-replace.sh, battery-watch.sh
 ├── systemd/user/              # systemd user units: battery-watch.service, battery-watch.timer
@@ -243,6 +248,7 @@ dotfiles/
 - [Thunar](configuration/thunar.md) — File manager, custom actions
 - [GTK3](configuration/gtk.md) — Tema GTK base, CSS dinámico para Thunar y apps GTK
 - [opencode](configuration/opencode.md) — AI assistant, skills personalizadas
+- [Herdr](configuration/herdr.md) — Multiplexor de agentes de IA, prefix custom, integracion de temas
 - [Lock Screen](configuration/lock-screen.md) — gtklock / betterlockscreen, CSS custom, clock + banner
 - [Extras](configuration/extras.md) — OneDrive, wallpapers, herramientas
 - [Fingerprint Auth (fprintd)](configuration/fprint.md) — Config PAM, hardware Goodix, troubleshooting e incidentes

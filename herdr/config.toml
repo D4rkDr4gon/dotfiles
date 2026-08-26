@@ -1,0 +1,58 @@
+# ==============================================================================
+# Herdr — Configuración custom
+# Gestionado por dotfiles ($DOTFILES/herdr/config.toml)
+# Los colores de [theme.custom] son generados por scripts/theme-switch.sh
+# a partir del tema activo en themes/<tema>/theme.json — no editar a mano
+# los valores de color, se pisan en cada "theme <nombre>".
+# ==============================================================================
+
+onboarding = false
+
+[keys]
+prefix = "ctrl+space"
+
+# Navegación de tabs/paneles
+new_tab = "prefix+c"
+next_tab = ["prefix+n", "ctrl+alt+]"]
+previous_tab = ["prefix+p", "ctrl+alt+["]
+split_horizontal = "prefix+minus"
+switch_tab = "prefix+1..9"
+switch_workspace = "prefix+shift+1..9"
+focus_agent = "prefix+alt+1..9"
+
+# Comandos custom
+[[keys.command]]
+key = "prefix+alt+g"
+type = "popup"
+command = "lazygit"
+description = "run lazygit"
+width = "80%"
+height = "80%"
+
+[theme]
+name = "terminal"
+
+[theme.custom]
+sidebar_bg = "#0d0d0d"
+active_row_bg = "#1a1a1a"
+selection_bg = "#555555"
+panel_bg = "reset"
+accent = "#808080"
+green = "#a6e3a1"
+blue = "#3a3a3a"
+red = "#f38ba8"
+yellow = "#f9e2af"
+
+[terminal]
+default_shell = "auto"
+shell_mode = "auto"
+new_cwd = "follow"
+
+[ui]
+tab_bar_position = "bottom"
+status_indicators = "symbols"
+window_title = "herdr: {workspace}"
+
+[ui.toast]
+delivery = "herdr"
+delay_seconds = 1

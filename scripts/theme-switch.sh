@@ -13,6 +13,7 @@ FASTFETCH_COLORS="$HOME/.config/fastfetch/colors.json"
 GTK_CSS="$HOME/.config/gtk-3.0/gtk.css"
 OPENCODE_CONFIG="$HOME/.config/opencode/opencode.jsonc"
 QTILE_SCREENS="$HOME/dotfiles/qtile/modules/screens.py"
+HERDR_CONFIG="$HOME/dotfiles/herdr/config.toml"
 
 usage() {
     echo "Uso: theme <tema|comando>"
@@ -368,6 +369,20 @@ EOF
         echo "  → opencode agent colors updated"
     fi
 
+    # Actualizar [theme.custom] en herdr/config.toml (overrides sobre el
+    # tema base "terminal"). herdr no soporta un theme.name dinámico por
+    # nombre de tema propio, así que solo pisamos los colores de override.
+    if [[ -f "$HERDR_CONFIG" ]]; then
+        sed -i \
+            -e "s|^sidebar_bg = .*|sidebar_bg = \"$background\"|" \
+            -e "s|^active_row_bg = .*|active_row_bg = \"$chip_battery\"|" \
+            -e "s|^selection_bg = .*|selection_bg = \"$secondary\"|" \
+            -e "s|^accent = .*|accent = \"$primary\"|" \
+            -e "s|^blue = .*|blue = \"$chip_wlan\"|" \
+            "$HERDR_CONFIG"
+        echo "  → herdr theme.custom updated"
+    fi
+
     cp "$theme_dir/theme.json" "$CURRENT_THEME_FILE"
 }
 
@@ -402,6 +417,10 @@ _set_wallpaper_direct() {
 }
 
 reload_components() {
+    if command -v herdr &>/dev/null; then
+        herdr server reload-config &>/dev/null || true
+    fi
+
     if command -v kitty &>/dev/null; then
         if [[ -f "$KITTY_COLORS" ]]; then
             kitty @ set-colors --all -c "$KITTY_COLORS" 2>/dev/null || true
