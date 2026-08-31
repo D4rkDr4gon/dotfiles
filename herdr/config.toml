@@ -44,7 +44,7 @@ red = "#f38ba8"
 yellow = "#f9e2af"
 
 [terminal]
-default_shell = "auto"
+default_shell = ""
 shell_mode = "auto"
 new_cwd = "follow"
 

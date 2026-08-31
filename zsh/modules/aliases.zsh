@@ -72,6 +72,13 @@ alias l='/usr/bin/lsd --group-dirs=first'
 alias lla='/usr/bin/lsd -lha --group-dirs=first'
 alias ls='/usr/bin/lsd --group-dirs=first'
 
+# ====== VNC tablet (monitor secundario tactil intermitente) ======
+alias vnc-on="wayvnc-toggle on"
+alias vnc-off="wayvnc-toggle off"
+alias vnc-status="wayvnc-toggle status"
+alias monitorup="wayvnc-toggle on"
+alias monitordown="wayvnc-toggle off"
+
 # ====== OBSIDIAN ID REGISTRY ======
 # NOTA: script dentro del vault de Obsidian (VAULT_DIR, ver alias "vault"
 # arriba) que genera el proximo ID de nota. La subcarpeta de abajo

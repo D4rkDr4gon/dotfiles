@@ -7,3 +7,6 @@ PROTON/
 # Estado de sesion de Sublime Text (rutas de archivos recientes,
 # ventanas abiertas, etc. -- especifico de cada maquina, no debe versionarse)
 sublime-text/Local/
+
+# wayvnc: contiene password en texto plano, no versionar
+wayvnc/config

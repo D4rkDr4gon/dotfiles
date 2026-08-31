@@ -1,0 +1,16 @@
+[Unit]
+Description=wayvnc - VNC server bajo demanda para tablet como monitor secundario
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=forking
+ExecStart=/home/lcampassi/dotfiles/scripts/wayland/wayvnc-toggle.sh on
+ExecStop=/home/lcampassi/dotfiles/scripts/wayland/wayvnc-toggle.sh off
+PIDFile=%t/wayvnc.pid
+RemainAfterExit=yes
+
+# NOTA: este service NO tiene [Install] con WantedBy, a propósito.
+# No se activa con `systemctl --user enable`. Uso intermitente manual:
+#   systemctl --user start wayvnc
+#   systemctl --user stop wayvnc
