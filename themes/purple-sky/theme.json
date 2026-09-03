@@ -8,5 +8,8 @@
   "chip_battery": "#1a1030",
   "chip_bluetooth": "#2a1a40",
   "chip_wlan": "#3a2550",
-  "chip_audio": "#4a3060"
+  "chip_audio": "#4a3060",
+  "status_ok": "#6fcf6f",
+  "status_warn": "#e0b34d",
+  "status_error": "#e05263"
 }

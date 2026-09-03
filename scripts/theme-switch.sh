@@ -82,6 +82,9 @@ apply_theme_config() {
     local chip_bluetooth=$(jq -r '.chip_bluetooth' "$theme_dir/theme.json")
     local chip_wlan=$(jq -r '.chip_wlan' "$theme_dir/theme.json")
     local chip_audio=$(jq -r '.chip_audio' "$theme_dir/theme.json")
+    local status_ok=$(jq -r '.status_ok' "$theme_dir/theme.json")
+    local status_warn=$(jq -r '.status_warn' "$theme_dir/theme.json")
+    local status_error=$(jq -r '.status_error' "$theme_dir/theme.json")
 
     # Extraer RGB para Waybar (necesita formato rgba)
     local bg_hex="${background#\#}"
@@ -372,13 +375,19 @@ EOF
     # Actualizar [theme.custom] en herdr/config.toml (overrides sobre el
     # tema base "terminal"). herdr no soporta un theme.name dinámico por
     # nombre de tema propio, así que solo pisamos los colores de override.
+    # green/red/yellow salen de los colores de estado semánticos de cada
+    # theme.json (status_ok/status_warn/status_error), no de una paleta
+    # fija — así combinan con el tema activo en vez de quedar hardcodeados.
     if [[ -f "$HERDR_CONFIG" ]]; then
         sed -i \
             -e "s|^sidebar_bg = .*|sidebar_bg = \"$background\"|" \
-            -e "s|^active_row_bg = .*|active_row_bg = \"$chip_battery\"|" \
+            -e "s|^active_row_bg = .*|active_row_bg = \"$chip_bluetooth\"|" \
             -e "s|^selection_bg = .*|selection_bg = \"$secondary\"|" \
             -e "s|^accent = .*|accent = \"$primary\"|" \
-            -e "s|^blue = .*|blue = \"$chip_wlan\"|" \
+            -e "s|^blue = .*|blue = \"$chip_audio\"|" \
+            -e "s|^green = .*|green = \"$status_ok\"|" \
+            -e "s|^red = .*|red = \"$status_error\"|" \
+            -e "s|^yellow = .*|yellow = \"$status_warn\"|" \
             "$HERDR_CONFIG"
         echo "  → herdr theme.custom updated"
     fi

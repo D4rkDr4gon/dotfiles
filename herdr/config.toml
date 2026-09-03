@@ -2,8 +2,9 @@
 # Herdr — Configuración custom
 # Gestionado por dotfiles ($DOTFILES/herdr/config.toml)
 # Los colores de [theme.custom] son generados por scripts/theme-switch.sh
-# a partir del tema activo en themes/<tema>/theme.json — no editar a mano
-# los valores de color, se pisan en cada "theme <nombre>".
+# a partir del tema activo en themes/<tema>/theme.json (incluye los colores
+# de estado status_ok/status_warn/status_error) — no editar a mano los
+# valores de color, se pisan en cada "theme <nombre>".
 # ==============================================================================
 
 onboarding = false
@@ -19,6 +20,7 @@ split_horizontal = "prefix+minus"
 switch_tab = "prefix+1..9"
 switch_workspace = "prefix+shift+1..9"
 focus_agent = "prefix+alt+1..9"
+next_agent = "prefix+a"
 
 # Comandos custom
 [[keys.command]]
@@ -29,19 +31,59 @@ description = "run lazygit"
 width = "80%"
 height = "80%"
 
+[[keys.command]]
+key = "prefix+alt+e"
+type = "popup"
+command = "nvim"
+description = "quick nvim editor"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+alt+o"
+type = "popup"
+command = "opencode"
+description = "run opencode"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+alt+t"
+type = "popup"
+command = "btop"
+description = "resource monitor"
+width = "70%"
+height = "70%"
+
+[[keys.command]]
+key = "prefix+alt+c"
+type = "popup"
+command = "claude"
+description = "run claude code"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+alt+d"
+type = "popup"
+command = "lazydocker"
+description = "run lazydocker"
+width = "80%"
+height = "80%"
+
 [theme]
 name = "terminal"
 
 [theme.custom]
-sidebar_bg = "#0d0d0d"
-active_row_bg = "#1a1a1a"
-selection_bg = "#555555"
+sidebar_bg = "#0f0f10"
+active_row_bg = "#2a1a1a"
+selection_bg = "#8e1a1a"
 panel_bg = "reset"
-accent = "#808080"
-green = "#a6e3a1"
-blue = "#3a3a3a"
-red = "#f38ba8"
-yellow = "#f9e2af"
+accent = "#c62828"
+green = "#5cb85c"
+blue = "#4a2525"
+red = "#ff1744"
+yellow = "#f9a825"
 
 [terminal]
 default_shell = ""

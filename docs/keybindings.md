@@ -259,6 +259,12 @@ Se abre con `Mod + Shift + Enter`. Prefix custom: `Ctrl + Space` (por defecto He
 | `Ctrl+Space 1..9` | Ir a tab N |
 | `Ctrl+Space Shift+1..9` | Ir a workspace N |
 | `Ctrl+Space Alt+1..9` | Foco al agente N |
+| `Ctrl+Space A` | Ciclar al siguiente agente |
 | `Ctrl+Space Alt+G` | Popup con `lazygit` |
+| `Ctrl+Space Alt+E` | Popup con `nvim` |
+| `Ctrl+Space Alt+O` | Popup con `opencode` |
+| `Ctrl+Space Alt+T` | Popup con `btop` |
+| `Ctrl+Space Alt+C` | Popup con `claude` |
+| `Ctrl+Space Alt+D` | Popup con `lazydocker` |
 | `Ctrl+Space ?` | Ver todos los bindings activos |
 | `Ctrl+Space q` | Desconectar (el servidor sigue corriendo) |

@@ -51,7 +51,7 @@ Prefix custom: **`ctrl+space`** (el default de Herdr es `ctrl+b`, se cambio para
 
 | Seccion | Contenido |
 |---------|-----------|
-| `[keys]` | `prefix = "ctrl+space"`, navegacion de tabs/paneles, comando custom `prefix+alt+g` -> popup con `lazygit` |
+| `[keys]` | `prefix = "ctrl+space"`, navegacion de tabs/paneles, `prefix+a` cicla al siguiente agente (`next_agent`), comandos custom en popup: `prefix+alt+g` lazygit, `prefix+alt+e` nvim, `prefix+alt+o` opencode, `prefix+alt+t` btop, `prefix+alt+c` claude, `prefix+alt+d` lazydocker |
 | `[theme]` | `name = "terminal"` (tema base incorporado; Herdr no acepta nombres de tema arbitrarios) |
 | `[theme.custom]` | Overrides de color sobre el tema base — actualizados por `theme-switch.sh` en cada `theme <nombre>` |
 | `[terminal]` | Shell/cwd por defecto |
@@ -61,7 +61,20 @@ Ver atajos completos en [keybindings.md](../keybindings.md#herdr----multiplexor-
 
 ## Integracion con el sistema de temas
 
-`scripts/theme-switch.sh` pisa `sidebar_bg`, `active_row_bg`, `selection_bg`, `accent` y `blue` en `[theme.custom]` con los colores del `theme.json` activo (`background`, `chip_battery`, `secondary`, `primary`, `chip_wlan`), y llama a `herdr server reload-config` en `reload_components()` para aplicarlos sin reiniciar la sesion.
+`scripts/theme-switch.sh` pisa 8 claves de `[theme.custom]` con los colores del `theme.json` activo, y llama a `herdr server reload-config` en `reload_components()` para aplicarlos sin reiniciar la sesion:
+
+| Clave en `[theme.custom]` | Fuente en `theme.json` |
+|---|---|
+| `sidebar_bg` | `background` |
+| `active_row_bg` | `chip_bluetooth` |
+| `selection_bg` | `secondary` |
+| `accent` | `primary` |
+| `blue` | `chip_audio` |
+| `green` | `status_ok` |
+| `red` | `status_error` |
+| `yellow` | `status_warn` |
+
+`status_ok`/`status_warn`/`status_error` son colores de estado semanticos (verde/amarillo/rojo) que cada `theme.json` define a mano para combinar con su paleta — reemplazan lo que antes eran valores fijos de Catppuccin sin relacion con el tema activo. Cualquier tema nuevo que se agregue a `themes/` debe incluir estas 3 claves ademas de las ya existentes.
 
 > **Nota:** `theme.name` sigue fijo en `"terminal"` — Herdr valida el nombre contra una lista cerrada de temas incorporados (`catppuccin`, `nord`, `tokyo-night`, `gruvbox`, `one-dark`, etc.), no soporta un tema con nombre propio. Solo los colores de `[theme.custom]` son dinamicos.
 
