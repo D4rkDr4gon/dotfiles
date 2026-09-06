@@ -31,6 +31,7 @@ graph TB
         SC[qtile/modules/screens.py<br/>Wallpaper path]
         GC[gtk-3.0/gtk.css<br/>@define-color CSS vars<br/>Thunar + GTK3 apps]
         OC[opencode.jsonc<br/>Agent colors]
+        HC[~/.config/hyprfm/themes/dotfiles.toml<br/>crust/mantle/base/surface/overlay<br/>text/subtext/muted, accent, success/warning/error]
     end
 
     subgraph Reload["Live Reload"]
@@ -51,6 +52,7 @@ graph TB
     GEN --> SC
     GEN --> GC
     GEN --> OC
+    GEN --> HC
     SC --> WPW
     PC --> PR
     WC --> WR
@@ -83,6 +85,7 @@ graph TB
 | GTK3 | `gtk-3.0/gtk.css` | CSS @define-color | `theme_bg`, `theme_fg`, `theme_primary`, `theme_secondary`, `theme_selected_bg`, `theme_selected_fg` |
 | opencode | `opencode.jsonc` | JSON (sed) | `build` → primary, `plan` → secondary, `general` → foreground, `explore` → primary |
 | Qtile | `qtile/modules/screens.py` | Python (sed) | `wallpaper` path |
+| HyprFM | `~/.config/hyprfm/themes/dotfiles.toml` | TOML | `base` = `background` (idéntico a kitty); `crust`/`mantle`/`surface`/`overlay` derivados de `background` mezclado con negro/blanco (`hex_blend`); `text`, `subtext`/`muted` (blend con foreground), `accent` = `primary`, `success`/`warning`/`error` = `status_ok`/`status_warn`/`status_error` |
 
 ## Live Component Reloading
 
@@ -97,8 +100,13 @@ Una vez escritos los archivos, los cambios se aplican sin logout:
 6. **Zsh**: Las sesiones futuras hacen source de `~/.zsh_colors` via `zsh/modules/theme.zsh`
 7. **Thunar**: Si está abierto, se cierra con `thunar -q` para que al re-abrirlo tome los nuevos estilos GTK CSS
 8. **opencode**: Los colores de agentes en `opencode.jsonc` se actualizan via `sed` (no requiere recarga)
+9. **HyprFM**: No se recarga en caliente — hay que cerrarlo y re-abrirlo (ver nota de CWD más abajo) para que tome el `dotfiles.toml` actualizado
 
 **Nota:** GTK CSS (`gtk-3.0/gtk.css`) no se recarga en caliente — Thunar debe cerrarse y re-abrirse. `theme-switch.sh` lo maneja automáticamente si el proceso está activo.
+
+**Nota HyprFM — self-heal de `config.toml`:** HyprFM trae de fábrica `theme = 'catppuccin-mocha'` en su propio `~/.config/hyprfm/config.toml`, generado la primera vez que corre (no antes). Como ese archivo puede no existir todavía la primera vez que se corre `theme-switch.sh` en una instalación nueva, el script no fuerza `theme = 'dotfiles'` en el instalador — en cambio, `apply_theme_config` lo pisa de forma idempotente en **cada** cambio de tema si el archivo ya existe. Así, apenas HyprFM se ejecuta una vez (generando su config con el default de fábrica), el siguiente `theme <nombre>` lo corrige solo, sin pasos manuales.
+
+**Nota HyprFM — bug de CWD:** `hyprfm-git` (0.5.3) ignora su tema custom (`theme.toml`) y cae al `catppuccin-mocha` de fábrica cuando el proceso arranca con `cwd` exactamente igual a `$HOME` — que es como Hyprland ejecuta *todos* los binds (`exec, ...`) por defecto. Por eso el keybind `$mainMod, F` en `hypr/hyprland.conf` no llama a `hyprfm` directo, sino `cd /tmp && hyprfm`: cualquier `cwd` distinto de `$HOME` esquiva el bug. Es un bug del binario (upstream), no de esta config — si una futura versión de `hyprfm-git` lo arregla, se puede volver a `exec, hyprfm` a secas.
 
 **Nota Hyprland:** El wallpaper en Hyprland se maneja via `hyprpaper` (daemon separado). `theme-switch.sh` detecta automáticamente la presencia de `$HYPRLAND_INSTANCE_SIGNATURE` y aplica el wallpaper via `hyprctl hyprpaper wallpaper` en lugar de `qtile cmd-obj`. Ver [`theme-switch.sh`](../scripts/theme-switch.sh) líneas 374-402.
 

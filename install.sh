@@ -94,9 +94,11 @@ PACKAGES_OFFICIAL=(
     # Productividad
     obsidian flameshot firefox copyq discord btop thunar
     # Utilidades
-    brightnessctl acpid curl wget openssh
+    brightnessctl acpid curl wget openssh imagemagick
     # Fonts
     ttf-hack-nerd ttf-jetbrains-mono-nerd ttf-font-awesome noto-fonts noto-fonts-emoji
+    # Iconos (Papirus recoloreado a rojo, ver setup_icon_theme)
+    papirus-icon-theme
     # Python extras para Qtile
     qtile-extras python-cffi python-wheel python-setuptools python-netaddr python-requests python-yaml python-toml python-click python-dateutil python-mpd2
     # LSPs y desarrollo
@@ -121,6 +123,8 @@ PACKAGES_AUR=(
     libfprint-2-tod1-goodix
     libfprint-tod
     onedrive-abraunegg
+    hyprfm-git
+    papirus-folders
 )
 
 WAYLAND_PKGS=(
@@ -294,6 +298,28 @@ setup_neovim() {
 }
 
 #===============================================================================
+# ICONOS (Papirus recoloreado a rojo)
+#===============================================================================
+# HyprFM y el resto de las apps que usan icon_theme = 'Papirus-Dark' esperan
+# carpetas rojas (combinan con el tema activo, ver themes/*/theme.json). El
+# tema Papirus viene azul por defecto; papirus-folders lo recolorea in-place
+# en /usr/share/icons (paquete pacman, todos los tamaños consistentes) en
+# vez de dejarlo en una copia manual parcial como terminó existiendo antes
+# de este instalador -que llegó a tener un symlink de tamaño roto y cayó
+# en el ícono blanco de fallback en vez del rojo esperado.
+setup_icon_theme() {
+    header "CONFIGURANDO ICONOS (Papirus rojo)"
+
+    if ! command -v papirus-folders &>/dev/null; then
+        warn "papirus-folders no instalado, saltando recoloreo de iconos"
+        return 0
+    fi
+
+    papirus-folders -C red --theme Papirus-Dark
+    log "Carpetas de Papirus-Dark recoloreadas a rojo"
+}
+
+#===============================================================================
 # OLLAMA
 #===============================================================================
 setup_ollama() {
@@ -433,6 +459,7 @@ show_summary() {
     echo -e "${GREEN}  ✓ Symlinks creados${NC}"
     echo -e "${GREEN}  ✓ Zsh + powerlevel10k configurado${NC}"
     echo -e "${GREEN}  ✓ Neovim configurado${NC}"
+    echo -e "${GREEN}  ✓ Iconos Papirus recoloreados${NC}"
     echo -e "${GREEN}  ✓ Servicios habilitados${NC}"
     echo ""
     echo -e "${YELLOW}  PROXIMOS PASOS:${NC}"
@@ -518,6 +545,7 @@ main() {
     create_symlinks
     setup_zsh
     setup_neovim
+    setup_icon_theme
     setup_ollama
     enable_services
     create_directories

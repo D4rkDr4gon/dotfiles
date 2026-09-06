@@ -14,6 +14,7 @@ GTK_CSS="$HOME/.config/gtk-3.0/gtk.css"
 OPENCODE_CONFIG="$HOME/.config/opencode/opencode.jsonc"
 QTILE_SCREENS="$HOME/dotfiles/qtile/modules/screens.py"
 HERDR_CONFIG="$HOME/dotfiles/herdr/config.toml"
+HYPRFM_THEME="$HOME/.config/hyprfm/themes/dotfiles.toml"
 
 usage() {
     echo "Uso: theme <tema|comando>"
@@ -35,6 +36,19 @@ list_themes() {
         fi
     done
     exit 0
+}
+
+# Mezcla dos colores hex "#rrggbb"; pct = peso (0-100) del primer color.
+# Se usa para derivar subtext/muted de HyprFM, que no tienen campo propio
+# en theme.json (son un punto intermedio entre foreground y background).
+hex_blend() {
+    local c1="${1#\#}" c2="${2#\#}" pct=$3
+    local r1=$((16#${c1:0:2})) g1=$((16#${c1:2:2})) b1=$((16#${c1:4:2}))
+    local r2=$((16#${c2:0:2})) g2=$((16#${c2:2:2})) b2=$((16#${c2:4:2}))
+    printf '#%02x%02x%02x' \
+        $(( (r1 * pct + r2 * (100 - pct)) / 100 )) \
+        $(( (g1 * pct + g2 * (100 - pct)) / 100 )) \
+        $(( (b1 * pct + b2 * (100 - pct)) / 100 ))
 }
 
 check_deps() {
@@ -390,6 +404,46 @@ EOF
             -e "s|^yellow = .*|yellow = \"$status_warn\"|" \
             "$HERDR_CONFIG"
         echo "  → herdr theme.custom updated"
+    fi
+
+    # Tema de HyprFM (Qt6/QML, formato TOML propio, ver
+    # ~/.config/hyprfm/themes/example.toml.sample). "base" (fondo del
+    # file view) se pisa con el mismo $background que usa la terminal
+    # (kitty), a pedido explícito: deben verse idénticos. El resto de la
+    # jerarquía crust<mantle<base<surface<overlay se deriva de ese mismo
+    # $background mezclándolo con negro/blanco, en vez de reusar los
+    # "chip_*" (que son semántica de waybar, no de esta app — acoplarlos
+    # aquí los haría cambiar por razones que no tienen que ver con HyprFM).
+    if [[ -d "$(dirname "$HYPRFM_THEME")" ]]; then
+        cat > "$HYPRFM_THEME" << EOF
+[colors]
+crust   = "$(hex_blend "$background" "#000000" 85)"
+mantle  = "$(hex_blend "$background" "#000000" 93)"
+base    = "$background"
+surface = "$(hex_blend "$background" "#ffffff" 88)"
+overlay = "$(hex_blend "$background" "#ffffff" 78)"
+text    = "$foreground"
+subtext = "$(hex_blend "$foreground" "$background" 75)"
+muted   = "$(hex_blend "$foreground" "$background" 45)"
+accent  = "$primary"
+success = "$status_ok"
+warning = "$status_warn"
+error   = "$status_error"
+EOF
+        echo "  → hyprfm theme updated"
+
+        # Auto-heal: si HyprFM ya corrió alguna vez, config.toml existe y
+        # trae su propio theme = 'catppuccin-mocha' de fábrica. Lo pisamos
+        # a mano acá en vez de depender de que el instalador lo setee una
+        # sola vez, porque en una instalación fresca ese archivo todavía
+        # no existe la primera vez que se corre este script (HyprFM lo
+        # crea recién en su primer arranque) — así, apenas exista, el
+        # primer cambio de tema posterior lo deja apuntando a "dotfiles".
+        local hyprfm_config="$HOME/.config/hyprfm/config.toml"
+        if [[ -f "$hyprfm_config" ]] && ! grep -q "^theme = 'dotfiles'" "$hyprfm_config"; then
+            sed -i "s|^theme = .*|theme = 'dotfiles'|" "$hyprfm_config"
+            echo "  → hyprfm config.toml apuntado a theme 'dotfiles'"
+        fi
     fi
 
     cp "$theme_dir/theme.json" "$CURRENT_THEME_FILE"
