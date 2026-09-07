@@ -180,3 +180,18 @@ bash ~/dotfiles/automat/install/install-hyprland.sh
 | Wallpaper no aparece | hyprpaper no corriendo | `killall hyprpaper; hyprpaper &; hyprctl hyprpaper wallpaper ",/ruta/al/wallpaper"` |
 | Waybar muestra workspaces vacíos | Script de workspaces no detecta Hyprland | Verificar `$HYPRLAND_INSTANCE_SIGNATURE` |
 | Atajo no funciona | Binding incorrecto | Verificar sintaxis en `hyprland.conf` |
+
+## Integración con theme-switch.sh
+
+`col.active_border`/`col.inactive_border` (`general{}`) se pisan con
+`primary`/`chip_battery` en cada `theme <nombre>` (`sed` sobre
+`hypr/hyprland.conf`, sin tocar `rounding`/`gaps`/`border_size` — esos son
+forma fija, ver `docs/design-system.md`). Reload en caliente via
+`hyprctl reload` (no reinicia el compositor). El paquete `hypr/` se
+despliega con symlink de directorio completo (no vía `stow` — ver el
+comentario en `install.sh:create_symlinks()` sobre por qué `stow` no anida
+por nombre de paquete en este repo).
+
+`Mod+Space` abre [Walker+Elephant](walker.md), el buscador único del
+sistema — no rofi directamente (que sigue siendo el buscador real en
+Qtile/X11, donde Walker no puede correr).

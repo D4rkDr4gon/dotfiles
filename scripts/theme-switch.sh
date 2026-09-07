@@ -15,6 +15,14 @@ OPENCODE_CONFIG="$HOME/.config/opencode/opencode.jsonc"
 QTILE_SCREENS="$HOME/dotfiles/qtile/modules/screens.py"
 HERDR_CONFIG="$HOME/dotfiles/herdr/config.toml"
 HYPRFM_THEME="$HOME/.config/hyprfm/themes/dotfiles.toml"
+DUNST_CONFIG="$HOME/dotfiles/dunst/dunstrc"
+HYPR_CONF="$HOME/dotfiles/hypr/hyprland.conf"
+ROFI_COLORS="$HOME/dotfiles/rofi/colors.rasi"
+SUBLIME_SCHEME="$HOME/dotfiles/sublime-text/Packages/User/Kali-Red-Hack.sublime-color-scheme"
+NVIM_COLORS="$HOME/dotfiles/lazy-nvim/lua/config/colors.lua"
+OBSIDIAN_THEME="/files/Personal-Vault/.obsidian/themes/lc-red/theme.css"
+OBSIDIAN_APPEARANCE="/files/Personal-Vault/.obsidian/appearance.json"
+WALKER_STYLE="$HOME/dotfiles/walker/themes/dotfiles/style.css"
 
 usage() {
     echo "Uso: theme <tema|comando>"
@@ -100,6 +108,13 @@ apply_theme_config() {
     local status_warn=$(jq -r '.status_warn' "$theme_dir/theme.json")
     local status_error=$(jq -r '.status_error' "$theme_dir/theme.json")
 
+    # Texto atenuado (subtítulos/meta), reusado por kitty/dunst/rofi/etc en
+    # vez de que cada uno declare su propio gris fijo desconectado del tema
+    # (regla "Flat Minimal": jerarquía tipográfica consistente en todo el
+    # sistema, ver docs/design-system.md).
+    local text_muted=$(hex_blend "$foreground" "$background" 45)
+    local text_dim=$(hex_blend "$foreground" "$background" 20)
+
     # Extraer RGB para Waybar (necesita formato rgba)
     local bg_hex="${background#\#}"
     local bg_r=$((16#${bg_hex:0:2}))
@@ -138,8 +153,8 @@ selection_foreground #ffffff
 # {{{ Tab bar
 active_tab_foreground #ffffff
 active_tab_background $secondary
-inactive_tab_foreground #888888
-inactive_tab_background #1a1a1a
+inactive_tab_foreground $text_muted
+inactive_tab_background $chip_battery
 tab_bar_background $background
 tab_bar_margin_color $background
 # }}}
@@ -148,7 +163,7 @@ tab_bar_margin_color $background
 url_color $primary
 url_style curly
 active_border_color $primary
-inactive_border_color #444444
+inactive_border_color $chip_bluetooth
 bell_border_color $secondary
 # }}}
 
@@ -410,21 +425,22 @@ EOF
     # ~/.config/hyprfm/themes/example.toml.sample). "base" (fondo del
     # file view) se pisa con el mismo $background que usa la terminal
     # (kitty), a pedido explícito: deben verse idénticos. El resto de la
-    # jerarquía crust<mantle<base<surface<overlay se deriva de ese mismo
-    # $background mezclándolo con negro/blanco, en vez de reusar los
-    # "chip_*" (que son semántica de waybar, no de esta app — acoplarlos
-    # aquí los haría cambiar por razones que no tienen que ver con HyprFM).
+    # jerarquía crust/mantle/surface/overlay pasa a reusar directamente la
+    # MISMA rampa de 4 superficies (chip_battery..chip_audio) que ya ven
+    # dunst/rofi/kitty, en vez de recalcular una escala paralela mezclando
+    # negro/blanco — regla "Flat Minimal": una sola escala de grises en
+    # todo el sistema, ver docs/design-system.md.
     if [[ -d "$(dirname "$HYPRFM_THEME")" ]]; then
         cat > "$HYPRFM_THEME" << EOF
 [colors]
-crust   = "$(hex_blend "$background" "#000000" 85)"
-mantle  = "$(hex_blend "$background" "#000000" 93)"
+crust   = "$chip_battery"
+mantle  = "$chip_bluetooth"
 base    = "$background"
-surface = "$(hex_blend "$background" "#ffffff" 88)"
-overlay = "$(hex_blend "$background" "#ffffff" 78)"
+surface = "$chip_wlan"
+overlay = "$chip_audio"
 text    = "$foreground"
 subtext = "$(hex_blend "$foreground" "$background" 75)"
-muted   = "$(hex_blend "$foreground" "$background" 45)"
+muted   = "$text_muted"
 accent  = "$primary"
 success = "$status_ok"
 warning = "$status_warn"
@@ -444,6 +460,163 @@ EOF
             sed -i "s|^theme = .*|theme = 'dotfiles'|" "$hyprfm_config"
             echo "  → hyprfm config.toml apuntado a theme 'dotfiles'"
         fi
+    fi
+
+    # rofi — colors.rasi compartido, importado por los 3 temas (@import,
+    # ver Fase 3). Misma rampa de 4 superficies chip_battery..chip_audio que
+    # ya usan dunst/kitty/hyprfm (bg0..bg3 == crust..overlay conceptualmente).
+    # No hace falta reload: rofi lee el archivo cada vez que se abre.
+    if [[ -d "$(dirname "$ROFI_COLORS")" ]]; then
+        cat > "$ROFI_COLORS" << EOF
+* {
+    bg0:    ${chip_battery}E8;
+    bg1:    $chip_bluetooth;
+    bg2:    ${chip_wlan}99;
+    bg3:    ${chip_audio}F2;
+    fg0:    $foreground;
+    fg1:    #ffffff;
+    fg2:    $text_muted;
+    fg3:    $text_dim;
+
+    font:   "Hack Nerd Font 12";
+}
+EOF
+        echo "  → rofi colors updated"
+    fi
+
+    # Sublime Text — sed acotado a "globals" (colores de sintaxis por token
+    # en "rules" no tienen mapeo 1:1 razonable a theme.json, quedan como
+    # limitación conocida, ver docs/design-system.md). line_highlight/
+    # inactive_selection = chip_battery (mismo "hover" que el resto del
+    # sistema); gutter = background (sin línea de contraste marcada, regla
+    # Flat Minimal). Sublime recarga el color scheme solo, sin reload.
+    if [[ -f "$SUBLIME_SCHEME" ]]; then
+        sed -i '/"globals":/,/"rules":/{
+            s/"background": "#[0-9a-fA-F]*"/"background": "'"$background"'"/
+            s/"foreground": "#[0-9a-fA-F]*"/"foreground": "'"$foreground"'"/
+            s/"caret": "#[0-9a-fA-F]*"/"caret": "'"$primary"'"/
+            s/"selection": "#[0-9a-fA-F]*"/"selection": "'"$secondary"'"/
+            s/"selection_border": "#[0-9a-fA-F]*"/"selection_border": "'"$primary"'"/
+            s/"line_highlight": "#[0-9a-fA-F]*"/"line_highlight": "'"$chip_battery"'"/
+            s/"gutter": "#[0-9a-fA-F]*"/"gutter": "'"$background"'"/
+            s/"gutter_foreground": "#[0-9a-fA-F]*"/"gutter_foreground": "'"$text_muted"'"/
+            s/"inactive_selection": "#[0-9a-fA-F]*"/"inactive_selection": "'"$chip_battery"'"/
+        }' "$SUBLIME_SCHEME"
+        echo "  → sublime color scheme updated"
+    fi
+
+    # LazyVim — sed sobre la paleta custom que consume highlights.lua/
+    # colorscheme.lua (ver lazy-nvim/lua/config/colors.lua). Sin reload: se
+    # aplica al abrir/reabrir Neovim (no hay daemon persistente que avisar).
+    if [[ -f "$NVIM_COLORS" ]]; then
+        sed -i \
+            -e "s/bg = \"#[0-9a-fA-F]*\"/bg = \"$background\"/" \
+            -e "s/bg_alt = \"#[0-9a-fA-F]*\"/bg_alt = \"$chip_battery\"/" \
+            -e "s/fg = \"#[0-9a-fA-F]*\"/fg = \"$foreground\"/" \
+            -e "s/red = \"#[0-9a-fA-F]*\"/red = \"$primary\"/" \
+            -e "s/red_border = \"#[0-9a-fA-F]*\"/red_border = \"$secondary\"/" \
+            "$NVIM_COLORS"
+        echo "  → lazyvim colors updated"
+    fi
+
+    # Obsidian — best-effort con guard de existencia: el vault
+    # (/files/Personal-Vault) es su propio repo git en una partición
+    # separada, puede no estar montada en otra máquina. Pisamos solo los
+    # "Design Tokens" del tema lc-red (:root y .theme-dark, nunca
+    # .theme-light) — el resto del CSS (glow effects, sombras duras estilo
+    # TUI, callouts) ya está bien parametrizado con var(--red)/var(--red-glow)
+    # y sigue estos valores solo con esto, sin tocar nada más: es un diseño
+    # ya deliberado y coherente, no hardcodeado a lo loco. --radius se
+    # unifica a la constante Flat Minimal (10px) del resto del sistema.
+    if [[ -f "$OBSIDIAN_THEME" ]]; then
+        local red_dark=$(hex_blend "$primary" "#000000" 70)
+        local p_hex="${primary#\#}"
+        local p_r=$((16#${p_hex:0:2})) p_g=$((16#${p_hex:2:2})) p_b=$((16#${p_hex:4:2}))
+        sed -i \
+            -e '/^:root {/,/^}/{
+                s/--red: #[0-9a-fA-F]*;/--red: '"$primary"';/
+                s/--red-dim: #[0-9a-fA-F]*;/--red-dim: '"$secondary"';/
+                s/--red-dark: #[0-9a-fA-F]*;/--red-dark: '"$red_dark"';/
+                s/--red-glow: rgba([0-9, .]*);/--red-glow: rgba('"$p_r, $p_g, $p_b"', 0.1);/
+                s/--red-glow-strong: rgba([0-9, .]*);/--red-glow-strong: rgba('"$p_r, $p_g, $p_b"', 0.2);/
+                s/--radius: [0-9]*px;/--radius: 10px;/
+            }' \
+            -e '/^\.theme-dark {/,/^}/{
+                s/--red: #[0-9a-fA-F]*;/--red: '"$primary"';/
+                s/--red-dim: #[0-9a-fA-F]*;/--red-dim: '"$secondary"';/
+                s/--red-dark: #[0-9a-fA-F]*;/--red-dark: '"$red_dark"';/
+                s/--red-glow: rgba([0-9, .]*);/--red-glow: rgba('"$p_r, $p_g, $p_b"', 0.1);/
+                s/--red-glow-strong: rgba([0-9, .]*);/--red-glow-strong: rgba('"$p_r, $p_g, $p_b"', 0.2);/
+                s/--bg: #[0-9a-fA-F]*;/--bg: '"$background"';/
+                s/--bg-card: #[0-9a-fA-F]*;/--bg-card: '"$chip_battery"';/
+                s/--bg-hover: #[0-9a-fA-F]*;/--bg-hover: '"$chip_bluetooth"';/
+                s/--border: #[0-9a-fA-F]*;/--border: '"$chip_bluetooth"';/
+                s/--border-red: #[0-9a-fA-F]*;/--border-red: '"$secondary"';/
+                s/--text: #[0-9a-fA-F]*;/--text: '"$foreground"';/
+                s/--text-dim: #[0-9a-fA-F]*;/--text-dim: '"$text_muted"';/
+                s/--text-muted: #[0-9a-fA-F]*;/--text-muted: '"$text_dim"';/
+                s/--radius: [0-9]*px;/--radius: 10px;/
+            }' \
+            "$OBSIDIAN_THEME"
+        [[ -f "$OBSIDIAN_APPEARANCE" ]] && sed -i \
+            's/"accentColor": "#[0-9a-fA-F]*"/"accentColor": "'"$primary"'"/' \
+            "$OBSIDIAN_APPEARANCE"
+        echo "  → obsidian theme updated"
+    fi
+
+    # Walker (buscador único, Mod+Space) — mismo patrón @define-color que
+    # gtk-3.0/gtk.css. accent_bg_color = primary (relleno de selección/hover
+    # y de los chips de keybind, regla Flat Minimal); error_bg_color =
+    # status_error. No hace falta reload: walker corre bajo demanda vía el
+    # daemon elephant, cada apertura lee el CSS actual.
+    if [[ -f "$WALKER_STYLE" ]]; then
+        sed -i \
+            -e "s/@define-color window_bg_color .*/@define-color window_bg_color $background;/" \
+            -e "s/@define-color accent_bg_color .*/@define-color accent_bg_color $primary;/" \
+            -e "s/@define-color theme_fg_color .*/@define-color theme_fg_color $foreground;/" \
+            -e "s/@define-color error_bg_color .*/@define-color error_bg_color $status_error;/" \
+            -e "s/@define-color error_fg_color .*/@define-color error_fg_color $foreground;/" \
+            "$WALKER_STYLE"
+        echo "  → walker theme updated"
+    fi
+
+    # dunst — no soporta @import de otro archivo (es un único dunstrc), así
+    # que se editan sus 3 bloques de urgencia con sed por rango de dirección.
+    # background = chip_battery (misma superficie "de reposo" que el resto
+    # del sistema, no un gris fijo desconectado del tema); highlight (barra
+    # de progreso del timeout) pasa a ser el acento real de cada estado en
+    # vez de un gris fijo — regla "Flat Minimal": el acento es siempre un
+    # relleno de estado, nunca decoración suelta.
+    if [[ -f "$DUNST_CONFIG" ]]; then
+        sed -i \
+            -e '/^\[urgency_low\]/,/^\[urgency_normal\]/{
+                s|^    background = .*|    background = "'"$chip_battery"'"|
+                s|^    foreground = .*|    foreground = "'"$text_muted"'"|
+                s|^    highlight = .*|    highlight = "'"$chip_wlan"'"|
+            }' \
+            -e '/^\[urgency_normal\]/,/^\[urgency_critical\]/{
+                s|^    background = .*|    background = "'"$chip_battery"'"|
+                s|^    foreground = .*|    foreground = "'"$foreground"'"|
+                s|^    highlight = .*|    highlight = "'"$primary"'"|
+            }' \
+            -e '/^\[urgency_critical\]/,$ {
+                s|^    background = .*|    background = "'"$chip_battery"'"|
+                s|^    foreground = .*|    foreground = "'"$foreground"'"|
+                s|^    highlight = .*|    highlight = "'"$status_error"'"|
+            }' \
+            "$DUNST_CONFIG"
+        echo "  → dunst theme updated"
+    fi
+
+    # Hyprland — solo el color de borde (activo/inactivo). rounding/gaps/
+    # border_size son forma fija (Flat Minimal, ver themes/_design-tokens.json)
+    # y no se tocan acá.
+    if [[ -f "$HYPR_CONF" ]]; then
+        sed -i \
+            -e "s|col.active_border = rgb([0-9a-fA-F]*)|col.active_border = rgb(${primary#\#})|" \
+            -e "s|col.inactive_border = rgb([0-9a-fA-F]*)|col.inactive_border = rgb(${chip_battery#\#})|" \
+            "$HYPR_CONF"
+        echo "  → hyprland border colors updated"
     fi
 
     cp "$theme_dir/theme.json" "$CURRENT_THEME_FILE"
@@ -482,6 +655,17 @@ _set_wallpaper_direct() {
 reload_components() {
     if command -v herdr &>/dev/null; then
         herdr server reload-config &>/dev/null || true
+    fi
+
+    # dunst 1.9+ soporta reload en caliente sin matar el proceso
+    if command -v dunstctl &>/dev/null; then
+        dunstctl reload &>/dev/null || true
+    fi
+
+    # Hyprland: recarga config para tomar los nuevos colores de borde
+    # (no reinicia el compositor, solo re-lee hyprland.conf)
+    if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+        hyprctl reload &>/dev/null || true
     fi
 
     if command -v kitty &>/dev/null; then

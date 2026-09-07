@@ -94,7 +94,8 @@ graph TB
 
 | Script | Descripcion |
 |--------|-------------|
-| `launcher.sh` | App launcher custom con soporte para "g <query>" (Google search) |
+| `spotlight-launch.sh` | Buscador único (`combi`: drun+run+fallback) — reemplazó a `launcher.sh` (retirado) |
+| `spotlight-fallback.sh` | Catch-all de texto sin match en el buscador: comando → calculadora (`bc`/`python3`) → búsqueda web |
 | `emoji.sh` | Emoji picker (800+ emojis), copia al portapapeles |
 | `qtile-action-menu.sh` | Acciones del sistema: Suspend, Reboot, Poweroff, Logout |
 | `qtile-workspace-switcher.sh` | Selector de workspaces (ícono + Workspace N) |
@@ -103,6 +104,23 @@ graph TB
 
 ## Acceso
 
-- `Mod + Space` -- App launcher (grid Android-style 5x4)
+- `Mod + Space` -- Buscador único (lista vertical, 5 filas en reposo — ver nota de Hyprland abajo)
 - `Mod + L` -- Action menu (suspend/reboot/poweroff/logout)
 - `Mod + Shift + Space` -- Settings menu
+
+**Nota — Hyprland usa Walker, no esto**: en Hyprland, `Mod+Space` abre
+[Walker+Elephant](walker.md) en vez de este buscador de rofi (soporta
+resultados 100% en vivo y arranca vacío, algo que rofi no puede hacer — ver
+`docs/design-system.md`). Este `spotlight-launch.sh` sigue siendo el
+buscador real en **Qtile/X11** (`qtile/modules/keys.py`), donde Walker no
+puede correr (depende de `gtk4-layer-shell`, Wayland-only).
+
+## Integración con theme-switch.sh
+
+`rofi/colors.rasi` (nuevo, `@import`ado por `theme.rasi`/`theme-drun.rasi`/
+`theme-action.rasi` — antes cada uno duplicaba su propia paleta) se
+regenera en cada `theme <nombre>`: `bg0..bg3` = rampa `chip_battery` →
+`chip_audio` (con los mismos sufijos de alfa que ya se usaban), `fg0..fg3`
+= `foreground` y blends. Radio unificado a 10px en los 3 temas (antes
+16-24px según el archivo), `inputbar` sin borde (regla Flat Minimal). No
+hace falta reload — rofi lee el archivo cada vez que se abre.

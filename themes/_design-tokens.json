@@ -1,0 +1,18 @@
+{
+  "_comment": "Constante de forma del sistema (Flat Minimal). NO varía por tema — equivalente a looknfeel.conf/shell.toml.tpl de Omarchy. theme-switch.sh no la consume todavía; es la referencia escrita para que cualquier app nueva la copie en vez de inventar un valor a ojo. Ver docs/design-system.md.",
+  "font_mono": "Hack Nerd Font",
+  "radius": 10,
+  "border": "none",
+  "border_size": 2,
+  "gaps": { "in": 4, "out": 8 },
+  "opacity": {
+    "kitty": 0.80,
+    "obsidian": 0.85,
+    "sublime_text": 0.85,
+    "rofi": 0.75,
+    "dunst": 0.85,
+    "tui_float": 0.97
+  },
+  "blur": { "size": 6, "passes": 2 },
+  "spacing": { "row_padding": "6px 10px", "chip_gap": 8 }
+}

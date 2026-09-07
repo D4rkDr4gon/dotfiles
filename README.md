@@ -40,6 +40,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/D4rkDr4g0n/dotfiles/main/ins
 | [Kitty](docs/configuration/kitty.md) | Terminal, colores, keybindings, Wayland |
 | [Zsh](docs/configuration/zsh.md) | Shell, aliases, plugins, prompt |
 | [Rofi](docs/configuration/rofi.md) | Launcher, temas, scripts |
+| [Walker](docs/configuration/walker.md) | Buscador único (apps+comandos+calc+web), Mod+Space en Hyprland |
+| [Shortcuts](docs/configuration/shortcuts.md) | Cheatsheet de atajos (ver + editar), Mod+K |
 | [Picom](docs/configuration/picom.md) | Compositor X11, blur, animaciones |
 | [Dunst](docs/configuration/dunst.md) | Notification daemon + center |
 | [Editores](docs/configuration/editors.md) | Neovim (LazyVim) y Sublime Text |

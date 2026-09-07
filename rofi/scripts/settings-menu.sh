@@ -6,7 +6,7 @@ WALLPAPER_DIR="$HOME/dotfiles/recursos/wallpapers"
 THEME_SWITCH="$HOME/dotfiles/scripts/theme-switch.sh"
 
 show_main_menu() {
-    printf "  Themes\n  Workspaces\n󰏓  Apps\n  Search\n  Backgrounds\n  Notifications\n" \
+    printf "  Themes\n  Workspaces\n󰏓  Apps\n  Search\n  Backgrounds\n  Notifications\n  Shortcuts\n" \
         | rofi -dmenu -p "Settings" -theme "$HOME/.config/rofi/theme.rasi" \
             -theme-str 'entry { placeholder: "Choose an option..."; }'
 }
@@ -180,7 +180,14 @@ main() {
             list_workspaces
             ;;
         "󰏓  Apps"|Apps)
-            rofi -show drun
+            # Mismo buscador único que Mod+Space (ver docs/design-system.md):
+            # Walker en Hyprland, el combi de rofi en Qtile/X11 (Walker no
+            # corre bajo X11).
+            if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+                walker
+            else
+                bash "$HOME/dotfiles/rofi/scripts/spotlight-launch.sh"
+            fi
             ;;
         "  Search"|Search)
             web_search
@@ -190,6 +197,9 @@ main() {
             ;;
         "  Notifications"|Notifications)
             bash "$SETTINGS_DIR/notification-center.sh"
+            ;;
+        "  Shortcuts"|Shortcuts)
+            bash "$HOME/dotfiles/waybar/scripts/shortcuts-launch.sh"
             ;;
         *)
             exit 0

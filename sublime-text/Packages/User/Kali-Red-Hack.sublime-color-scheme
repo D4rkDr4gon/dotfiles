@@ -3,15 +3,15 @@
     "author": "Custom",
     "globals":
     {
-        "background": "#0f0f0f",
+        "background": "#0f0f10",
         "foreground": "#c5c8c6",
-        "caret": "#d32f2f",
-        "selection": "#a12020",
-        "selection_border": "#d32f2f",
-        "line_highlight": "#1a1a1a",
-        "gutter": "#0f0f0f",
-        "gutter_foreground": "#444444",
-        "inactive_selection": "#1a1a1a"
+        "caret": "#c62828",
+        "selection": "#8e1a1a",
+        "selection_border": "#c62828",
+        "line_highlight": "#1a1515",
+        "gutter": "#0f0f10",
+        "gutter_foreground": "#606261",
+        "inactive_selection": "#1a1515"
     },
 
     "rules":

@@ -1,0 +1,15 @@
+{
+  "name": "Tokyo Night",
+  "wallpaper": "/home/lcampassi/dotfiles/recursos/wallpapers/wallpaper_city_dark.jpg",
+  "primary": "#7aa2f7",
+  "secondary": "#bb9af7",
+  "background": "#1a1b26",
+  "foreground": "#a9b1d6",
+  "chip_battery": "#282a37",
+  "chip_bluetooth": "#363949",
+  "chip_wlan": "#44485a",
+  "chip_audio": "#53576c",
+  "status_ok": "#9ece6a",
+  "status_warn": "#e0af68",
+  "status_error": "#f7768e"
+}

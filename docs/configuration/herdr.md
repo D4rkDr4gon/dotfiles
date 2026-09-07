@@ -88,3 +88,13 @@ Ver atajos completos en [keybindings.md](../keybindings.md#herdr----multiplexor-
 | Ver config activa resuelta | `herdr --default-config` (defaults) vs `herdr/config.toml` (overrides) |
 
 **Docs oficiales:** https://herdr.dev/docs/
+
+## Gap de instalador corregido
+
+`install.sh` no tenía ninguna línea que symlinkeara `herdr/config.toml` a
+`~/.config/herdr/config.toml` pese a que esta misma doc siempre lo dio por
+sentado — confirmado con `grep -n herdr install.sh` (sin resultados) antes
+del fix. Ahora `create_symlinks()` hace `mkdir -p ~/.config/herdr &&
+ln -sf herdr/config.toml ~/.config/herdr/config.toml` (solo el archivo de
+config, nunca el directorio completo — `~/.config/herdr/` también guarda
+sockets/logs/`session.json` en runtime, que no deben versionarse).

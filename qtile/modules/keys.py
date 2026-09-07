@@ -25,8 +25,12 @@ keys = [
     # Open Apps
     Key([mod], "p", lazy.spawn("bitwarden-desktop"), desc="opens bitwarden password manager"),
     Key([mod], "f", lazy.spawn("thunar"), desc="opens file system"),
-    Key([mod], "space", lazy.spawn(f"rofi -show drun -theme {HOME}/.config/rofi/theme-drun.rasi"), desc="opens app manager"),
+    # Walker (elephant) es Wayland-only (gtk4-layer-shell) — en X11/Qtile
+    # seguimos con el buscador combi de rofi (apps+comandos+calc+web, ver
+    # docs/design-system.md).
+    Key([mod], "space", lazy.spawn(f"sh {DOTFILES}/rofi/scripts/spotlight-launch.sh"), desc="opens app manager"),
     Key([mod], "o", lazy.spawn("obsidian"), desc="opens notes"),
+    Key([mod], "k", lazy.spawn(f'kitty --class shortcuts --title Shortcuts -e python3 {DOTFILES}/recursos/shortcuts/shortcuts_tui.py'), desc="cheatsheet de shortcuts, ver + editar"),
     Key([mod], "b", lazy.spawn(browser), desc="opens browser"),
     Key([mod], "Return", lazy.spawn(terminal), desc="opens terminal"),
     Key([mod, "shift"], "Return", lazy.spawn(f"{DOTFILES}/herdr/launch.sh"), desc="opens herdr"),

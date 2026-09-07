@@ -133,3 +133,35 @@ Via LazyVim + lazy-lock.json:
 ### Atajos
 
 - `Mod + S` desde Qtile abre Sublime Text directamente
+
+## Integración con theme-switch.sh
+
+**Sublime Text**: `sed` acotado al bloque `"globals"` de
+`Kali-Red-Hack.sublime-color-scheme` (nunca `"rules"` — los colores de
+sintaxis por token no tienen un mapeo 1:1 razonable a `theme.json`, quedan
+como limitación conocida). `highlight_line: true` y `caret_style: "solid"`
+agregados a `Preferences.sublime-settings` (regla Flat Minimal: línea
+activa resaltada con relleno). Sublime recarga el color scheme solo, sin
+reload. El perfil completo **no** se symlinkea (mezclaría `Cache/`,
+`Local/`, `Installed Packages/` como estado versionado) — solo
+`Preferences.sublime-settings` y el `.sublime-color-scheme` puntualmente.
+
+**LazyVim**: gap de despliegue real corregido — `~/.config/nvim` corría con
+el colorscheme default de LazyVim porque el paquete `lazy-nvim/` del repo
+nunca se había stoweado/symlinkeado (ahora `~/.config/nvim` es un symlink
+de directorio completo, mismo patrón que dunst/kitty/rofi, no `stow`).
+
+`lua/config/highlights.lua` (antes cargado desde un `lua/config/init.lua`
+que **nadie requería** — código muerto real, confirmado con
+`grep -rn "config.init"`) ahora se registra desde `config/autocmds.lua`
+(que LazyVim sí carga en `VeryLazy`). Aplica overrides sobre
+`config/colors.lua` (que `theme-switch.sh` reescribe con `sed`) vía
+`vim.defer_fn(apply, 50)` — un autocmd de `ColorScheme` simple no alcanza,
+porque LazyVim aplica su colorscheme por defecto llamando
+`require("tokyonight").load()` **directo**, no al comando `:colorscheme`
+(que es el que dispara ese evento) — confirmado corriendo `nvim --headless`
+con y sin argumento de archivo (LazyVim carga `config.autocmds` en
+momentos distintos según el caso, y solo `vim.defer_fn` funciona en los
+dos). Se agregó además `lua/plugins/lualine.lua` (antes no había ningún
+statusline activo, solo el `example.lua` de LazyVim sin usar), con tema
+Flat Minimal (sin separadores powerline) tomado de la misma paleta.

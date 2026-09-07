@@ -53,24 +53,24 @@
     always_run_script = true
     title = Dunst
     class = Dunst
-    corner_radius = 16
+    corner_radius = 10
     ignore_dbusclose = false
     force_xwayland = false
 
 [urgency_low]
-    background = "#141414"
-    foreground = "#969696"
+    background = "#1a1515"
+    foreground = "#606261"
     timeout = 10
-    highlight = "#4A4A4A"
+    highlight = "#3a2020"
 
 [urgency_normal]
-    background = "#141414"
-    foreground = "#E6E6E6"
+    background = "#1a1515"
+    foreground = "#c5c8c6"
     timeout = 15
-    highlight = "#333333"
+    highlight = "#c62828"
 
 [urgency_critical]
-    background = "#141414"
-    foreground = "#FFFFFF"
+    background = "#1a1515"
+    foreground = "#c5c8c6"
     timeout = 0
-    highlight = "#d32f2f"
+    highlight = "#ff1744"

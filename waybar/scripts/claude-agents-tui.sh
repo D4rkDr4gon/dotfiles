@@ -1,20 +1,32 @@
 #!/usr/bin/env bash
-# TUI de gestion de agentes IA (Claude Code / opencode) — estilo dashboard
-# (paneles finos + medidores de barras, en la linea de btop).
+# TUI de gestion de agentes IA (Claude Code / opencode) — dashboard con
+# medidores de barras (estilo btop).
 #
 # Se lanza desde el modulo waybar "custom/claude-agents" dentro de una
 # ventanita flotante de Kitty, anclada arriba a la derecha
 # (ver qtile/modules/hooks.py: float_widgets).
+#
+# Regla "Flat Minimal" (ver docs/design-system.md): sin cajas ni marcos.
+# Antes este panel se dibujaba entero a mano con box-drawing (┌─┐│└─┘) —
+# ahora es texto plano jerárquico (título en negrita, filas ícono/label,
+# un separador sutil de 1 línea) igual que el resto del sistema.
 
 CACHE="$HOME/.claude/usage-cache.json"
 THEME_FILE="$HOME/dotfiles/qtile/current_theme.json"
-CW=62   # ancho de contenido del panel (entre los bordes izq/der)
+CW=62   # ancho de referencia para el separador y el padding de filas
 
-# --- Color primario del tema activo ---------------------------------------
-PRIMARY="#c62828"
+# --- Colores del tema activo -----------------------------------------------
+# Antes solo se leía .primary; ahora se lee la paleta completa para que
+# estados/superficies también sigan al tema (no solo el acento).
+PRIMARY="#c62828"; FOREGROUND="#c5c8c6"; CHIP_BATTERY="#1a1515"
+STATUS_OK="#5cb85c"; STATUS_WARN="#f9a825"; STATUS_ERROR="#ff1744"
 if [ -f "$THEME_FILE" ]; then
-    P=$(jq -r '.primary // empty' "$THEME_FILE" 2>/dev/null)
-    [ -n "$P" ] && PRIMARY="$P"
+    P=$(jq -r '.primary // empty' "$THEME_FILE" 2>/dev/null); [ -n "$P" ] && PRIMARY="$P"
+    F=$(jq -r '.foreground // empty' "$THEME_FILE" 2>/dev/null); [ -n "$F" ] && FOREGROUND="$F"
+    CB=$(jq -r '.chip_battery // empty' "$THEME_FILE" 2>/dev/null); [ -n "$CB" ] && CHIP_BATTERY="$CB"
+    SO=$(jq -r '.status_ok // empty' "$THEME_FILE" 2>/dev/null); [ -n "$SO" ] && STATUS_OK="$SO"
+    SW=$(jq -r '.status_warn // empty' "$THEME_FILE" 2>/dev/null); [ -n "$SW" ] && STATUS_WARN="$SW"
+    SE=$(jq -r '.status_error // empty' "$THEME_FILE" 2>/dev/null); [ -n "$SE" ] && STATUS_ERROR="$SE"
 fi
 
 hex_to_ansi() {
@@ -26,12 +38,14 @@ hex_to_ansi() {
 # Nota: estas variables deben quedar con el byte ESC real (comillas $'...'),
 # no con el texto literal "\033[..." — de lo contrario se ven como texto.
 C_PRIMARY=$(hex_to_ansi "$PRIMARY")
+C_FOREGROUND=$(hex_to_ansi "$FOREGROUND")
+C_SURFACE=$(hex_to_ansi "$CHIP_BATTERY")
+GREEN=$(hex_to_ansi "$STATUS_OK")
+YELLOW=$(hex_to_ansi "$STATUS_WARN")
+RED=$(hex_to_ansi "$STATUS_ERROR")
 RESET=$'\033[0m'
 BOLD=$'\033[1m'
 DIM=$'\033[2m'
-GREEN=$'\033[32m'
-YELLOW=$'\033[33m'
-RED=$'\033[31m'
 
 # Envuelve texto en un color y lo cierra con reset.
 paint() { printf '%s%s%s' "$1" "$2" "$RESET"; }
@@ -52,38 +66,19 @@ color_for_pct() {
 # Repite un caracter (soporta multibyte, a diferencia de `tr`).
 repeat() { printf '%*s' "$1" '' | sed "s/ /$2/g"; }
 
-strip_ansi() { printf '%s' "$1" | sed -r 's/\x1B\[[0-9;]*[a-zA-Z]//g'; }
-
-# Imprime una fila de contenido dentro del panel, con padding correcto
-# aunque el contenido traiga codigos ANSI.
-row() {
-    local content="$1"
-    local visible pad
-    visible=$(strip_ansi "$content")
-    pad=$((CW - 2 - ${#visible}))
-    [ "$pad" -lt 0 ] && pad=0
-    printf '%s│%s %s%*s %s│%s\n' "$C_PRIMARY" "$RESET" "$content" "$pad" '' "$C_PRIMARY" "$RESET"
-}
+# Fila de contenido con margen izquierdo fijo (sin bordes laterales).
+row() { printf '  %s\n' "$1"; }
 
 blank_row() { row ""; }
 
-top_border() {
-    local label=" AGENTES IA "
-    local dashes=$((CW - ${#label} - 1))
-    [ "$dashes" -lt 0 ] && dashes=0
-    printf '%s┌─%s%s┐%s\n' "$C_PRIMARY$BOLD" "$label" "$(repeat "$dashes" '─')" "$RESET"
+header() {
+    printf '\n  %s\n\n' "$(paint "$BOLD$C_PRIMARY" "AGENTES IA")"
 }
 
-mid_border() {
-    printf '%s├%s┤%s\n' "$C_PRIMARY" "$(repeat "$CW" '─')" "$RESET"
-}
-
-bottom_border() {
-    # Sin \n final a propósito: en una terminal de exactamente 13 filas,
-    # el \n de la última línea fuerza un scroll de 1 (el cursor pasa de la
-    # última fila a una que no existe) y eso empuja el top_border fuera de
-    # vista. Sin el salto de línea el cursor queda sobre esta misma fila.
-    printf '%s└%s┘%s' "$C_PRIMARY" "$(repeat "$CW" '─')" "$RESET"
+# Separador sutil de 1 línea — superficie tenue, no el acento del tema
+# (regla Flat Minimal: el acento nunca es una línea decorativa suelta).
+divider() {
+    printf '  %s\n' "$(paint "$C_SURFACE" "$(repeat "$CW" '─')")"
 }
 
 # Medidor tipo btop: etiqueta + barra de bloques + porcentaje + detalle.
@@ -135,13 +130,12 @@ render() {
     [ -n "$seven_reset" ] && seven_detail="renueva $(fmt_reset "$seven_reset")"
     [ -n "$session_dir" ] && ctx_label="contexto · $session_dir"
 
-    top_border
-    blank_row
-    row "$(paint "$BOLD" "suscripcion claude code")"
+    header
+    row "$(paint "$BOLD$C_FOREGROUND" "suscripcion claude code")"
     row "$(meter "5h" "$five" "$five_detail")"
     row "$(meter "7d" "$seven" "$seven_detail")"
     blank_row
-    row "$(paint "$BOLD" "$ctx_label")"
+    row "$(paint "$BOLD$C_FOREGROUND" "$ctx_label")"
     row "$(meter "ctx" "$ctx" "ultima sesion")"
     blank_row
     if [ -n "$updated" ]; then
@@ -149,9 +143,8 @@ render() {
     else
         row "$(paint "$DIM" "sin datos aun — se registra al usar Claude Code")"
     fi
-    mid_border
+    divider
     row "$(button c 'claude code')  $(button o 'opencode')  $(button r 'refrescar')"
-    bottom_border
 }
 
 cleanup() { printf '%s' "$RESET"; clear; }

@@ -1,15 +1,6 @@
+@import "colors.rasi"
+
 * {
-    bg0:    #0a0a0aE8;
-    bg1:    #141414;
-    bg2:    #1E1E1E99;
-    bg3:    #333333F2;
-    fg0:    #E6E6E6;
-    fg1:    #FFFFFF;
-    fg2:    #969696;
-    fg3:    #4A4A4A;
-
-    font:   "Hack Nerd Font 12";
-
     background-color:   transparent;
     text-color:         @fg0;
 
@@ -22,23 +13,21 @@ window {
     location:       center;
     y-offset:       calc(50% - 100px);
     width:          520;
-    border-radius:  24px;
+    border-radius:  10px;
 
     background-color:   @bg0;
 }
 
 mainbox {
-    padding:    16px;
+    padding:    12px;
 }
 
 inputbar {
     background-color:   @bg1;
-    border-color:       @bg3;
 
-    border:         2px;
-    border-radius:  16px;
+    border-radius:  10px;
 
-    padding:    8px 16px;
+    padding:    6px 10px;
     spacing:    8px;
     children:   [ prompt, entry ];
 }
@@ -64,18 +53,18 @@ listview {
 }
 
 element {
-    padding:        16px 8px;
+    padding:        10px 6px;
     spacing:        8px;
-    border-radius:  20px;
+    border-radius:  10px;
     orientation:    vertical;
 }
 
 element selected normal, element selected active {
-    background-color:   @bg3;
+    background-color:   @bg2;
 }
 
 element-icon {
-    size:           48px;
+    size:           40px;
     vertical-align: 0.5;
 }
 

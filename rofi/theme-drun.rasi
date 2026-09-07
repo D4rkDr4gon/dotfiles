@@ -1,15 +1,6 @@
+@import "colors.rasi"
+
 * {
-    bg0:    #0a0a0aE8;
-    bg1:    #141414;
-    bg2:    #1E1E1E99;
-    bg3:    #333333F2;
-    fg0:    #E6E6E6;
-    fg1:    #FFFFFF;
-    fg2:    #969696;
-    fg3:    #4A4A4A;
-
-    font:   "Hack Nerd Font 12";
-
     background-color:   transparent;
     text-color:         @fg0;
 
@@ -21,24 +12,22 @@
 window {
     location:       center;
     y-offset:       0;
-    width:          680;
-    border-radius:  24px;
+    width:          520;
+    border-radius:  10px;
 
     background-color:   @bg0;
 }
 
 mainbox {
-    padding:    16px;
+    padding:    12px;
 }
 
 inputbar {
     background-color:   @bg1;
-    border-color:       @bg3;
 
-    border:         2px;
-    border-radius:  16px;
+    border-radius:  10px;
 
-    padding:    8px 16px;
+    padding:    6px 10px;
     spacing:    8px;
     children:   [ prompt, entry ];
 }
@@ -48,54 +37,56 @@ prompt {
 }
 
 entry {
-    placeholder:        "Search";
+    placeholder:        "Buscar apps, comandos, cálculos...";
     placeholder-color:  @fg3;
 }
 
 message {
     margin:             12px 0 0;
-    border-radius:      16px;
-    border-color:       @bg2;
-    background-color:   @bg2;
+    border-radius:      10px;
+    background-color:   @bg1;
 }
 
+/* Lista vertical de una sola columna, máximo 5 filas visibles en reposo
+ * (recientes/más usados, vía el historial nativo de rofi) — reemplaza la
+ * grilla de íconos 5x4 anterior, unificando el layout con theme.rasi y con
+ * el resto del sistema (regla Flat Minimal: fila = chip, sin marco). */
 listview {
     background-color:   transparent;
 
     margin:     12px 0 0;
-    lines:      4;
-    columns:    5;
+    lines:      5;
+    columns:    1;
 
     fixed-height: false;
-    fixed-columns: true;
 }
 
 element {
-    padding:        10px 6px;
-    spacing:        4px;
-    border-radius:  16px;
-    orientation:    vertical;
+    padding:        6px 10px;
+    spacing:        8px;
+    border-radius:  10px;
+    orientation:    horizontal;
 }
 
 element normal active {
-    text-color: @fg2;
+    text-color: @bg3;
 }
 
 element alternate active {
-    text-color: @fg2;
+    text-color: @bg3;
 }
 
 element selected normal, element selected active {
-    background-color:   @bg3;
+    background-color:   @bg2;
 }
 
 element-icon {
-    size:           36px;
+    size:           1.4em;
     vertical-align: 0.5;
 }
 
 element-text {
-    text-color:     inherit;
-    vertical-align: 0.5;
-    horizontal-align: 0.5;
+    text-color:         inherit;
+    vertical-align:     0.5;
+    horizontal-align:   0;
 }

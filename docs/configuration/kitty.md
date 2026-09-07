@@ -95,3 +95,5 @@ Los colores se cargan desde `colors.conf`, que es actualizado dinamicamente por 
 - `url_style` está fijo en `curly`; `url_color` usa el primary del tema.
 - Los colores de tabs (`active_tab_*`, `inactive_tab_*`, `tab_bar_*`) permiten que el tab bar se integre visualmente con el fondo de la terminal.
 - `statusbar_fg` y `statusbar_bg` aplican a la barra de estado inferior de Kitty (si está habilitada).
+- **Bug corregido**: `kitty.conf` redeclaraba `active_tab_*`/`inactive_tab_*` con colores fijos DESPUÉS del `include colors.conf` — kitty usa la última definición, así que esas líneas pisaban en silencio lo que generaba `theme-switch.sh` (las tabs nunca seguían el tema en la práctica). Se quitaron; ahora `colors.conf` es la única fuente. `inactive_tab_background`/`inactive_border_color` pasaron de grises fijos (`#1a1a1a`/`#444444`) a `chip_battery`/`chip_bluetooth` del tema activo.
+- `font_family` pasó de `Hack` a `Hack Nerd Font` (unificado con dunst/rofi/waybar, que ya usaban el nombre completo).

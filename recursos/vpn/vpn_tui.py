@@ -45,6 +45,50 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
+def _hex_blend(c1: str, c2: str, pct: int) -> str:
+    """Mezcla dos colores hex; pct = peso (0-100) del primero. Réplica en
+    Python de hex_blend() en scripts/theme-switch.sh, para derivar tonos
+    intermedios (texto atenuado) sin agregar un campo nuevo a theme.json."""
+    c1, c2 = c1.lstrip("#"), c2.lstrip("#")
+    r1, g1, b1 = int(c1[0:2], 16), int(c1[2:4], 16), int(c1[4:6], 16)
+    r2, g2, b2 = int(c2[0:2], 16), int(c2[2:4], 16), int(c2[4:6], 16)
+    r = (r1 * pct + r2 * (100 - pct)) // 100
+    g = (g1 * pct + g2 * (100 - pct)) // 100
+    b = (b1 * pct + b2 * (100 - pct)) // 100
+    return f"#{r:02x}{g:02x}{b:02x}"
+
+
+def _load_theme() -> dict:
+    """Lee el tema activo (mismo current_theme.json que ya consume
+    claude-agents-tui.sh) para que la TUI de VPN también siga al tema en
+    vez de tener su paleta hardcodeada. Si no existe (otra máquina, o el
+    pipeline de temas nunca corrió), cae a los valores que este archivo ya
+    usaba antes de esta integración — cero cambio de comportamiento."""
+    defaults = {
+        "primary": "#c62828",
+        "secondary": "#8e1a1a",
+        "background": "#0a0a0a",
+        "foreground": "#c5c8c6",
+        "chip_battery": "#141414",
+        "chip_bluetooth": "#1e1e1e",
+        "chip_wlan": "#2a0d0d",
+        "chip_audio": "#3a1515",
+        "status_ok": "#5cb85c",
+        "status_warn": "#f9a825",
+        "status_error": "#ff4444",
+    }
+    theme_file = Path.home() / "dotfiles" / "qtile" / "current_theme.json"
+    try:
+        data = json.loads(theme_file.read_text())
+        defaults.update({k: v for k, v in data.items() if k in defaults})
+    except (OSError, json.JSONDecodeError, KeyError):
+        pass
+    defaults["text_muted"] = _hex_blend(defaults["foreground"], defaults["background"], 45)
+    return defaults
+
+
+THEME = _load_theme()
+
 PROTON_DIR = Path.home() / "dotfiles" / "recursos" / "PROTON"
 
 # Ruta de la GUI oficial de FortiClient — se usa únicamente como fallback
@@ -720,83 +764,83 @@ def run_tui() -> None:
         # footer ni al presionar ctrl+p.
         ENABLE_COMMAND_PALETTE = False
 
+        # Colores del tema activo (THEME, cargado de current_theme.json).
+        # Regla "Flat Minimal" (ver docs/design-system.md): sin bordes en
+        # ningún widget — antes casi todo acá usaba `border: tall <hex>`;
+        # ahora el énfasis (foco/selección/hover) es siempre un relleno de
+        # superficie (chip_battery..chip_audio), nunca un contorno.
         CSS = r"""
-        Screen { background: #0a0a0a; }
+        Screen { background: %(background)s; }
 
-        Header   { background: #0d0d0d; color: #c62828; height: 2; }
-        Footer   { background: #0d0d0d; color: #555555; height: 1; }
+        Header   { background: %(background)s; color: %(primary)s; height: 2; }
+        Footer   { background: %(background)s; color: %(text_muted)s; height: 1; }
 
         TabbedContent            { height: 1fr; }
         TabbedContent > TabPane  { padding: 1 2; }
-        Tabs                     { background: #0d0d0d; }
-        Tab                      { background: #0d0d0d; color: #444444; padding: 0 2; }
-        Tab:focus, Tab.-active   { background: #150808; color: #c62828; }
-        Tab:hover                { color: #aaaaaa; }
+        Tabs                     { background: %(background)s; }
+        Tab                      { background: %(background)s; color: %(text_muted)s; padding: 0 2; }
+        Tab:focus, Tab.-active   { background: %(chip_battery)s; color: %(primary)s; }
+        Tab:hover                { color: %(foreground)s; }
 
         DataTable {
-            background: #0a0a0a;
-            color: #c5c8c6;
-            border: tall #1a1a1a;
+            background: %(background)s;
+            color: %(foreground)s;
             height: 1fr;
         }
-        DataTable > .datatable--header  { background: #0d0d0d; color: #555555; text-style: none; }
-        DataTable > .datatable--cursor  { background: #2a0d0d; color: #ff4444; }
-        DataTable > .datatable--hover   { background: #0f0f0f; }
+        DataTable > .datatable--header  { background: %(chip_battery)s; color: %(text_muted)s; text-style: none; }
+        DataTable > .datatable--cursor  { background: %(chip_wlan)s; color: %(primary)s; }
+        DataTable > .datatable--hover   { background: %(chip_battery)s; }
 
-        Input   { background: #111111; border: tall #2a2a2a; color: #efefef; margin-bottom: 1; }
-        Input:focus { background: #1a0d0d; border: tall #c62828; color: #ffffff; }
+        Input   { background: %(chip_battery)s; color: %(foreground)s; margin-bottom: 1; }
+        Input:focus { background: %(chip_bluetooth)s; color: #ffffff; }
 
         Button {
-            background: #141414;
-            border: tall #2a2a2a;
-            color: #777777;
+            background: %(chip_battery)s;
+            color: %(text_muted)s;
             min-width: 14;
             margin-right: 1;
             height: 3;
         }
-        Button:hover           { background: #1e1e1e; color: #efefef; border: tall #555555; }
-        Button.-success        { background: #2a0d0d; border: tall #5c1a1a; color: #ff6666; }
-        Button.-success:hover  { background: #c62828; color: #0a0a0a; text-style: bold; }
-        Button.-error          { background: #180000; border: tall #5c0000; color: #ff4444; }
-        Button.-error:hover    { background: #330000; color: #ff6666; }
+        Button:hover           { background: %(chip_bluetooth)s; color: %(foreground)s; }
+        Button.-success        { background: %(chip_wlan)s; color: %(primary)s; }
+        Button.-success:hover  { background: %(primary)s; color: %(background)s; text-style: bold; }
+        Button.-error          { background: %(chip_battery)s; color: %(status_error)s; }
+        Button.-error:hover    { background: %(status_error)s; color: %(background)s; text-style: bold; }
 
-        Label { color: #555555; margin-bottom: 0; }
+        Label { color: %(text_muted)s; margin-bottom: 0; }
 
         ModalScreen { align: center middle; background: rgba(0,0,0,0.92); }
 
         #modal-box {
-            background: #0d0d0d;
-            border: tall #8e1a1a;
+            background: %(chip_battery)s;
             padding: 2 3;
             width: 64;
             max-height: 92vh;
         }
-        #modal-ttl    { color: #c62828; text-style: bold; margin-bottom: 1; }
-        #modal-info   { color: #8a8a8a; margin-bottom: 1; }
-        #modal-hint   { color: #666666; margin-bottom: 1; }
+        #modal-ttl    { color: %(primary)s; text-style: bold; margin-bottom: 1; }
+        #modal-info   { color: %(text_muted)s; margin-bottom: 1; }
+        #modal-hint   { color: %(text_muted)s; margin-bottom: 1; }
         #modal-btns   { margin-top: 1; }
 
         #confirm-box {
-            background: #0d0d0d;
-            border: tall #5c0000;
+            background: %(chip_battery)s;
             padding: 2 3;
             width: 56;
             height: auto;
         }
-        #confirm-msg  { color: #cccccc; margin-bottom: 2; }
+        #confirm-msg  { color: %(foreground)s; margin-bottom: 2; }
 
         #help-box {
-            background: #0d0d0d;
-            border: tall #8e1a1a;
+            background: %(chip_battery)s;
             padding: 2 3;
             width: 58;
             height: auto;
         }
 
         .action-bar  { height: 3; margin-bottom: 1; }
-        .hint        { color: #555555; margin-bottom: 1; }
-        ScrollableContainer { background: #0a0a0a; }
-        """
+        .hint        { color: %(text_muted)s; margin-bottom: 1; }
+        ScrollableContainer { background: %(background)s; }
+        """ % THEME
 
         BINDINGS = [
             Binding("1", "switch_tab('tab-estado')", "estado", show=True),

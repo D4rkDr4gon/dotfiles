@@ -5,8 +5,12 @@
     "caret_color": "#d32f2f",
     "accent_color": "#d32f2f",
 
-    "font_face": "Hack",
-    "font_size": 10,
+    "font_face": "Hack Nerd Font",
+    "font_size": 13,
+
+    "highlight_line": true,
+    "caret_style": "solid",
+
     "ignored_packages":
     [
 		"Vintage",

@@ -178,7 +178,7 @@ Mod + Shift + Space  ->  Themes
 
 ## Estructura de un Tema
 
-Cada tema vive en `themes/<nombre>/theme.json`:
+Cada tema vive en `themes/<nombre>/theme.json`. El schema es **plano** (no anidado — los 8 temas originales y los 3 nuevos comparten exactamente estas 13 claves, sin excepción):
 
 > **Nota**: `theme.json` es JSON plano y se lee con `jq`, que no expande `$HOME`.
 > El campo `wallpaper` necesita una ruta absoluta real. Si preferis un wallpaper
@@ -191,18 +191,17 @@ Cada tema vive en `themes/<nombre>/theme.json`:
 {
   "name": "AT-AT",
   "wallpaper": "__HOME__/dotfiles/recursos/wallpapers/at-at.png",
-  "colors": {
-    "primary": "#a0522d",
-    "secondary": "#8b4513",
-    "background": "#1a1a1a",
-    "foreground": "#d4c5a9",
-    "chip": {
-      "battery": "#a0522d",
-      "bluetooth": "#4a90d9",
-      "wlan": "#4a90d9",
-      "audio": "#a0522d"
-    }
-  }
+  "primary": "#a0522d",
+  "secondary": "#8b4513",
+  "background": "#1a1a1a",
+  "foreground": "#d4c5a9",
+  "chip_battery": "#a0522d",
+  "chip_bluetooth": "#4a90d9",
+  "chip_wlan": "#4a90d9",
+  "chip_audio": "#a0522d",
+  "status_ok": "#5cb85c",
+  "status_warn": "#f9a825",
+  "status_error": "#ff1744"
 }
 ```
 
@@ -212,11 +211,14 @@ Cada tema vive en `themes/<nombre>/theme.json`:
 |-------|-------------|
 | `name` | Nombre del tema |
 | `wallpaper` | Ruta absoluta al wallpaper |
-| `colors.primary` | Color principal (polybar/waybar, prompt, layouts) |
-| `colors.secondary` | Color secundario |
-| `colors.background` | Color de fondo |
-| `colors.foreground` | Color de texto |
-| `colors.chip` | Colores especificos para modulos de la barra |
+| `primary` | Color principal (acento, prompt, layouts, borde activo de Hyprland) |
+| `secondary` | Color secundario/acento alternativo |
+| `background` | Color de fondo (superficie base) |
+| `foreground` | Color de texto |
+| `chip_battery` → `chip_audio` | Rampa de 4 superficies oscuro→claro. Pensada originalmente para íconos de waybar, reinterpretada como escala de elevación para el resto del sistema (dunst, rofi, kitty, HyprFM, Obsidian, VPN TUI) — ver [`docs/design-system.md`](design-system.md) |
+| `status_ok` / `status_warn` / `status_error` | Colores semánticos de estado (herdr, HyprFM, dunst, agents-tui, VPN TUI) |
+
+No hay campos de tipografía, radios ni opacidad — esos son forma fija, viven en [`themes/_design-tokens.json`](../themes/_design-tokens.json) y no varían por tema (ver `docs/design-system.md`).
 
 ## Crear un Nuevo Tema
 

@@ -77,8 +77,22 @@ Sistema de notificaciones con centro de historial integrado en Rofi.
 
 ## Urgencias
 
-| Urgencia | Background | Foreground | Timeout | Uso |
-|----------|------------|------------|---------|-----|
-| LOW | `#141414` | `#969696` | 10s | Notis informativas |
-| NORMAL | `#141414` | `#E6E6E6` | 15s | Notis generales |
-| CRITICAL | `#141414` | `#FFFFFF` | Persiste | Alertas importantes |
+| Urgencia | Background | Foreground | Highlight | Timeout | Uso |
+|----------|------------|------------|-----------|---------|-----|
+| LOW | `chip_battery` | texto atenuado (45%) | `chip_wlan` | 10s | Notis informativas |
+| NORMAL | `chip_battery` | `foreground` | `primary` | 15s | Notis generales |
+| CRITICAL | `chip_battery` | `foreground` | `status_error` | Persiste | Alertas importantes |
+
+> Estos 3 bloques ya no tienen colores fijos — los reescribe `theme-switch.sh`
+> en cada `theme <nombre>` (ver sección de abajo). `corner_radius = 10`
+> (antes 16), unificado con el resto del sistema.
+
+## Integración con theme-switch.sh
+
+`DUNST_CONFIG="$HOME/dotfiles/dunst/dunstrc"` — dunst no soporta `@import`
+de otro archivo (es un único `dunstrc`), así que se editan los 3 bloques de
+urgencia con `sed` por rango de dirección. `background` sale de
+`chip_battery` (la superficie más sutil de la rampa, ver
+`docs/design-system.md`); `highlight` (la barra de progreso del timeout)
+pasa a ser el acento real de cada estado en vez de un gris fijo. Reload en
+caliente real via `dunstctl reload` (dunst 1.9+, sin matar el proceso).

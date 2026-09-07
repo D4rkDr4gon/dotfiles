@@ -1,0 +1,15 @@
+{
+  "name": "Catppuccin Mocha",
+  "wallpaper": "/home/lcampassi/dotfiles/recursos/wallpapers/wallpaper_dog_room.jpg",
+  "primary": "#89b4fa",
+  "secondary": "#f5c2e7",
+  "background": "#1e1e2e",
+  "foreground": "#cdd6f4",
+  "chip_battery": "#2f3041",
+  "chip_bluetooth": "#414255",
+  "chip_wlan": "#525569",
+  "chip_audio": "#64677d",
+  "status_ok": "#a6e3a1",
+  "status_warn": "#f9e2af",
+  "status_error": "#f38ba8"
+}

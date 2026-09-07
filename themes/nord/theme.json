@@ -1,0 +1,15 @@
+{
+  "name": "Nord",
+  "wallpaper": "/home/lcampassi/dotfiles/recursos/wallpapers/dark-server-room.png",
+  "primary": "#81a1c1",
+  "secondary": "#88c0d0",
+  "background": "#2e3440",
+  "foreground": "#d8dee9",
+  "chip_battery": "#3f4550",
+  "chip_bluetooth": "#505661",
+  "chip_wlan": "#616772",
+  "chip_audio": "#727883",
+  "status_ok": "#a3be8c",
+  "status_warn": "#ebcb8b",
+  "status_error": "#bf616a"
+}

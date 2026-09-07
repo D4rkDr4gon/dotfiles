@@ -1,7 +1,7 @@
 return {
-  bg = "#0f0f0f",
-  bg_alt = "#1a1a1a",
+  bg = "#0f0f10",
+  bg_alt = "#1a1515",
   fg = "#c5c8c6",
-  red = "#d32f2f",
-  red_border = "#a12020",
+  red = "#c62828",
+  red_border = "#8e1a1a",
 }

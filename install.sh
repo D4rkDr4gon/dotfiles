@@ -125,6 +125,12 @@ PACKAGES_AUR=(
     onedrive-abraunegg
     hyprfm-git
     papirus-folders
+    walker
+    elephant
+    elephant-desktopapplications
+    elephant-runner
+    elephant-calc
+    elephant-websearch
 )
 
 WAYLAND_PKGS=(
@@ -214,16 +220,70 @@ create_symlinks() {
         fi
     done
 
+    # hypr — NO usa stow (ver nota más abajo): symlink de directorio completo,
+    # igual que el patrón real ya usado por dunst/kitty/rofi/automat/opencode/
+    # picom/polybar/gtklock (que tampoco quedaron así por el stow de arriba,
+    # sino por symlinks manuales previos a que se adoptara stow en este
+    # instalador). rm -rf es seguro acá: si existe, es un directorio real
+    # con symlinks sueltos dentro (o vacío en una instalación nueva).
+    if [ -d "hypr" ]; then
+        info "Symlink: ~/.config/hypr -> $DOTFILES_DIR/hypr"
+        [ -d "$HOME/.config/hypr" ] && [ ! -L "$HOME/.config/hypr" ] && rm -rf "$HOME/.config/hypr"
+        ln -sfT "$DOTFILES_DIR/hypr" "$HOME/.config/hypr"
+    fi
+
+    # NOTA sobre el stow de arriba: verificado que `stow -t ~/.config <pkg>`
+    # desde $DOTFILES_DIR NO anida por nombre de paquete — stow "aplana" el
+    # contenido del paquete directamente dentro de ~/.config (ej. dunst/
+    # dunstrc -> ~/.config/dunstrc, no ~/.config/dunst/dunstrc), que no es
+    # el resultado que cualquiera de estos paquetes necesita. En este
+    # sistema, dunst/kitty/rofi/automat/opencode/picom/polybar/gtklock
+    # solo "andan" hoy porque ya tenían symlinks de directorio completo
+    # creados a mano ANTES de que este instalador adoptara stow — el bucle
+    # de arriba es, en la práctica, un no-op silencioso para ellos
+    # (stow no pisa esos symlinks porque apunta a paths distintos, y
+    # tampoco hay conflicto que lo bloquee). Confirmado además que, si el
+    # target no tiene ya un archivo real en la ruta aplanada, stow SÍ crea
+    # symlinks sueltos y planos dentro de ~/.config (se detectó y limpió
+    # este caso para hypr). No se corrige acá para el resto de los paquetes
+    # de base_dirs por ser un cambio más grande y no relacionado al
+    # theming — pendiente como su propia tarea de mantenimiento del
+    # instalador.
+
     # zshrc special case (va en $HOME, no en .config)
     if [ -f "zsh/zshrc" ]; then
         info "Symlink: ~/.zshrc -> $DOTFILES_DIR/zsh/zshrc"
         ln -sf "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
     fi
 
-    # Sublime Text
-    if [ -d "sublime-text" ]; then
-        info "Symlink: ~/.config/sublime-text -> $DOTFILES_DIR/sublime-text"
-        ln -sfT "$DOTFILES_DIR/sublime-text" "$HOME/.config/sublime-text"
+    # Sublime Text — NO se symlinkea el perfil completo (mezclaría Cache/,
+    # Local/, Installed Packages/ como estado versionado, y además un
+    # symlink de directorio no reemplaza uno ya poblado con contenido real).
+    # Se symlinkean puntualmente solo los 2 archivos que theme-switch.sh
+    # necesita mantener sincronizados con el repo.
+    if [ -d "sublime-text/Packages/User" ]; then
+        mkdir -p "$HOME/.config/sublime-text/Packages/User"
+        for f in Preferences.sublime-settings Kali-Red-Hack.sublime-color-scheme; do
+            info "Symlink: ~/.config/sublime-text/Packages/User/$f -> repo"
+            ln -sf "$DOTFILES_DIR/sublime-text/Packages/User/$f" \
+                   "$HOME/.config/sublime-text/Packages/User/$f"
+        done
+    fi
+
+    # walker (buscador único, Mod+Space) — symlink de directorio completo,
+    # mismo patrón que dunst/kitty/rofi.
+    if [ -d "walker" ]; then
+        info "Symlink: ~/.config/walker -> $DOTFILES_DIR/walker"
+        [ -d "$HOME/.config/walker" ] && [ ! -L "$HOME/.config/walker" ] && rm -rf "$HOME/.config/walker"
+        ln -sfT "$DOTFILES_DIR/walker" "$HOME/.config/walker"
+    fi
+
+    # herdr — solo config.toml se symlinkea (~/.config/herdr/ también guarda
+    # sockets/logs/session.json en runtime, que no deben versionarse).
+    if [ -f "herdr/config.toml" ]; then
+        info "Symlink: ~/.config/herdr/config.toml -> $DOTFILES_DIR/herdr/config.toml"
+        mkdir -p "$HOME/.config/herdr"
+        ln -sf "$DOTFILES_DIR/herdr/config.toml" "$HOME/.config/herdr/config.toml"
     fi
 
     log "Symlinks creados"
@@ -287,7 +347,10 @@ setup_neovim() {
     if [ -d "$DOTFILES_DIR/lazy-nvim" ]; then
         info "Usando config personalizada de LazyVim..."
         rm -rf "$HOME/.config/nvim"
-        stow -t "$HOME/.config" lazy-nvim 2>/dev/null
+        # symlink de directorio completo, NO stow (stow aplanaría el
+        # contenido de lazy-nvim/ directamente dentro de ~/.config en vez
+        # de anidarlo bajo ~/.config/nvim — ver nota en create_symlinks()).
+        ln -sfT "$DOTFILES_DIR/lazy-nvim" "$HOME/.config/nvim"
         log "Config de Neovim enlazada"
     else
         info "Clonando LazyVim starter..."
