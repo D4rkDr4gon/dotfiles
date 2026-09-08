@@ -239,6 +239,8 @@ que los alias estén al día).
 - **Search**: Busqueda en Google (abre Firefox en workspace 5)
 - **Backgrounds**: Seleccionar wallpaper de `recursos/wallpapers/`
 - **Notifications**: Notification center (historial de notificaciones de Dunst en Rofi)
+- **Shortcuts**: Cheatsheet de atajos (este mismo documento, TUI)
+- **Displays**: Gestion visual de monitores/posiciones/perfiles con la TUI `hyprmon` (flotante). Ver [Hyprland](configuration/hyprland.md#gestión-de-monitores-hyprmon)
 
 ### Emoji Picker
 - Accesible desde Rofi con el script `emoji.sh`

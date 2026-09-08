@@ -84,6 +84,11 @@ Aliases principales:
   servidor Proton con `sed` sobre docs/aliases; reemplazado por la tab
   ProtonVPN de `vpn_tui.py`, que importa `.conf` a NetworkManager sin tocar
   archivos. Ver [Keybindings](../keybindings.md#red--vpn))
+- `monitorup` -- `wayvnc-toggle.sh on` (levanta `wayvnc` + output headless
+  `HEADLESS-1`, para usar la tablet como monitor secundario tactil).
+  `monitordown` desactiva ambos. Detecta la interfaz de red automaticamente
+  (ruta por defecto), no asume WiFi ni ethernet. Ver [Hyprland
+  → Gestión de Monitores](hyprland.md#gestión-de-monitores-hyprmon)
 
 Lista completa en [Keybindings](../keybindings.md).
 

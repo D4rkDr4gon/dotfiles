@@ -11,6 +11,13 @@ OFFICIAL_DEPS=(
     xdg-desktop-portal-hyprland
 )
 
+# hyprmon: TUI de gestión visual de monitores/perfiles (ver
+# docs/configuration/hyprland.md#gestión-de-monitores-hyprmon). Es un
+# binario Go pero el paquete AUR trae cargo como dependencia de build.
+AUR_DEPS=(
+    hyprmon
+)
+
 main() {
     check_arch
     header "HYPRLAND WINDOW MANAGER"
@@ -18,6 +25,14 @@ main() {
     for pkg in "${OFFICIAL_DEPS[@]}"; do
         install_pacman_pkg "$pkg"
     done
+
+    if command -v yay &>/dev/null; then
+        for pkg in "${AUR_DEPS[@]}"; do
+            install_yay_pkg "$pkg"
+        done
+    else
+        warn "yay no disponible, salteando hyprmon (instalalo despues: yay -S hyprmon)"
+    fi
 
     # Stow hypr config
     stow_config "hypr"
@@ -44,6 +59,7 @@ main() {
     local hypr_scripts=(
         "$HOME/.config/hypr/scripts/hypr-workspaces.py"
         "$HOME/.config/hypr/scripts/hypr-workspace-switch.sh"
+        "$HOME/.config/waybar/scripts/hyprmon-launch.sh"
     )
     for script in "${hypr_scripts[@]}"; do
         if [ -f "$script" ]; then

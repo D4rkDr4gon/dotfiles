@@ -153,6 +153,7 @@ Dual boot with Windows 11 on separate partition.
 | `iwd` `wireless_tools` | WiFi backend |
 | `proton-vpn-cli` `proton-vpn-gtk-app` | Proton VPN |
 | `bluetui` | Bluetooth TUI |
+| `wayvnc` | VNC server (Wayland) — tablet como monitor secundario táctil (`monitorup`/`monitordown`) |
 
 ### 2.10 Bluetooth
 
@@ -191,6 +192,7 @@ Dual boot with Windows 11 on separate partition.
 | `conan` | C/C++ package manager |
 | `cura-bin` | 3D printing slicer |
 | `forticlient-vpn` | Fortinet VPN |
+| `hyprmon` | TUI gestión visual de monitores/perfiles (Hyprland) |
 | `i3lock-color` | Lock screen base |
 | `n8n` | Workflow automation |
 | `onedrive-abraunegg` | OneDrive CLI sync |
@@ -543,7 +545,7 @@ systemctl enable vault-pull.service vault-push.service --now
 - [ ] Install Hyprland + hyprpaper (`sudo pacman -S hyprland hyprpaper hyprlock hypridle xdg-desktop-portal-hyprland`)
 - [ ] Stow Hyprland config: `cd ~/dotfiles && stow -t ~/.config hypr`
 - [ ] Enable hyprland-session-init: `systemctl --user enable hyprland-session-init.service`
-- [ ] Configure dual monitors (xrandr/wlr-randr)
+- [ ] Configure monitores (xrandr/wlr-randr para setup inicial; `yay -S hyprmon` + perfiles para gestión visual en Hyprland, ver [Hyprland → Gestión de Monitores](configuration/hyprland.md#gestión-de-monitores-hyprmon))
 - [ ] Configure VPN connections
 - [ ] Set up fingerprint reader (`fprintd-enroll`)
 - [ ] Enable custom systemd services (vault-pull, vault-push)

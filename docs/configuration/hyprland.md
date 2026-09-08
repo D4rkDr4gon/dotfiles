@@ -86,7 +86,7 @@ fi
 |-------|--------|
 | `Mod + Ctrl + R` | Recargar Hyprland + Waybar |
 | `Mod + L` | Action menu (Lock/Reboot/Poweroff/Logout) |
-| `Mod + Shift + Space` | Settings menu (Rofi) |
+| `Mod + Shift + Space` | Settings menu (Rofi) — incluye "Displays" (ver [Gestión de Monitores](#gestión-de-monitores-hyprmon)) |
 
 ### Hardware / Multimedia
 
@@ -146,6 +146,29 @@ Reglas de flotación y opacidad vía `windowrulev2`, equivalente a `floating_lay
 ## Wallpaper
 
 Usa `hyprpaper` como daemon. El wallpaper se actualiza automáticamente al cambiar de tema vía `theme-switch.sh`.
+
+## Gestión de Monitores (hyprmon)
+
+Posiciones/resolución/escala de monitores se gestionan con [`hyprmon`](https://github.com/erans/hyprmon/), una TUI (mapa visual "desk map", drag con teclado/mouse) accesible desde `Mod + Shift + Space` → **Displays**, o directo:
+
+```bash
+hyprmon                          # TUI completa (crear/editar/guardar perfiles con "P")
+hyprmon --profile <nombre>       # aplicar un perfil sin abrir la TUI
+hyprmon --profiles               # menú interactivo de selección de perfil
+hyprmon --list-profiles          # listar perfiles guardados
+```
+
+Perfiles en `~/.config/hyprmon/profiles/*.json`. Instalación vía AUR (`yay -S hyprmon`, incluida en `install-hyprland.sh`) — el binario es Go pese a que el paquete AUR trae `cargo` como dependencia de build.
+
+**Integración con el sistema de TUIs flotantes:** igual que `vpn-tui`/`bluetui`/`impala`/`shortcuts`, se lanza flotante+pinned vía `waybar/scripts/hyprmon-launch.sh` → `float-tui-launch.sh`, con windowrules dedicados:
+
+```
+windowrule = match:class ^(hyprmon)$, float on
+windowrule = match:class ^(hyprmon)$, pin on
+windowrule = match:class ^(hyprmon)$, opacity 0.97 override
+```
+
+**Monitor headless (tablet como pantalla secundaria):** `HEADLESS-1` es un output virtual que solo existe mientras `wayvnc` está corriendo (alias `monitorup`/`monitordown`, script `scripts/wayland/wayvnc-toggle.sh`) — levantarlo *antes* de editar/aplicar un perfil que lo incluya. Detalle completo, incluyendo el perfil de referencia `HOME-MonitorYTablet` (laptop + externo + tablet), en Babilonia (nota "hyprmon — TUI de gestión de monitores").
 
 ## Archivos de Configuración
 

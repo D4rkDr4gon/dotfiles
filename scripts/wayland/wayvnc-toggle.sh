@@ -17,14 +17,18 @@ set -u
 CONFIG="$HOME/dotfiles/wayvnc/config"
 PIDFILE="${XDG_RUNTIME_DIR:-/tmp}/wayvnc.pid"
 LOGFILE="$HOME/.local/state/wayvnc.log"
-IFACE="wlan0"
 OUTPUT_NAME="HEADLESS-1"   # nombre lógico que asigna Hyprland al crear el headless
 VNC_OUTPUT_ALIAS="VNC-1"   # nombre visible que le damos
 RES="2000x1200"            # resolución aprox. Redmi Pad SE 8.7" (ajustar si hace falta)
 mkdir -p "$(dirname "$LOGFILE")"
 
 get_lan_ip() {
-    ip -4 -br addr show "$IFACE" 2>/dev/null | awk '{print $3}' | cut -d/ -f1
+    # Detecta automáticamente la interfaz de la ruta por defecto (ethernet o WiFi,
+    # cualquiera sea su nombre: enp2s0, wlan0, etc.) en vez de asumir una fija.
+    local iface
+    iface=$(ip -4 route show default 2>/dev/null | awk '{print $5; exit}')
+    [ -n "$iface" ] || return 1
+    ip -4 -br addr show "$iface" 2>/dev/null | awk '{print $3}' | cut -d/ -f1
 }
 
 status() {
