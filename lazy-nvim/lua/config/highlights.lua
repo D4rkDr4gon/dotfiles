@@ -45,6 +45,19 @@ local function apply()
   hl(0, "WinSeparator", { fg = c.bg, bg = c.bg })
   hl(0, "StatusLine", { bg = c.bg_alt, fg = c.fg })
   hl(0, "StatusLineNC", { bg = c.bg, fg = c.bg_alt })
+
+  -- Dashboard (snacks.nvim, ver plugins/dashboard.lua) — mismo mecanismo
+  -- de re-aplicación que el resto de este archivo, así el ASCII header y
+  -- los textos siguen la paleta activa (rojo del tema, no el celeste por
+  -- defecto de tokyonight) en cada cambio de tema.
+  hl(0, "SnacksDashboardHeader", { fg = c.red, bold = true })
+  hl(0, "SnacksDashboardTitle", { fg = c.red, bold = true })
+  hl(0, "SnacksDashboardIcon", { fg = c.red_border })
+  hl(0, "SnacksDashboardKey", { fg = c.red, bold = true })
+  hl(0, "SnacksDashboardDesc", { fg = c.fg })
+  hl(0, "SnacksDashboardFooter", { fg = c.fg, italic = true })
+  hl(0, "SnacksDashboardSpecial", { fg = c.red_border })
+  hl(0, "SnacksDashboardNormal", { bg = c.bg, fg = c.fg })
 end
 
 -- LazyVim carga este archivo en momentos distintos según cómo se abra

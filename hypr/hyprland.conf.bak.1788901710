@@ -6,9 +6,7 @@
 # -----------------------------------------------------------------------------
 # MONITOR — auto-detect, usar wlr-randr para config dinámica
 # -----------------------------------------------------------------------------
-monitor=eDP-1,1920x1080@60.00,0x0,1.00
-monitor=DP-1,1920x1080@100.00,1920x0,1.00
-monitor=HEADLESS-1,2000x1200@60.00,1952x1080,1.60
+monitor = ,preferred,auto,1
 
 # -----------------------------------------------------------------------------
 # EXEC ONCE — Autostart (equivalente a hooks.py)
@@ -51,8 +49,8 @@ general {
     gaps_in = 4
     gaps_out = 8
     border_size = 2
-    col.active_border = rgb(c62828)
-    col.inactive_border = rgb(1a1515)
+    col.active_border = rgb(b6896d)
+    col.inactive_border = rgb(2a2632)
 
     layout = dwindle
 }
@@ -167,10 +165,6 @@ windowrule = match:class ^(vpn-tui)$, opacity 0.97 override
 windowrule = match:class ^(shortcuts)$, float on
 windowrule = match:class ^(shortcuts)$, pin on
 windowrule = match:class ^(shortcuts)$, opacity 0.97 override
-
-windowrule = match:class ^(hyprmon)$, float on
-windowrule = match:class ^(hyprmon)$, pin on
-windowrule = match:class ^(hyprmon)$, opacity 0.97 override
 
 # -----------------------------------------------------------------------------
 # WORKSPACES — Mismo mapping que Qtile: workspaces 1..6 (nombres numéricos)

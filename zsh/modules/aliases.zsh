@@ -57,6 +57,7 @@ alias hosts="sudo nvim /etc/hosts"
 alias vpnup="nmcli connection up \"${VPN_PROFILE:-ARCH-CH-US-3}\""
 alias vpndown="nmcli connection down \"${VPN_PROFILE:-ARCH-CH-US-3}\""
 alias vpnreplace="sh $DOTFILES/scripts/vpn-replace.sh"
+alias vpnfail="sudo systemctl restart systemd-resolved"
 
 # Lab manager (Wazuh + TheHive)
 alias labo="$DOTFILES/automat/labo.sh"
