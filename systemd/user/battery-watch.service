@@ -4,7 +4,7 @@ Documentation=https://wiki.archlinux.org/title/Laptop#Battery
 
 [Service]
 Type=oneshot
-ExecStart=%h/scripts/battery-watch.sh
+ExecStart=%h/dotfiles/scripts/battery-watch.sh
 IOSchedulingClass=idle
 CPUSchedulingPolicy=idle
 Nice=19
