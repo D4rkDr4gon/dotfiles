@@ -1,0 +1,16 @@
+{
+  "name": "SOLARIZED DARK",
+  "icon": "",
+  "wallpaper": "/home/lcampassi/dotfiles/recursos/wallpapers/CODE.png",
+  "primary": "#268bd2",
+  "secondary": "#2aa198",
+  "background": "#002b36",
+  "foreground": "#839496",
+  "chip_battery": "#073642",
+  "chip_bluetooth": "#586e75",
+  "chip_wlan": "#657b83",
+  "chip_audio": "#93a1a1",
+  "status_ok": "#859900",
+  "status_warn": "#b58900",
+  "status_error": "#dc322f"
+}

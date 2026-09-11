@@ -175,10 +175,14 @@ Mod + Shift + Space  ->  Themes
 | **CIBERPUNK** | `CITY-SCI-FI.jpg` | Neon magenta/purple | `#ff00ff` |
 | **CHILL LOFI** | `CREATIVITY-ROOM.jpg` | Tonos tierra calidos | `#d2b48c` |
 | **DATA CENTER** | `DATA-CENTER.jpg` | Cian/verde tecnologia | `#00ced1` |
+| **GRUVBOX** | `CITYSCAPE-CYBER.png` | Retro, tonos tierra, amarillo/verde mate | `#d79921` |
+| **EVERFOREST** | `CYBER-SPACE-CITY.png` | Bosque neblinoso, verdes calidos | `#a7c080` |
+| **SOLARIZED DARK** | `CODE.png` | Cientifico, contraste calibrado para el ojo | `#268bd2` |
+| **ATOM DARK** | `INDUSTRIAL-CYBERPUNK-CITY.png` | Grises oscuros, acento azul (editor Atom/One Dark) | `#61afef` |
 
 ## Estructura de un Tema
 
-Cada tema vive en `themes/<nombre>/theme.json`. El schema es **plano** (no anidado — los 11 temas comparten exactamente estas 14 claves, sin excepción):
+Cada tema vive en `themes/<nombre>/theme.json`. El schema es **plano** (no anidado — los 15 temas comparten exactamente estas 14 claves, sin excepción):
 
 > **Nota**: `theme.json` es JSON plano y se lee con `jq`, que no expande `$HOME`.
 > El campo `wallpaper` necesita una ruta absoluta real. Si preferis un wallpaper

@@ -1,0 +1,16 @@
+{
+  "name": "EVERFOREST",
+  "icon": "",
+  "wallpaper": "/home/lcampassi/dotfiles/recursos/wallpapers/CYBER-SPACE-CITY.png",
+  "primary": "#a7c080",
+  "secondary": "#83c092",
+  "background": "#2d353b",
+  "foreground": "#d3c6aa",
+  "chip_battery": "#343f44",
+  "chip_bluetooth": "#3d484d",
+  "chip_wlan": "#475258",
+  "chip_audio": "#4f585e",
+  "status_ok": "#a7c080",
+  "status_warn": "#dbbc7f",
+  "status_error": "#e67e80"
+}

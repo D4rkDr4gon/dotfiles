@@ -1,0 +1,16 @@
+{
+  "name": "ATOM DARK",
+  "icon": "",
+  "wallpaper": "/home/lcampassi/dotfiles/recursos/wallpapers/INDUSTRIAL-CYBERPUNK-CITY.png",
+  "primary": "#61afef",
+  "secondary": "#c678dd",
+  "background": "#282c34",
+  "foreground": "#abb2bf",
+  "chip_battery": "#2c313a",
+  "chip_bluetooth": "#3a3f4b",
+  "chip_wlan": "#4b5263",
+  "chip_audio": "#5c6370",
+  "status_ok": "#98c379",
+  "status_warn": "#e5c07b",
+  "status_error": "#e06c75"
+}

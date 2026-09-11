@@ -1,0 +1,16 @@
+{
+  "name": "GRUVBOX",
+  "icon": "",
+  "wallpaper": "/home/lcampassi/dotfiles/recursos/wallpapers/CITYSCAPE-CYBER.png",
+  "primary": "#d79921",
+  "secondary": "#d65d0e",
+  "background": "#282828",
+  "foreground": "#ebdbb2",
+  "chip_battery": "#3c3836",
+  "chip_bluetooth": "#504945",
+  "chip_wlan": "#665c54",
+  "chip_audio": "#7c6f64",
+  "status_ok": "#b8bb26",
+  "status_warn": "#fabd2f",
+  "status_error": "#fb4934"
+}
