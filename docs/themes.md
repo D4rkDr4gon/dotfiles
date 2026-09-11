@@ -168,7 +168,7 @@ Mod + Shift + Space  ->  Themes
 | Tema | Wallpaper | Paleta | Primary |
 |------|-----------|--------|---------|
 | **BROWN AT-AT** | `STAR-WARS-AT-AT.png` | Marron/gris, tonos calidos | `#a0522d` |
-| **RED JAPAN** | `JAPAN-WALLPAPER.jpg` | Rojo oscuro, estilo japones | `#d32f2f` |
+| **RED-DARK** | `RED-STONE.png` | Rojo oscuro, minimalista | `#c62828` |
 | **GRAY TERMINAL** | `HACKER.jpg` | Grises, estilo terminal | `#808080` |
 | **GREEN GEEK** | `HACKER-SETUP-DARK.jpg` | Verde terminal, estilo geek | `#00ff00` |
 | **PURPLE SKY** | `CITY.jpg` | Violeta, cielo nocturno | `#8a2be2` |
