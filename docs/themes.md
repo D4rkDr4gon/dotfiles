@@ -167,14 +167,14 @@ Mod + Shift + Space  ->  Themes
 
 | Tema | Wallpaper | Paleta | Primary |
 |------|-----------|--------|---------|
-| **Brown AT-AT** | `at-at.png` | Marron/gris, tonos calidos | `#a0522d` |
-| **Red Japan** | `japan-wallpaper.jpg` | Rojo oscuro, estilo japones | `#d32f2f` |
-| **Gray Terminal** | `wallpaper hacker.jpg` | Grises, estilo terminal | `#808080` |
-| **Green Geek** | `hacker-setup-dark.jpg` | Verde terminal, estilo geek | `#00ff00` |
-| **Purple Sky** | `wallpaper_city.jpg` | Violeta, cielo nocturno | `#8a2be2` |
-| **Ciberpunk** | `wallpaper_city_sci-fi.jpg` | Neon magenta/purple | `#ff00ff` |
-| **Chill Lofi** | `wallpaper_Creativity_Room.jpg` | Tonos tierra calidos | `#d2b48c` |
-| **Data Center** | `Wallpaper data center.jpg` | Cian/verde tecnologia | `#00ced1` |
+| **Brown AT-AT** | `STAR-WARS-AT-AT.png` | Marron/gris, tonos calidos | `#a0522d` |
+| **Red Japan** | `JAPAN-WALLPAPER.jpg` | Rojo oscuro, estilo japones | `#d32f2f` |
+| **Gray Terminal** | `HACKER.jpg` | Grises, estilo terminal | `#808080` |
+| **Green Geek** | `HACKER-SETUP-DARK.jpg` | Verde terminal, estilo geek | `#00ff00` |
+| **Purple Sky** | `CITY.jpg` | Violeta, cielo nocturno | `#8a2be2` |
+| **Ciberpunk** | `CITY_SCI-FI.jpg` | Neon magenta/purple | `#ff00ff` |
+| **Chill Lofi** | `CREATIVITY_ROOM.jpg` | Tonos tierra calidos | `#d2b48c` |
+| **Data Center** | `DATA-CENTER.jpg` | Cian/verde tecnologia | `#00ced1` |
 
 ## Estructura de un Tema
 
@@ -190,7 +190,7 @@ Cada tema vive en `themes/<nombre>/theme.json`. El schema es **plano** (no anida
 ```json
 {
   "name": "AT-AT",
-  "wallpaper": "__HOME__/dotfiles/recursos/wallpapers/at-at.png",
+  "wallpaper": "__HOME__/dotfiles/recursos/wallpapers/STAR-WARS-AT-AT.png",
   "primary": "#a0522d",
   "secondary": "#8b4513",
   "background": "#1a1a1a",
