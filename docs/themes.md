@@ -178,7 +178,7 @@ Mod + Shift + Space  ->  Themes
 
 ## Estructura de un Tema
 
-Cada tema vive en `themes/<nombre>/theme.json`. El schema es **plano** (no anidado — los 8 temas originales y los 3 nuevos comparten exactamente estas 13 claves, sin excepción):
+Cada tema vive en `themes/<nombre>/theme.json`. El schema es **plano** (no anidado — los 11 temas comparten exactamente estas 14 claves, sin excepción):
 
 > **Nota**: `theme.json` es JSON plano y se lee con `jq`, que no expande `$HOME`.
 > El campo `wallpaper` necesita una ruta absoluta real. Si preferis un wallpaper
@@ -190,6 +190,7 @@ Cada tema vive en `themes/<nombre>/theme.json`. El schema es **plano** (no anida
 ```json
 {
   "name": "AT-AT",
+  "icon": "",
   "wallpaper": "__HOME__/dotfiles/recursos/wallpapers/STAR-WARS-AT-AT.png",
   "primary": "#a0522d",
   "secondary": "#8b4513",
@@ -210,6 +211,7 @@ Cada tema vive en `themes/<nombre>/theme.json`. El schema es **plano** (no anida
 | Campo | Descripcion |
 |-------|-------------|
 | `name` | Nombre del tema |
+| `icon` | Glifo de Nerd Font (Font Awesome) mostrado junto al nombre en el listado de temas de Rofi |
 | `wallpaper` | Ruta absoluta al wallpaper |
 | `primary` | Color principal (acento, prompt, layouts, borde activo de Hyprland) |
 | `secondary` | Color secundario/acento alternativo |

@@ -21,9 +21,11 @@ list_themes() {
         [[ -f "$json" ]] || continue
         local name
         name=$(jq -r '.name // "unknown"' "$json" 2>/dev/null)
+        local icon
+        icon=$(jq -r '.icon // ""' "$json" 2>/dev/null)
         local dir_name
         dir_name=$(basename "$theme_dir")
-        names+=("$name")
+        names+=("${icon:+$icon  }$name")
         dirs+=("$dir_name")
     done
 
