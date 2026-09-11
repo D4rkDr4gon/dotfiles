@@ -172,8 +172,8 @@ Mod + Shift + Space  ->  Themes
 | **Gray Terminal** | `HACKER.jpg` | Grises, estilo terminal | `#808080` |
 | **Green Geek** | `HACKER-SETUP-DARK.jpg` | Verde terminal, estilo geek | `#00ff00` |
 | **Purple Sky** | `CITY.jpg` | Violeta, cielo nocturno | `#8a2be2` |
-| **Ciberpunk** | `CITY_SCI-FI.jpg` | Neon magenta/purple | `#ff00ff` |
-| **Chill Lofi** | `CREATIVITY_ROOM.jpg` | Tonos tierra calidos | `#d2b48c` |
+| **Ciberpunk** | `CITY-SCI-FI.jpg` | Neon magenta/purple | `#ff00ff` |
+| **Chill Lofi** | `CREATIVITY-ROOM.jpg` | Tonos tierra calidos | `#d2b48c` |
 | **Data Center** | `DATA-CENTER.jpg` | Cian/verde tecnologia | `#00ced1` |
 
 ## Estructura de un Tema
