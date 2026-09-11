@@ -6,7 +6,7 @@ WALLPAPER_DIR="$HOME/dotfiles/recursos/wallpapers"
 THEME_SWITCH="$HOME/dotfiles/scripts/theme-switch.sh"
 
 show_main_menu() {
-    printf "  Themes\n  Workspaces\n󰏓  Apps\n  Search\n  Backgrounds\n  Notifications\n  Shortcuts\n󰍹  Displays\n" \
+    printf "  THEMES\n  WORKSPACES\n󰏓  APPS\n  SEARCH\n  BACKGROUNDS\n  NOTIFICATIONS\n  SHORTCUTS\n󰍹  DISPLAYS\n" \
         | rofi -dmenu -p "Settings" -theme "$HOME/.config/rofi/theme.rasi" \
             -theme-str 'entry { placeholder: "Choose an option..."; }'
 }
@@ -56,7 +56,7 @@ list_themes() {
             local thumbnail="$tmpdir/preview.jpg"
             convert "$preview_path" -resize 800x400^ -gravity north -extent 800x400 "$thumbnail" 2>/dev/null
 
-            action=$(printf "✓  Apply\n←  Go Back\n" | rofi -dmenu -p "$selected_name" \
+            action=$(printf "✓  APPLY\n←  GO BACK\n" | rofi -dmenu -p "$selected_name" \
                 -theme "$HOME/.config/rofi/theme.rasi" \
                 -theme-str 'window { background-image: url("'"$thumbnail"'"); background-color: rgba(0,0,0,0.15); width: 800; }' \
                 -theme-str 'mainbox { padding: 400px 0 0; background-color: transparent; }' \
@@ -67,12 +67,12 @@ list_themes() {
 
             rm -rf "$tmpdir"
         else
-            action=$(printf "✓  Apply\n←  Go Back\n" | rofi -dmenu -p "$selected_name" \
+            action=$(printf "✓  APPLY\n←  GO BACK\n" | rofi -dmenu -p "$selected_name" \
                 -theme "$HOME/.config/rofi/theme.rasi" \
                 -theme-str 'entry { placeholder: "No preview available. Apply?"; }')
         fi
 
-        if [[ "$action" == "✓  Apply" ]]; then
+        if [[ "$action" == "✓  APPLY" ]]; then
             bash "$THEME_SWITCH" "$selected_dir"
             exit 0
         fi
@@ -123,7 +123,7 @@ list_backgrounds() {
         convert "$selected_path" -resize 800x400^ -gravity center -extent 800x400 "$thumbnail" 2>/dev/null
 
         local action
-        action=$(printf "✓  Apply\n←  Go Back\n" | rofi -dmenu -p "" \
+        action=$(printf "✓  APPLY\n←  GO BACK\n" | rofi -dmenu -p "" \
             -theme "$HOME/.config/rofi/theme.rasi" \
             -theme-str 'window { background-image: url("'"$thumbnail"'"); background-color: rgba(0,0,0,0.15); width: 800; }' \
             -theme-str 'mainbox { padding: 400px 0 0; background-color: transparent; }' \
@@ -134,7 +134,7 @@ list_backgrounds() {
 
         rm -rf "$tmpdir"
 
-        if [[ "$action" == "✓  Apply" ]]; then
+        if [[ "$action" == "✓  APPLY" ]]; then
             CURRENT_THEME="$HOME/.config/qtile/current_theme.json"
             if command -v jq &>/dev/null && [[ -f "$CURRENT_THEME" ]]; then
                 jq --arg wp "$selected_path" '.wallpaper = $wp' "$CURRENT_THEME" > /tmp/current_theme.json && \
@@ -173,13 +173,13 @@ main() {
     [[ -z "$choice" ]] && exit 0
 
     case "$choice" in
-        "  Themes"|Themes)
+        "  THEMES"|THEMES)
             list_themes
             ;;
-        "  Workspaces"|Workspaces)
+        "  WORKSPACES"|WORKSPACES)
             list_workspaces
             ;;
-        "󰏓  Apps"|Apps)
+        "󰏓  APPS"|APPS)
             # Mismo buscador único que Mod+Space (ver docs/design-system.md):
             # Walker en Hyprland, el combi de rofi en Qtile/X11 (Walker no
             # corre bajo X11).
@@ -189,19 +189,19 @@ main() {
                 bash "$HOME/dotfiles/rofi/scripts/spotlight-launch.sh"
             fi
             ;;
-        "  Search"|Search)
+        "  SEARCH"|SEARCH)
             web_search
             ;;
-        "  Backgrounds"|Backgrounds)
+        "  BACKGROUNDS"|BACKGROUNDS)
             list_backgrounds
             ;;
-        "  Notifications"|Notifications)
+        "  NOTIFICATIONS"|NOTIFICATIONS)
             bash "$SETTINGS_DIR/notification-center.sh"
             ;;
-        "  Shortcuts"|Shortcuts)
+        "  SHORTCUTS"|SHORTCUTS)
             bash "$HOME/dotfiles/waybar/scripts/shortcuts-launch.sh"
             ;;
-        "󰍹  Displays"|Displays)
+        "󰍹  DISPLAYS"|DISPLAYS)
             bash "$HOME/dotfiles/waybar/scripts/hyprmon-launch.sh"
             ;;
         *)
