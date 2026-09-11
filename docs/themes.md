@@ -167,14 +167,14 @@ Mod + Shift + Space  ->  Themes
 
 | Tema | Wallpaper | Paleta | Primary |
 |------|-----------|--------|---------|
-| **Brown AT-AT** | `STAR-WARS-AT-AT.png` | Marron/gris, tonos calidos | `#a0522d` |
-| **Red Japan** | `JAPAN-WALLPAPER.jpg` | Rojo oscuro, estilo japones | `#d32f2f` |
-| **Gray Terminal** | `HACKER.jpg` | Grises, estilo terminal | `#808080` |
-| **Green Geek** | `HACKER-SETUP-DARK.jpg` | Verde terminal, estilo geek | `#00ff00` |
-| **Purple Sky** | `CITY.jpg` | Violeta, cielo nocturno | `#8a2be2` |
-| **Ciberpunk** | `CITY-SCI-FI.jpg` | Neon magenta/purple | `#ff00ff` |
-| **Chill Lofi** | `CREATIVITY-ROOM.jpg` | Tonos tierra calidos | `#d2b48c` |
-| **Data Center** | `DATA-CENTER.jpg` | Cian/verde tecnologia | `#00ced1` |
+| **BROWN AT-AT** | `STAR-WARS-AT-AT.png` | Marron/gris, tonos calidos | `#a0522d` |
+| **RED JAPAN** | `JAPAN-WALLPAPER.jpg` | Rojo oscuro, estilo japones | `#d32f2f` |
+| **GRAY TERMINAL** | `HACKER.jpg` | Grises, estilo terminal | `#808080` |
+| **GREEN GEEK** | `HACKER-SETUP-DARK.jpg` | Verde terminal, estilo geek | `#00ff00` |
+| **PURPLE SKY** | `CITY.jpg` | Violeta, cielo nocturno | `#8a2be2` |
+| **CIBERPUNK** | `CITY-SCI-FI.jpg` | Neon magenta/purple | `#ff00ff` |
+| **CHILL LOFI** | `CREATIVITY-ROOM.jpg` | Tonos tierra calidos | `#d2b48c` |
+| **DATA CENTER** | `DATA-CENTER.jpg` | Cian/verde tecnologia | `#00ced1` |
 
 ## Estructura de un Tema
 
