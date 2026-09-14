@@ -24,10 +24,11 @@ Modo interactivo (TUI completa):
 
     vpn_tui.py
 
-Atajos: 1/2/3 tabs (Estado/FortiClient/ProtonVPN), Enter en la tabla
-conecta/desconecta (toggle según el estado de la fila seleccionada),
-r refrescar, ? ayuda, q salir. "Nuevo perfil" / "importar .conf" es
-solo por botón (sin atajo de teclado).
+Atajos: 1/2/3/4 tabs (Estado/FortiClient/ProtonVPN/Citrix), Enter en la
+tabla conecta/desconecta (toggle según el estado de la fila
+seleccionada; no aplica al tab Citrix, que no tiene tabla), r refrescar,
+? ayuda, q salir. "Nuevo perfil" / "importar .conf" es solo por botón
+(sin atajo de teclado); el tab Citrix también es solo por botón.
 """
 
 from __future__ import annotations
@@ -90,6 +91,19 @@ def _load_theme() -> dict:
 THEME = _load_theme()
 
 PROTON_DIR = Path.home() / "dotfiles" / "recursos" / "PROTON"
+
+# Citrix Secure Access (NetScaler Gateway VPN corporativa). Un único
+# cliente nativo (NSGClient) contra un único portal — a diferencia de
+# FortiClient/ProtonVPN acá no hay perfiles múltiples que descubrir.
+#
+# La URL del portal NO vive en este archivo (es de un proveedor puntual,
+# y este repo es público) — se lee en runtime de CITRIX_URL_FILE, igual
+# que PROTON_DIR/*.conf queda afuera del repo (ver ".gitignore"). Si el
+# archivo no existe, el tab de Citrix lo señala y explica cómo crearlo en
+# vez de fallar.
+CITRIX_DIR = Path.home() / "dotfiles" / "recursos" / "CITRIX"
+CITRIX_URL_FILE = CITRIX_DIR / "portal_url"
+CITRIX_BIN = Path("/opt/Citrix/NSGClient/bin/NSGClient")
 
 # Ruta de la GUI oficial de FortiClient — se usa únicamente como fallback
 # para perfiles SAML/SSO (Azure AD), que el CLI `fortivpn` no puede ni
@@ -500,11 +514,97 @@ def proton_import(conf_path: Path, connection_name: Optional[str] = None) -> sub
         tmp_path.unlink(missing_ok=True)
 
 
+def citrix_running() -> bool:
+    """True si el proceso NSGClient está corriendo. `pgrep -f` matchea por
+    el path completo del binario (no por nombre corto) para no confundirlo
+    con `crashpad_handler`, que es un proceso hijo separado.
+
+    NO implica túnel activo — el proceso puede estar corriendo y
+    reintentando sin haber logrado conectar (confirmado a mano viendo
+    ~/.citrix/nssslvpn.txt loopear en fase "Tunneling Starts" sin llegar
+    nunca a crear la interfaz). Para el estado real, ver citrix_connected()."""
+    r = _run(["pgrep", "-f", str(CITRIX_BIN)])
+    return r.returncode == 0 and bool(r.stdout.strip())
+
+
+def citrix_connected() -> bool:
+    """True si hay un túnel VPN realmente activo — se detecta por la
+    existencia de una interfaz de red tipo TUN (`ip link show type tun`),
+    no por nombre: nsgverctl le pone a la interfaz el nombre que el
+    gateway le indique (en este entorno salió "Citrix_VA", pero no está
+    garantizado que sea siempre ese nombre entre configuraciones/
+    versiones), así que se filtra por tipo de interfaz en vez de
+    hardcodear un nombre."""
+    r = _run(["ip", "-o", "link", "show", "type", "tun"])
+    return r.returncode == 0 and bool(r.stdout.strip())
+
+
+def citrix_login_url() -> Optional[str]:
+    """Lee la URL del portal desde CITRIX_URL_FILE (fuera del repo git —
+    ver comentario junto a CITRIX_DIR). None si el archivo no existe o
+    está vacío; quien llama decide cómo comunicarlo (nunca se asume acá)."""
+    try:
+        url = CITRIX_URL_FILE.read_text().strip()
+    except OSError:
+        return None
+    return url or None
+
+
+def _goto_browser_workspace() -> None:
+    """Salta al workspace del navegador ANTES de abrirlo — mismo mecanismo
+    que usa rofi/scripts/web-search.sh para las búsquedas web (workspace 5
+    fijo, no una ventana que se persigue por window rules). Soporta
+    Hyprland y qtile como el resto del repo; best-effort, nunca bloquea
+    el flujo si el dispatch falla."""
+    if os.environ.get("HYPRLAND_INSTANCE_SIGNATURE"):
+        _run(["hyprctl", "dispatch", "workspace", "5"], timeout=3)
+    else:
+        _run(["qtile", "cmd-obj", "-o", "group", "5", "-f", "toscreen"], timeout=3)
+
+
+def citrix_open_login() -> bool:
+    """Salta al workspace del navegador y abre la página de login del
+    gateway ahí. Desde esa página, si el gateway ofrece túnel completo, es
+    el propio navegador el que dispara el handoff al cliente nativo vía el
+    URI scheme `citrixsso://`, ya registrado como handler por defecto (ver
+    ~/.local/share/applications/citrix-secure-access.desktop).
+
+    Devuelve False si no hay URL configurada (ver citrix_login_url) o si
+    no se pudo ni lanzar `xdg-open` — no confirma que la página haya
+    cargado, igual que forti_launch_gui()."""
+    url = citrix_login_url()
+    if not url:
+        return False
+    _goto_browser_workspace()
+    try:
+        subprocess.Popen(
+            ["xdg-open", url],
+            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            start_new_session=True,
+        )
+    except OSError:
+        return False
+    return True
+
+
+def citrix_disconnect() -> subprocess.CompletedProcess:
+    """Desconecta terminando el proceso NSGClient con SIGTERM (no
+    SIGKILL). No hay flag de CLI documentado para desconectar —
+    confirmado: `NSGClient -h` no lista nada útil y los `strings` del
+    binario no exponen ningún `--disconnect`/`--quit`/`--stop`. SIGTERM es
+    lo que efectivamente usa el propio proceso para su rutina de limpieza
+    (baja rutas/DNS) al cerrarse — se ve como fase "LOG OUT" en
+    ~/.citrix/nssslvpn.txt. SIGKILL dejaría la interfaz de red en un
+    estado inconsistente."""
+    return _run(["pkill", "-TERM", "-f", str(CITRIX_BIN)], timeout=10)
+
+
 def waybar_status_json() -> str:
     forti = get_forti_state()
     proton_active = [p for p in proton_profiles() if p.active]
+    citrix_active = citrix_connected()
 
-    connected = forti.running or bool(proton_active)
+    connected = forti.running or bool(proton_active) or citrix_active
     parts_tooltip = []
 
     if forti.running:
@@ -517,6 +617,8 @@ def waybar_status_json() -> str:
         parts_tooltip.append("ProtonVPN: " + ", ".join(p.name for p in proton_active))
     else:
         parts_tooltip.append("ProtonVPN: desconectado")
+
+    parts_tooltip.append("Citrix: conectado" if citrix_active else "Citrix: desconectado")
 
     icon = "󰦝" if connected else "󰦞"
     text = icon
@@ -584,7 +686,7 @@ def run_tui() -> None:
 
 [dim]navegación[/dim]
   [#c62828]1[/#c62828]  estado           [#c62828]2[/#c62828]  forticlient
-  [#c62828]3[/#c62828]  protonvpn
+  [#c62828]3[/#c62828]  protonvpn        [#c62828]4[/#c62828]  citrix
 
 [dim]en las tablas (forticlient / protonvpn)[/dim]
   [#c62828]↑ ↓[/#c62828]  mover selección
@@ -594,6 +696,12 @@ def run_tui() -> None:
 [dim]nuevo perfil[/dim]
   Solo con el botón "+ Nuevo perfil" / "+ Importar .conf"
   de cada tab (no tiene atajo de teclado).
+
+[dim]citrix (tab 4)[/dim]
+  Sin tabla ni atajo Enter — cliente único, no perfiles.
+  "Abrir portal de login" abre la URL en el navegador (el
+  navegador dispara el cliente nativo si aplica). "Desconectar"
+  termina el proceso NSGClient.
 
 [dim]otros[/dim]
   [#c62828]?[/#c62828]  esta ayuda        [#c62828]q[/#c62828]  salir
@@ -756,8 +864,8 @@ def run_tui() -> None:
 
     # ── app principal ────────────────────────────────────────────
     class VpnApp(App):
-        TITLE = "vpn_tui.py"
-        SUB_TITLE = "FortiClient + ProtonVPN"
+        TITLE = "VPN TUI"
+        SUB_TITLE = "FortiClient + ProtonVPN + Citrix"
         # Textual habilita ctrl+p (selector de temas, command palette) por
         # defecto en toda App. No lo pedimos ni lo queremos acá: lo
         # desactivamos explícitamente para que no aparezca ni en el
@@ -846,6 +954,7 @@ def run_tui() -> None:
             Binding("1", "switch_tab('tab-estado')", "estado", show=True),
             Binding("2", "switch_tab('tab-forti')", "forticlient", show=True),
             Binding("3", "switch_tab('tab-proton')", "protonvpn", show=True),
+            Binding("4", "switch_tab('tab-citrix')", "citrix", show=True),
             Binding("enter", "toggle_row", "conectar/desconectar", show=True),
             Binding("r", "refresh", "refrescar", show=True),
             Binding("question_mark", "help", "ayuda", show=True),
@@ -873,6 +982,19 @@ def run_tui() -> None:
                         yield Button("+ Importar .conf", id="btn-proton-new")
                     yield Static(f"conexiones NM wireguard + .conf en {PROTON_DIR} — Enter en la tabla conecta/desconecta", classes="hint")
                     yield DataTable(id="proton-table", cursor_type="row")
+
+                with TabPane("citrix", id="tab-citrix"):
+                    with Horizontal(classes="action-bar"):
+                        yield Button("Abrir portal de login", id="btn-citrix-login", variant="success")
+                        yield Button("Desconectar", id="btn-citrix-disconnect")
+                    yield Static(
+                        "Citrix Secure Access (VPN corporativa) — abre el portal en el\n"
+                        "navegador; si el gateway ofrece túnel completo, el propio\n"
+                        "navegador dispara el cliente nativo automáticamente.",
+                        classes="hint",
+                    )
+                    yield Static("", id="citrix-url")
+                    yield Static("", id="citrix-status")
             yield Footer()
 
         def on_mount(self) -> None:
@@ -887,6 +1009,7 @@ def run_tui() -> None:
             self._refresh_estado()
             self._refresh_forti()
             self._refresh_proton()
+            self._refresh_citrix()
 
         def _refresh_estado(self) -> None:
             t = self.query_one("#estado-table", DataTable)
@@ -905,6 +1028,14 @@ def run_tui() -> None:
                 "activa" if proton_active else "inactiva",
                 ", ".join(p.name for p in proton_active) or f"{len(proton)} perfil(es) conocido(s)",
             )
+            citrix_ok = citrix_connected()
+            if citrix_ok:
+                citrix_estado = "conectado"
+            elif citrix_running():
+                citrix_estado = "conectando"
+            else:
+                citrix_estado = "no conectado"
+            t.add_row("Citrix Secure Access", citrix_estado, "VPN corporativa")
 
         def _refresh_forti(self) -> None:
             t = self.query_one("#forti-table", DataTable)
@@ -945,6 +1076,23 @@ def run_tui() -> None:
                     str(p.conf_path) if p.conf_path else "—",
                     key=p.name,
                 )
+
+        def _refresh_citrix(self) -> None:
+            url = citrix_login_url()
+            u = self.query_one("#citrix-url", Static)
+            if url:
+                u.update(f"portal: {url}")
+            else:
+                u.update(f"[dim]portal no configurado — creá {CITRIX_URL_FILE} con la URL adentro[/dim]")
+
+            if citrix_connected():
+                label = "conectado"
+            elif citrix_running():
+                label = "conectando… (proceso corriendo, túnel aún no establecido)"
+            else:
+                label = "no conectado"
+            s = self.query_one("#citrix-status", Static)
+            s.update(f"estado: {label}")
 
         def action_refresh(self) -> None:
             self.refresh_all()
@@ -1181,6 +1329,29 @@ def run_tui() -> None:
         @on(Button.Pressed, "#btn-proton-new")
         def _btn_proton_new(self, _):
             self._proton_new_flow()
+
+        @on(Button.Pressed, "#btn-citrix-login")
+        def _btn_citrix_login(self, _):
+            if not citrix_login_url():
+                self.notify(f"falta configurar la URL en {CITRIX_URL_FILE}", severity="warning")
+                return
+            ok = citrix_open_login()
+            self.notify(
+                "portal abierto en el navegador" if ok else "no se pudo lanzar xdg-open",
+                severity="information" if ok else "error",
+            )
+
+        @on(Button.Pressed, "#btn-citrix-disconnect")
+        def _btn_citrix_disconnect(self, _):
+            if not citrix_running():
+                self.notify("Citrix Secure Access no está corriendo", severity="warning")
+                return
+            r = citrix_disconnect()
+            self.notify(
+                "desconectado" if r.returncode == 0 else f"error: {r.stderr.strip()}",
+                severity="information" if r.returncode == 0 else "error",
+            )
+            self.refresh_all()
 
     VpnApp().run()
 

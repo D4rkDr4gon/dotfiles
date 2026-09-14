@@ -4,6 +4,10 @@ __pycache__/
 
 PROTON/
 
+# Citrix Secure Access: URL del portal de un proveedor puntual, no debe
+# versionarse en un repo publico. README.md del directorio SI se trackea.
+recursos/CITRIX/portal_url
+
 # Estado de sesion de Sublime Text (rutas de archivos recientes,
 # ventanas abiertas, etc. -- especifico de cada maquina, no debe versionarse)
 sublime-text/Local/
