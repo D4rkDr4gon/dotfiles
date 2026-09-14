@@ -42,7 +42,7 @@ def float_and_opacity(client):
 # ancladas a una esquina de la pantalla (widgets tipo popup).
 # (ancho, alto, margen desde el borde derecho, margen desde el borde superior)
 FLOAT_GEOMETRY = {
-    "claude-agents": (620, 400, 16, 40),
+    "claude-agents": (900, 760, 16, 40),
     "shortcuts": (900, 620, 16, 40),
 }
 
