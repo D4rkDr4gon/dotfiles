@@ -865,7 +865,6 @@ def run_tui() -> None:
     # ── app principal ────────────────────────────────────────────
     class VpnApp(App):
         TITLE = "VPN TUI"
-        SUB_TITLE = "FortiClient + ProtonVPN + Citrix"
         # Textual habilita ctrl+p (selector de temas, command palette) por
         # defecto en toda App. No lo pedimos ni lo queremos acá: lo
         # desactivamos explícitamente para que no aparezca ni en el
