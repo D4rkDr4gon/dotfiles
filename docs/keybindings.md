@@ -238,7 +238,7 @@ que los alias estén al día).
 - **Apps**: App launcher (rofi drun)
 - **Search**: Busqueda en Google (abre Firefox en workspace 5)
 - **Backgrounds**: Seleccionar wallpaper de `recursos/wallpapers/`
-- **Notifications**: Notification center (historial de notificaciones de Dunst en Rofi)
+- **Notifications**: Notification center (historial de notificaciones de Dunst en Rofi) + **No Molestar** (`dnd-menu.sh`): toggle global, temporizador (1h/2h/hasta mañana/personalizado) y silenciar apps puntuales sin afectar al resto
 - **Shortcuts**: Cheatsheet de atajos (este mismo documento, TUI)
 - **Displays**: Gestion visual de monitores/posiciones/perfiles con la TUI `hyprmon` (flotante). Ver [Hyprland](configuration/hyprland.md#gestión-de-monitores-hyprmon)
 

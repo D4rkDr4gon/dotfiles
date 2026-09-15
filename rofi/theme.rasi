@@ -79,6 +79,15 @@ element selected normal, element selected active {
     background-color:   @bg2;
 }
 
+element normal urgent, element alternate urgent {
+    text-color: @urgent;
+}
+
+element selected urgent {
+    background-color:   @bg2;
+    text-color:         @urgent;
+}
+
 element-icon {
     size:           1em;
     vertical-align: 0.5;

@@ -74,3 +74,12 @@
     foreground = "#c5c8c6"
     timeout = 0
     highlight = "#ff1744"
+
+# DND-GLOBAL-BEGIN -- generado por dnd-menu.sh, no editar a mano
+[dnd_global]
+    enabled = true
+    skip_display = true
+# DND-GLOBAL-END
+
+# DND-APP-RULES-BEGIN -- generado por dnd-menu.sh, no editar a mano
+# DND-APP-RULES-END

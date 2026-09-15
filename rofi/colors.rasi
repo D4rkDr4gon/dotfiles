@@ -7,6 +7,7 @@
     fg1:    #ffffff;
     fg2:    #606261;
     fg3:    #333434;
+    urgent: #ff1744;
 
     font:   "Hack Nerd Font 12";
 }
